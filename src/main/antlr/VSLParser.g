@@ -21,7 +21,10 @@ program returns [TP2.ASD.Program out]
 
 expression returns [TP2.ASD.Expression out]
     : l=factor PLUS r=expression  { $out = new TP2.ASD.AddExpression($l.out, $r.out); }
-    | f=factor { $out = $f.out; }
+    : l=factor SUB r=expression   { $out = new TP2.ASD.SubExpression($l.out, $r.out); }
+    : l=factor MUL r=expression   { $out = new TP2.ASD.MulExpression($l.out, $r.out); }
+    : l=factor DIV r=expression   { $out = new TP2.ASD.DivExpression($l.out, $r.out); }
+    | f=factor 					  { $out = $f.out; }
     // TODO : that's all?
     ;
 
