@@ -19,7 +19,7 @@ import TP2.Utils;
       return "(" + left.pp() + " + " + right.pp() + ")";
     }
 
-    // IR generation
+    // IR generation (IR = Représentation intermédiaire)
     public RetExpression toIR() throws TypeException {
       RetExpression leftRet = left.toIR();
       RetExpression rightRet = right.toIR();
