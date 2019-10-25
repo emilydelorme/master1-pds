@@ -12,7 +12,6 @@ options {
   import java.util.Arrays;
 }
 
-
 // TODO : other rules
 
 program returns [TP2.ASD.Program out]
@@ -20,16 +19,19 @@ program returns [TP2.ASD.Program out]
     ;
 
 expression returns [TP2.ASD.Expression out]
-    : l=factor PLUS r=expression  { $out = new TP2.ASD.AddExpression($l.out, $r.out); }
-    | l=factor SUB r=expression   { $out = new TP2.ASD.SubExpression($l.out, $r.out); }
-    | l=factor MUL r= LP + expression + RP   { $out = new TP2.ASD.MulExpression($l.out, $r.out); }
-    | l=factor DIV r= LP + expression + RP  { $out = new TP2.ASD.DivExpression($l.out, $r.out); }
-    | f=factor 					  { $out = $f.out; }
-    // TODO : that's all?
+    : l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.AddExpression($l.out, $r.out); }
+    | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.SubExpression($l.out, $r.out); }
+    ;
+
+expressionPrioritaire returns [TP2.ASD.Expression out]
+    : l=factor MUL r=factor  { $out = new TP2.ASD.MulExpression($l.out, $r.out); }
+    | l=factor DIV r=factor  { $out = new TP2.ASD.DivExpression($l.out, $r.out); }
+    | f=factor { $out = $f.out; }
     ;
 
 factor returns [TP2.ASD.Expression out]
     : p=primary { $out = $p.out; }
+    | LP e=expression RP { $out = $e.out; }
     // TODO : that's all?
     ;
 
