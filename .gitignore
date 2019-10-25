@@ -3,3 +3,8 @@
 /build
 /bin
 /.gradle
+*.class
+
+*.interp
+
+*.tokens
