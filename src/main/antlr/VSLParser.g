@@ -14,13 +14,18 @@ options {
 
 // TODO : other rules
 
+// Liste d'instruction et PAS d'expression, A CHANGER 
 program returns [TP2.ASD.Program out]
-    : e=expression EOF { $out = new TP2.ASD.Program($e.out); } // TODO : change when you extend the language
+	@init { ArrayList<TP2.ASD.Expression> expressions = new ArrayList<>(); }
+    : (e=expression { expressions.add($e.out); })* EOF { $out = new TP2.ASD.Program(expressions); }
+    // TODO : change when you extend the language
     ;
 
 expression returns [TP2.ASD.Expression out]
     : l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.AddExpression($l.out, $r.out); }
     | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.SubExpression($l.out, $r.out); }
+    | type (IDENT) (VIRGULE IDENT)*
+    //| IDENT EQUAL l=expression  { $out = new TP2.ASD.Affectation($IDENT.text, $l.out); }
     ;
 
 expressionPrioritaire returns [TP2.ASD.Expression out]
@@ -34,6 +39,10 @@ factor returns [TP2.ASD.Expression out]
     | LP e=expression RP { $out = $e.out; }
     // TODO : that's all?
     ;
+
+type
+	: INT
+	;
 
 primary returns [TP2.ASD.Expression out]
     : INTEGER { $out = new TP2.ASD.IntegerExpression($INTEGER.int); }

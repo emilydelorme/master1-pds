@@ -29,7 +29,7 @@ public class Main {
 
       // Instantiate Parser
       VSLParser parser = new VSLParser(tokens);
-
+      
       // Parse
       Program ast = parser.program().out;
 

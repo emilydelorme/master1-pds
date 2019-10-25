@@ -25,6 +25,9 @@ ADD  : '+' ;
 SUB   : '-' ;
 MUL   : '*' ;
 DIV   : '/' ;
+EQUAL : ':=' ;
+INT : 'INT' ;
+VIRGULE : ',' ;
 
 // TODO : other keywords
 
