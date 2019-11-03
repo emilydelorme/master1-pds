@@ -178,3 +178,5 @@ gradle-app.setting
 
 ./.idea/sonarlint
 build
+src/main/antlr/.antlr
+.idea/sonarlint/
