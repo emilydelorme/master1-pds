@@ -174,3 +174,7 @@ gradle-app.setting
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Custom rules
+
+./.idea/sonarlint
+build
