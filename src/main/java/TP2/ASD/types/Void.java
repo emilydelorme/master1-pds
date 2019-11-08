@@ -12,6 +12,6 @@ public class Void implements Type {
 
     @Override
     public Llvm.Type toLlvmType() {
-        return Llvm.Void();
+        return new Llvm.Void();
     }
 }
