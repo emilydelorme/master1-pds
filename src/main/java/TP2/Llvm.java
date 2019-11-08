@@ -69,7 +69,7 @@ public class Llvm {
 
     // Returns a new empty list of instruction, handy
     static public List<Instruction> empty() {
-        return new ArrayList<Instruction>();
+        return new ArrayList<>();
     }
 
 
@@ -95,6 +95,7 @@ public class Llvm {
 
     // LLVM IR Instructions
     static public abstract class Instruction {
+        @Override
         public abstract String toString();
     }
 
@@ -111,6 +112,7 @@ public class Llvm {
             this.lvalue = lvalue;
         }
 
+        @Override
         public String toString() {
             return lvalue + " = add " + type + " " + left + ", " + right + "\n";
         }
@@ -129,6 +131,7 @@ public class Llvm {
             this.lvalue = lvalue;
         }
 
+        @Override
         public String toString() {
             return lvalue + " = sub " + type + " " + left + ", " + right + "\n";
         }
@@ -147,6 +150,7 @@ public class Llvm {
             this.lvalue = lvalue;
         }
 
+        @Override
         public String toString() {
             return lvalue + " = mul " + type + " " + left + ", " + right + "\n";
         }
@@ -165,6 +169,7 @@ public class Llvm {
             this.lvalue = lvalue;
         }
 
+        @Override
         public String toString() {
             return lvalue + " = udiv " + type + " " + left + ", " + right + "\n";
         }
@@ -179,10 +184,24 @@ public class Llvm {
             this.value = value;
         }
 
+        @Override
         public String toString() {
             return "ret " + type + " " + value + "\n";
         }
     }
 
-    // TODO : other instructions
+    static public class Alloca extends Instruction {
+
+        Type type;
+        String value;
+
+        public Alloca(Type type, String lvalue) {
+            this.type = type;
+            this.value = lvalue;
+        }
+        @Override
+        public String toString() {
+            return value + " = alloca " + type + "\n";
+        }
+    }
 }
