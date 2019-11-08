@@ -21,11 +21,15 @@ program returns [TP2.ASD.Program out]
     // TODO : change when you extend the language
     ;
 
+
+affectation return [TP2.ASD.Affectation out]
+    : IDENT EQUAL l=expression  { $out = new TP2.ASD.Affectation($IDENT.text, $l.out); }
+    | type (IDENT) (VIRGULE IDENT)*
+    ;
+
 expression returns [TP2.ASD.Expression out]
     : l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.AddExpression($l.out, $r.out); }
-    | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.SubExpression($l.out, $r.out); }
-    | type (IDENT) (VIRGULE IDENT)*
-    //| IDENT EQUAL l=expression  { $out = new TP2.ASD.Affectation($IDENT.text, $l.out); }
+    | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.SubExpression($l.out, $r.out);
     ;
 
 expressionPrioritaire returns [TP2.ASD.Expression out]
