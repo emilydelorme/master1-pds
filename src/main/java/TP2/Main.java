@@ -3,6 +3,8 @@ package TP2;
 import java.nio.file.Paths;
 import java.io.IOException;
 
+import TP2.exceptions.EmptyProgram;
+import TP2.exceptions.TypeException;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -42,7 +44,7 @@ public class Main {
 
         // Output LLVM IR
         System.out.println(ir);
-      } catch(TypeException e) {
+      } catch(TypeException | EmptyProgram e) {
         e.printStackTrace(); // Useful for developping, not for the ``end users''!
         System.err.println(e.getMessage());
       }
