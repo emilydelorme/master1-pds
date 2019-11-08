@@ -6,12 +6,12 @@ import TP2.exceptions.TypeException;
 
 import java.util.List;
 
-public class WhileStatementInterface implements StatementInterface {
+public class WhileStatement implements StatementInterface {
 
     private ExpressionInterface expressionInterface;
     private List<StatementInterface> block;
 
-    public WhileStatementInterface(ExpressionInterface expressionInterface, List<StatementInterface> block) {
+    public WhileStatement(ExpressionInterface expressionInterface, List<StatementInterface> block) {
         this.expressionInterface = expressionInterface;
         this.block = block;
     }
