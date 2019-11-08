@@ -4,19 +4,19 @@ import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret;
 import TP2.exceptions.TypeException;
 
-// Concrete class for Expression: mul case
-  public class MulExpressionInterface implements ExpressionInterface {
+// Concrete class for Expression: div case
+  public class DivExpression implements ExpressionInterface {
     private ExpressionInterface left;
     private ExpressionInterface right;
 
-    public MulExpressionInterface(ExpressionInterface left, ExpressionInterface right) {
+    public DivExpression(ExpressionInterface left, ExpressionInterface right) {
       this.left = left;
       this.right = right;
     }
 
     // Pretty-printer
     public String pp() {
-      return "(" + left.pp() + " * " + right.pp() + ")";
+      return "(" + left.pp() + " / " + right.pp() + ")";
     }
 
     // IR generation (IR = Représentation intermédiaire)
