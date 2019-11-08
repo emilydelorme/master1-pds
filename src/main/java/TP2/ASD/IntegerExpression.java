@@ -1,5 +1,6 @@
 package TP2.ASD;
 
+import TP2.ASD.types.Int;
 import TP2.Llvm;
 
 // Concrete class for Expression: constant (integer) case
