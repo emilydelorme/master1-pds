@@ -1,9 +1,9 @@
 package TP2.ASD.types;
 
-import TP2.ASD.Type;
+import TP2.ASD.TypeInterface;
 import TP2.Llvm;
 
-public class Void implements Type {
+public class Void implements TypeInterface {
 
     @Override
     public String pp() {

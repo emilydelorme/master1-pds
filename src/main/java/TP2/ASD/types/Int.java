@@ -1,9 +1,9 @@
 package TP2.ASD.types;
 
-import TP2.ASD.Type;
+import TP2.ASD.TypeInterface;
 import TP2.Llvm;
 
-public class Int implements Type {
+public class Int implements TypeInterface {
     public String pp() {
       return "INT";
     }

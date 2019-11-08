@@ -1,5 +1,6 @@
-package TP2.ASD;
+package TP2.ASD.Expression;
 
+import TP2.ASD.ExpressionInterface;
 import TP2.ASD.types.Int;
 import TP2.Llvm;
 
