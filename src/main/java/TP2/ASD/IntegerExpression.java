@@ -4,7 +4,7 @@ import TP2.Llvm;
 
 // Concrete class for Expression: constant (integer) case
   public class IntegerExpression extends Expression {
-    int value;
+    private int value;
     public IntegerExpression(int value) {
       this.value = value;
     }

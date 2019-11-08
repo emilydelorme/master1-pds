@@ -1,15 +1,17 @@
 package TP2.ASD;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import TP2.Llvm;
-import TP2.TypeException;
+import TP2.exceptions.EmptyProgram;
+import TP2.exceptions.TypeException;
 
 public class Program
 {
-    ArrayList<Expression> expressions; // What a program contains. TODO : change when you extend the language
+    private List<Expression> expressions;
 
-    public Program(ArrayList<Expression> expressions)
+    public Program(List<Expression> expressions)
     {
         this.expressions = expressions;
     }
@@ -24,9 +26,11 @@ public class Program
     }
 
     // IR generation
-    public Llvm.IR toIR() throws TypeException
-    {
+    public Llvm.IR toIR() throws TypeException, EmptyProgram {
         // TODO : change when you extend the language
+        if(this.expressions.isEmpty())
+            throw new EmptyProgram("Programme vide");
+
 
         Expression.RetExpression retExpr = this.expressions.get(0).toIR();
         this.expressions.remove(0);

@@ -1,13 +1,13 @@
 package TP2.ASD;
 
 import TP2.Llvm;
-import TP2.TypeException;
+import TP2.exceptions.TypeException;
 import TP2.Utils;
 
 // Concrete class for Expression: mul case
   public class MulExpression extends Expression {
-    Expression left;
-    Expression right;
+    private Expression left;
+    private Expression right;
 
     public MulExpression(Expression left, Expression right) {
       this.left = left;

@@ -1,13 +1,13 @@
 package TP2.ASD;
 
 import TP2.Llvm;
-import TP2.TypeException;
+import TP2.exceptions.TypeException;
 import TP2.Utils;
 
 // Concrete class for Expression: add case
   public class AddExpression extends Expression {
-    Expression left;
-    Expression right;
+    private Expression left;
+    private Expression right;
 
     public AddExpression(Expression left, Expression right) {
       this.left = left;
