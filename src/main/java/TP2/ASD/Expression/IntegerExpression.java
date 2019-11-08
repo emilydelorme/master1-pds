@@ -1,6 +1,7 @@
 package TP2.ASD.Expression;
 
 import TP2.ASD.ExpressionInterface;
+import TP2.ASD.Ret;
 import TP2.ASD.types.Int;
 import TP2.Llvm;
 
@@ -15,9 +16,9 @@ import TP2.Llvm;
       return "" + value;
     }
 
-    public RetExpression toIR() {
+    public Ret toIR() {
       // Here we simply return an empty IR
       // the `result' of this expression is the integer itself (as string)
-      return new RetExpression(new Llvm.IR(Llvm.empty(), Llvm.empty()), new Int(), "" + value);
+      return new Ret(new Llvm.IR(Llvm.empty(), Llvm.empty()), new Int(), "" + value);
     }
   }

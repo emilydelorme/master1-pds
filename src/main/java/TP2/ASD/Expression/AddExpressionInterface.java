@@ -1,6 +1,7 @@
 package TP2.ASD.Expression;
 
 import TP2.ASD.ExpressionInterface;
+import TP2.ASD.Ret;
 import TP2.exceptions.TypeException;
 
 // Concrete class for Expression: add case
@@ -19,7 +20,7 @@ import TP2.exceptions.TypeException;
     }
 
     // IR generation (IR = Représentation intermédiaire)
-    public RetExpression toIR() throws TypeException {
+    public Ret toIR() throws TypeException {
       return ExpressionHelper.retExpression(left.toIR(), right.toIR());
     }
   }

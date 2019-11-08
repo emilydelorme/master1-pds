@@ -31,7 +31,7 @@ public class Program
             throw new EmptyProgram("Programme vide");
 
 
-        ExpressionInterface.RetExpression retExpr = this.expressionInterfaces.get(0).toIR();
+        Ret retExpr = this.expressionInterfaces.get(0).toIR();
         this.expressionInterfaces.remove(0);
         
         for(ExpressionInterface expressionInterface : this.expressionInterfaces)

@@ -1,6 +1,7 @@
 package TP2.ASD.Statement;
 
 import TP2.ASD.ExpressionInterface;
+import TP2.ASD.Ret;
 import TP2.ASD.StatementInterface;
 import TP2.exceptions.TypeException;
 
@@ -21,7 +22,7 @@ public class IfElseStatement implements StatementInterface {
     }
 
     @Override
-    public RetInstruction toIR() throws TypeException {
+    public Ret toIR() throws TypeException {
         return null;
     }
 }
