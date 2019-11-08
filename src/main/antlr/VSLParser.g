@@ -30,14 +30,14 @@ unit returns [List<TP2.ASD.UnitInterface> out]
 
 // implements Unit
 // prototype(type, IDENT, List<parametre>)
-prototype returns [TP2.ASD.Unit.Prototype out]
+prototype returns [TP2.ASD.UnitInterface out]
 	: PROTO t=type IDENT LP p=parameters RP { $out = new TP2.ASD.Unit.Prototype($t.out, IDENT.text, $p.out); }
 	;
 
 // implements Unit
 // function(type, IDENT, List<parametre>, statement)
-function returns [TP2.ASD.Function out]
-	: PROTO t=type IDENT LP p=parameters RP s=statement { $out = new TP2.ASD.Function($t.out, IDENT.text, $p.out, $s.out); }
+function returns [TP2.ASD.UnitInterface out]
+	: PROTO t=type IDENT LP p=parameters RP s=statement { $out = new TP2.ASD.Unit.Function($t.out, IDENT.text, $p.out, $s.out); }
 	;
 
 parameters returns [List<String> out]
