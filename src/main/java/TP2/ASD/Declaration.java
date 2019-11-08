@@ -1,7 +1,8 @@
 package TP2.ASD;
 
-public class Declaration
-{
+import TP2.exceptions.TypeException;
+
+public class Declaration implements Statement {
     private String ident;
 
     public Declaration(String ident) {
@@ -12,5 +13,11 @@ public class Declaration
     {
         return this.ident;
     }
-    
+
+    @Override
+    public RetInstruction toIR() throws TypeException {
+        return null;
+    }
+
+
 }
