@@ -50,8 +50,11 @@ block
 	: AL (statement)* AR
 	;
 
-statement
-	:
+statement returns [ASD.Statement out]
+	: declaration
+    | affectation
+    | expression
+    
 	;
 
 declaration returns [TP2.ASD.Statement.Declaration out]
