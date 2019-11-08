@@ -54,39 +54,27 @@ statement
 	:
 	;
 
-declaration returns [TP2.ASD.Declaration out]
+declaration returns [TP2.ASD.Statement.Declaration out]
     : type (IDENT) { $out = new TP2.ASD.Statement.Declaration($IDENT.text);} (VIRGULE IDENT { $out = new TP2.ASD.Declaration($IDENT.text);} )*
     ;
 
-affectation returns [TP2.ASD.Affectation out]
+affectation returns [TP2.ASD.Statement.Affectation out]
     : IDENT EQUAL l=expression  { $out = new TP2.ASD.Statement.Affectation($IDENT.text, $l.out); }
     ;
 
-declaration returns [TP2.ASD.Declaration out]
-    : | type (IDENT) { $out = new TP2.ASD.Declaration($IDENT.text);} (VIRGULE IDENT { $out = new TP2.ASD.Declaration(  $IDENT.text);} )*
-    ;
 
-affectation returns [TP2.ASD.Affectation out]
-    : IDENT EQUAL l=expression  { $out = new TP2.ASD.Affectation($IDENT.text, $l.out); }
-    ;
-
-expression returns [TP2.ASD.Expression out]
-<<<<<<< Updated upstream
-    : l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.AddExpression($l.out, $r.out); }
-    | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.SubExpression($l.out, $r.out); }
-=======
+expression returns [TP2.ASD.ExpressionInterface out]
     : l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }
     | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.Expression.SubExpression($l.out, $r.out); }
->>>>>>> Stashed changes
     ;
 
-expressionPrioritaire returns [TP2.ASD.Expression out]
+expressionPrioritaire returns [TP2.ASD.ExpressionInterface out]
     : l=factor MUL r=factor  { $out = new TP2.ASD.Expression.MulExpression($l.out, $r.out); }
     | l=factor DIV r=factor  { $out = new TP2.ASD.Expression.DivExpression($l.out, $r.out); }
     | f=factor { $out = $f.out; }
     ;
 
-factor returns [TP2.ASD.Expression out]
+factor returns [TP2.ASD.ExpressionInterface out]
     : p=primary { $out = $p.out; }
     | LP e=expression RP { $out = $e.out; }
     ;
@@ -96,6 +84,6 @@ type
 	| VOID
 	;
 
-primary returns [TP2.ASD.Expression out]
+primary returns [TP2.ASD.ExpressionInterface out]
     : INTEGER { $out = new TP2.ASD.IntegerExpression($INTEGER.int); }
     ;
