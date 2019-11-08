@@ -4,12 +4,12 @@ import TP2.exceptions.TypeException;
 
 import java.util.List;
 
-public class IfInstruction implements Instruction {
+public class IfStatement implements Statement {
 
     private Expression expression;
-    private List<Instruction> block;
+    private List<Statement> block;
 
-    public IfInstruction(Expression expression, List<Instruction> block) {
+    public IfStatement(Expression expression, List<Statement> block) {
         this.expression = expression;
         this.block = block;
     }
@@ -17,7 +17,7 @@ public class IfInstruction implements Instruction {
     @Override
     public String pp() {
         return "if(" + expression.pp() + ")\n" + block.stream()
-                .map(Instruction::pp)
+                .map(Statement::pp)
                 .reduce((statement, statement2) -> statement + "\n" + statement2);
     }
 

@@ -3,7 +3,7 @@ package TP2.ASD;
 import TP2.Llvm;
 import TP2.exceptions.TypeException;
 
-public interface Instruction {
+public interface Statement {
     String pp();
     RetInstruction toIR() throws TypeException;
 
