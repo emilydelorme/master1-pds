@@ -88,5 +88,5 @@ type
 	;
 
 primary returns [TP2.ASD.ExpressionInterface out]
-    : INTEGER { $out = new TP2.ASD.IntegerExpression($INTEGER.int); }
+    : INTEGER { $out = new TP2.ASD.Expression.IntegerExpression($INTEGER.int); }
     ;
