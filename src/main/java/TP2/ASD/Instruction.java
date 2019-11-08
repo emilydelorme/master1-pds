@@ -5,10 +5,10 @@ import TP2.exceptions.TypeException;
 
 public interface Instruction {
     String pp();
-    RetIntruction toIR() throws TypeException;
+    RetInstruction toIR() throws TypeException;
 
     // Object returned by toIR on expressions, with IR + synthesized attributes
-    class RetIntruction {
+    class RetInstruction {
         // The LLVM IR:
         public Llvm.IR ir;
         // And additional stuff:
@@ -16,7 +16,7 @@ public interface Instruction {
         String result; // The name containing the expression's result
         // (either an identifier, or an immediate value)
 
-        public RetIntruction(Llvm.IR ir, Type type, String result) {
+        public RetInstruction(Llvm.IR ir, Type type, String result) {
             this.ir = ir;
             this.type = type;
             this.result = result;

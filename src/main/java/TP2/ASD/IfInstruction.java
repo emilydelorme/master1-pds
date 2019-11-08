@@ -22,7 +22,7 @@ public class IfInstruction implements Instruction {
     }
 
     @Override
-    public RetIntruction toIR() throws TypeException {
+    public RetInstruction toIR() throws TypeException {
         //TODO: IF to IR()
         return null;
     }
