@@ -22,7 +22,7 @@ program returns [TP2.ASD.Program out]
     ;
 
 declaration returns [TP2.ASD.Declaration out]
-    : | type (IDENT) { $out = new TP2.ASD.Declaration($IDENT.text);} (VIRGULE IDENT { $out = new TP2.ASD.Declaration($IDENT.text);} )*
+    : | type (IDENT) { $out = new TP2.ASD.Declaration($IDENT.text);} (VIRGULE IDENT { $out = new TP2.ASD.Declaration(  $IDENT.text);} )*
     ;
 
 affectation returns [TP2.ASD.Affectation out]
