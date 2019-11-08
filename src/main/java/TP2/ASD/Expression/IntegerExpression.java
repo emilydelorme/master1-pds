@@ -2,7 +2,7 @@ package TP2.ASD.Expression;
 
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret;
-import TP2.ASD.types.Int;
+import TP2.ASD.Types.Int;
 import TP2.Llvm;
 
 // Concrete class for Expression: constant (integer) case
