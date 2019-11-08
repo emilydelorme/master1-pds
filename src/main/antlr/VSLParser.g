@@ -21,15 +21,17 @@ program returns [TP2.ASD.Program out]
     // TODO : change when you extend the language
     ;
 
+declaration returns [TP2.ASD.Declaration out]
+    : | type (IDENT) { $out = new TP2.ASD.Declaration($IDENT.text);} (VIRGULE IDENT { $out = new TP2.ASD.Declaration($IDENT.text);} )*
+    ;
 
-affectation return [TP2.ASD.Affectation out]
+affectation returns [TP2.ASD.Affectation out]
     : IDENT EQUAL l=expression  { $out = new TP2.ASD.Affectation($IDENT.text, $l.out); }
-    | type (IDENT) (VIRGULE IDENT)*
     ;
 
 expression returns [TP2.ASD.Expression out]
     : l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.AddExpression($l.out, $r.out); }
-    | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.SubExpression($l.out, $r.out);
+    | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.SubExpression($l.out, $r.out); }
     ;
 
 expressionPrioritaire returns [TP2.ASD.Expression out]
@@ -41,7 +43,6 @@ expressionPrioritaire returns [TP2.ASD.Expression out]
 factor returns [TP2.ASD.Expression out]
     : p=primary { $out = $p.out; }
     | LP e=expression RP { $out = $e.out; }
-    // TODO : that's all?
     ;
 
 type
@@ -50,5 +51,4 @@ type
 
 primary returns [TP2.ASD.Expression out]
     : INTEGER { $out = new TP2.ASD.IntegerExpression($INTEGER.int); }
-    // TODO : that's all?
     ;
