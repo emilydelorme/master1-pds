@@ -5,7 +5,7 @@ import TP2.exceptions.TypeException;
 import TP2.Utils;
 
 // Concrete class for Expression: mul case
-  public class MulExpression extends Expression {
+  public class MulExpression implements Expression {
     private Expression left;
     private Expression right;
 

@@ -3,7 +3,7 @@ package TP2.ASD;
 import TP2.Llvm;
 
 // Concrete class for Expression: constant (integer) case
-  public class IntegerExpression extends Expression {
+  public class IntegerExpression implements Expression {
     private int value;
     public IntegerExpression(int value) {
       this.value = value;

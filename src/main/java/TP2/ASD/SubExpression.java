@@ -5,7 +5,7 @@ import TP2.exceptions.TypeException;
 import TP2.Utils;
 
 // Concrete class for Expression: sub case
-  public class SubExpression extends Expression {
+  public class SubExpression implements Expression {
     private Expression left;
     private Expression right;
 

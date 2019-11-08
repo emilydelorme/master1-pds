@@ -8,7 +8,7 @@ public interface Instruction {
     RetIntruction toIR() throws TypeException;
 
     // Object returned by toIR on expressions, with IR + synthesized attributes
-    static class RetIntruction {
+    class RetIntruction {
         // The LLVM IR:
         public Llvm.IR ir;
         // And additional stuff:

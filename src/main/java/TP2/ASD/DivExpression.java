@@ -5,7 +5,7 @@ import TP2.exceptions.TypeException;
 import TP2.Utils;
 
 // Concrete class for Expression: div case
-  public class DivExpression extends Expression {
+  public class DivExpression implements Expression {
     private Expression left;
     private Expression right;
 
