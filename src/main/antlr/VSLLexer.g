@@ -21,12 +21,15 @@ fragment ASCII  : ~('\n'|'"');
 // keywords
 LP    : '(' ; // Left parenthesis
 RP    : ')' ;
+AL	  : '{' ; // accolade gauche
+AR	  : '}' ;
 ADD   : '+' ;
 SUB   : '-' ;
 MUL   : '*' ;
 DIV   : '/' ;
 EQUAL : ':=' ;
 INT   : 'INT' ;
+VOID  : 'VOID' ;
 VIRGULE : ',' ;
 IF    : 'IF' ;
 THEN  : 'THEN' ;
@@ -35,6 +38,8 @@ FI    : 'FI' ;
 WHILE : 'WHILE' ;
 DO    : 'DO' ;
 DONE  : 'DONE' ;
+PROTO : 'PROTO' ;
+FUNC  : 'FUNC' ;
 
 // TODO : other keywords
 
