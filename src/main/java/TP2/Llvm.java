@@ -81,6 +81,12 @@ public class Llvm {
       return "i32";
     }
   }
+  
+  static public class Void extends Type {
+      public String toString() {
+        return "void";
+      }
+    }
 
   // TODO : other types
 
