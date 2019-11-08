@@ -8,18 +8,18 @@ import TP2.exceptions.TypeException;
 
 public class Program
 {
-    private List<ExpressionInterface> expressionInterfaces;
+    private List<UnitInterface> unitInterface;
 
-    public Program(List<ExpressionInterface> expressionInterfaces)
+    public Program(List<UnitInterface> unitInterface)
     {
-        this.expressionInterfaces = expressionInterfaces;
+        this.unitInterface = unitInterface;
     }
 
     // Pretty-printer
     public String pp()
     {
-        return expressionInterfaces.stream()
-                .map(ExpressionInterface::pp)
+        return unitInterface.stream()
+                .map(UnitInterface::pp)
                 .reduce((e1, e2) -> e1 + "\n" + e2)
                 .orElse("");
     }
@@ -27,14 +27,14 @@ public class Program
     // IR generation
     public Llvm.IR toIR() throws TypeException, EmptyProgram {
         // TODO : change when you extend the language
-        if(this.expressionInterfaces.isEmpty())
+        if(this.unitInterface.isEmpty())
             throw new EmptyProgram("Programme vide");
 
 
-        Ret retExpr = this.expressionInterfaces.get(0).toIR();
-        this.expressionInterfaces.remove(0);
+        Ret retExpr = this.unitInterface.get(0).toIR();
+        this.unitInterface.remove(0);
         
-        for(ExpressionInterface expressionInterface : this.expressionInterfaces)
+        for(UnitInterface expressionInterface : this.unitInterface)
         {
             retExpr.ir.append(expressionInterface.toIR().ir);
         }
