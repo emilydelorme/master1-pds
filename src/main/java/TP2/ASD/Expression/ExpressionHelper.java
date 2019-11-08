@@ -1,6 +1,6 @@
-package TP2.ASD.Expressions;
+package TP2.ASD.Expression;
 
-import TP2.ASD.Expression;
+import TP2.ASD.ExpressionInterface;
 import TP2.Llvm;
 import TP2.Utils;
 import TP2.exceptions.TypeException;
@@ -13,7 +13,7 @@ class ExpressionHelper {
     private ExpressionHelper() {
     }
 
-    static Expression.RetExpression retExpression(Expression.RetExpression leftRet, Expression.RetExpression rightRet) throws TypeException {
+    static ExpressionInterface.RetExpression retExpression(ExpressionInterface.RetExpression leftRet, ExpressionInterface.RetExpression rightRet) throws TypeException {
         // We check if the types mismatches
         if(!leftRet.type.equals(rightRet.type)) {
             throw new TypeException("type mismatch: have " + leftRet.type + " and " + rightRet.type);
@@ -31,6 +31,6 @@ class ExpressionHelper {
 
         // append this instruction
         leftRet.ir.appendCode(sub);
-        return new Expression.RetExpression(leftRet.ir, leftRet.type, result);
+        return new ExpressionInterface.RetExpression(leftRet.ir, leftRet.type, result);
     }
 }

@@ -1,6 +1,5 @@
 package TP2.ASD;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import TP2.Llvm;
@@ -9,18 +8,18 @@ import TP2.exceptions.TypeException;
 
 public class Program
 {
-    private List<Expression> expressions;
+    private List<ExpressionInterface> expressionInterfaces;
 
-    public Program(List<Expression> expressions)
+    public Program(List<ExpressionInterface> expressionInterfaces)
     {
-        this.expressions = expressions;
+        this.expressionInterfaces = expressionInterfaces;
     }
 
     // Pretty-printer
     public String pp()
     {
-        return expressions.stream()
-                .map(e -> e.pp())
+        return expressionInterfaces.stream()
+                .map(ExpressionInterface::pp)
                 .reduce((e1, e2) -> e1 + "\n" + e2)
                 .orElse("");
     }
@@ -28,16 +27,16 @@ public class Program
     // IR generation
     public Llvm.IR toIR() throws TypeException, EmptyProgram {
         // TODO : change when you extend the language
-        if(this.expressions.isEmpty())
+        if(this.expressionInterfaces.isEmpty())
             throw new EmptyProgram("Programme vide");
 
 
-        Expression.RetExpression retExpr = this.expressions.get(0).toIR();
-        this.expressions.remove(0);
+        ExpressionInterface.RetExpression retExpr = this.expressionInterfaces.get(0).toIR();
+        this.expressionInterfaces.remove(0);
         
-        for(Expression expression : this.expressions)
+        for(ExpressionInterface expressionInterface : this.expressionInterfaces)
         {
-            retExpr.ir.append(expression.toIR().ir);
+            retExpr.ir.append(expressionInterface.toIR().ir);
         }
         
         // add a return instruction

@@ -1,8 +1,9 @@
-package TP2.ASD;
+package TP2.ASD.Statement;
 
+import TP2.ASD.StatementInterface;
 import TP2.exceptions.TypeException;
 
-public class Declaration implements Statement {
+public class Declaration implements StatementInterface {
     private String ident;
 
     public Declaration(String ident) {

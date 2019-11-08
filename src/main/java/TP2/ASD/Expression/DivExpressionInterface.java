@@ -1,16 +1,14 @@
-package TP2.ASD.Expressions;
+package TP2.ASD.Expression;
 
-import TP2.ASD.Expression;
-import TP2.Llvm;
+import TP2.ASD.ExpressionInterface;
 import TP2.exceptions.TypeException;
-import TP2.Utils;
 
 // Concrete class for Expression: div case
-  public class DivExpression implements Expression {
-    private Expression left;
-    private Expression right;
+  public class DivExpressionInterface implements ExpressionInterface {
+    private ExpressionInterface left;
+    private ExpressionInterface right;
 
-    public DivExpression(Expression left, Expression right) {
+    public DivExpressionInterface(ExpressionInterface left, ExpressionInterface right) {
       this.left = left;
       this.right = right;
     }

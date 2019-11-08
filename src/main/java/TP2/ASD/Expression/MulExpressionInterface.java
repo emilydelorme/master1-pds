@@ -1,16 +1,14 @@
-package TP2.ASD.Expressions;
+package TP2.ASD.Expression;
 
-import TP2.ASD.Expression;
-import TP2.Llvm;
+import TP2.ASD.ExpressionInterface;
 import TP2.exceptions.TypeException;
-import TP2.Utils;
 
 // Concrete class for Expression: mul case
-  public class MulExpression implements Expression {
-    private Expression left;
-    private Expression right;
+  public class MulExpressionInterface implements ExpressionInterface {
+    private ExpressionInterface left;
+    private ExpressionInterface right;
 
-    public MulExpression(Expression left, Expression right) {
+    public MulExpressionInterface(ExpressionInterface left, ExpressionInterface right) {
       this.left = left;
       this.right = right;
     }
