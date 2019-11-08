@@ -191,7 +191,6 @@ public class Llvm {
     }
 
     static public class Alloca extends Instruction {
-
         Type type;
         String value;
 
@@ -199,9 +198,29 @@ public class Llvm {
             this.type = type;
             this.value = lvalue;
         }
+
         @Override
         public String toString() {
-            return value + " = alloca " + type + "\n";
+            return value + " = alloca " + type;
         }
     }
+
+    static public class Store extends Instruction {
+        Type type;
+        String value;
+        String pointer;
+
+        public Store(Type type, String value, String pointer) {
+            this.type = type;
+            this.value = value;
+            this.pointer = pointer;
+        }
+
+        @Override
+        public String toString() {
+            return "store " + type + " " + value + ", " + type + "* " + pointer;
+        }
+    }
+
+
 }
