@@ -8,7 +8,8 @@ import TP2.exceptions.TypeException;
 public class IfElseStatement implements StatementInterface {
 
     private ExpressionInterface expression;
-    private Block trueBlock, falseBlock;
+    private Block trueBlock;
+    private Block falseBlock;
 
     public IfElseStatement(ExpressionInterface expression, Block trueBlock, Block falseBlock) {
         this.expression = expression;
