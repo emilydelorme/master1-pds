@@ -89,10 +89,6 @@ public class Llvm {
             return "void";
         }
     }
-
-    // TODO : other types
-
-
     // LLVM IR Instructions
     static public abstract class Instruction {
         @Override
@@ -222,5 +218,27 @@ public class Llvm {
         }
     }
 
+    static public class ifStatement extends Instruction {
 
+        @Override
+        public String toString() {
+            return null;
+        }
+    }
+
+    static public class ifElseStatement extends Instruction {
+
+        @Override
+        public String toString() {
+            return null;
+        }
+    }
+
+    static public class whileStatemet extends Instruction {
+
+        @Override
+        public String toString() {
+            return null;
+        }
+    }
 }
