@@ -54,7 +54,9 @@ statement returns [TP2.ASD.StatementInterface out]
 	: declaration
     | affectation
     | expression
-    
+    | IF e=expression THEN block1=block ELSE block2=block FI { $out = new ASD.Statement.IfElseStatement($e.out, $block1.out, $block2.out); }
+    | IF e=expression THEN block1=block FI { $out = new ASD.Statement.IfStatement($e.out, $block1.out); }    
+    | WHILE e=expression DO block1=block DONE { $out = new ASD.Statement.WhileStatement($e.out, $block1.out); }
 	;
 	
 declaration returns [TP2.ASD.StatementInterface out]
