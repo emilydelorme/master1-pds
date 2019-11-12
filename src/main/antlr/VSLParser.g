@@ -46,7 +46,7 @@ parameters returns [List<String> out]
 	| (IDENT { parametres.add($IDENT.text); }) (VIRGULE IDENT { parametres.add($IDENT.text); })+ { $out = parametres; }
 	;
 
-block
+block returns [TP2.ASD.Statement.Block out]
 	: AL (statement)* AR
 	;
 
@@ -54,16 +54,16 @@ statement returns [TP2.ASD.StatementInterface out]
 	: declaration
     | affectation
     | expression
-    | IF e=expression THEN block1=block ELSE block2=block FI { $out = new ASD.Statement.IfElseStatement($e.out, $block1.out, $block2.out); }
-    | IF e=expression THEN block1=block FI { $out = new ASD.Statement.IfStatement($e.out, $block1.out); }    
-    | WHILE e=expression DO block1=block DONE { $out = new ASD.Statement.WhileStatement($e.out, $block1.out); }
+    | IF e=expression THEN block1=block ELSE block2=block FI { $out = new TP2.ASD.Statement.IfElseStatement($e.out, $block1.out, $block2.out); }
+    | IF e=expression THEN block1=block FI { $out = new TP2.ASD.Statement.IfStatement($e.out, $block1.out); }    
+    | WHILE e=expression DO block1=block DONE { $out = new TP2.ASD.Statement.WhileStatement($e.out, $block1.out); }
 	;
 	
-declaration returns [TP2.ASD.StatementInterface out]
+declaration returns [TP2.ASD.ExpressionInterface out]
     : type (IDENT) { $out = new TP2.ASD.Statement.Declaration($IDENT.text);} (VIRGULE IDENT { $out = new TP2.ASD.Statement.Declaration($IDENT.text);} )*
     ;
 
-affectation returns [TP2.ASD.StatementInterface out]
+affectation returns [TP2.ASD.ExpressionInterface out]
     : IDENT EQUAL l=expression  { $out = new TP2.ASD.Statement.Affectation($IDENT.text, $l.out); }
     ;
 
