@@ -23,12 +23,28 @@ public class Prototype implements UnitInterface
     }
 
     @Override
-    public String pp() {
-        return null;
+    public String pp()
+    {
+        String strParametres = "";
+
+        int parametersSize = this.parametres.size();
+        
+        for (int i = 0; i < parametersSize; ++i)
+        {
+            strParametres += this.parametres.get(i);
+            
+            if (i < parametersSize - 1)
+            {
+                strParametres += ", ";
+            }
+        }
+
+        return "PROTO" + " " + this.type.pp() + " " + this.ident + " " + "(" + strParametres + ")";
     }
 
     @Override
-    public Ret toIR() throws TypeException {
+    public Ret toIR() throws TypeException
+    {
         return null;
     }
 }
