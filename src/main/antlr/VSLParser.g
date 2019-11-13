@@ -72,7 +72,7 @@ ifElseState returns [TP2.ASD.Statement.IfElseStatement out]
 	;
 
 whileState returns [TP2.ASD.Statement.WhileStatement out]
-	: WHILE e=expression DO block1=block DONE { $out = new TP2.ASD.Statement.WhileStatement($e.out, $block1.out); }
+	: WHILE e=expression DO statement1=statement DONE { $out = new TP2.ASD.Statement.WhileStatement($e.out, $statement1.out); }
 	;
 
 block returns [TP2.ASD.Statement.Block out]

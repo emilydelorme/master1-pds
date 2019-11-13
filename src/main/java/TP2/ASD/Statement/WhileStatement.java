@@ -9,12 +9,12 @@ public class WhileStatement implements StatementInterface
 {
 
     private ExpressionInterface expression;
-    private Block block;
+    private StatementInterface statement;
 
-    public WhileStatement(ExpressionInterface expression, Block block)
+    public WhileStatement(ExpressionInterface expression, StatementInterface statement)
     {
         this.expression = expression;
-        this.block = block;
+        this.statement = statement;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class WhileStatement implements StatementInterface
     {
         return "WHILE " + expression.pp() +
                 "\n" +
-                block.pp() +
+                statement.pp() +
                 "\n" +
                 "DONE";
     }
