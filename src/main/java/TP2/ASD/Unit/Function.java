@@ -17,7 +17,7 @@ public class Function implements UnitInterface
     private List<String> parametres;
     private StatementInterface statement;
 
-    public Function(TypeInterface type,String ident,List<String> parametres,StatementInterface statement)
+    public Function(TypeInterface type, String ident, List<String> parametres, StatementInterface statement)
     {
         this.type = type;
         this.ident = ident;
@@ -26,20 +26,29 @@ public class Function implements UnitInterface
     }
 
     // Pretty-printer
+    @Override
     public String pp()
     {
         String strParametres = "";
+
+        int parametersSize = this.parametres.size();
         
-        for (int i= 0; i < this.parametres.size(); ++i)
+        for (int i = 0; i < parametersSize; ++i)
         {
-            //TODO LPOFDSHFISDHGFSDGJHSFDF
+            strParametres += this.parametres.get(i);
+            
+            if (i < parametersSize - 1)
+            {
+                strParametres += ", ";
+            }
         }
 
         return "FUNC" + " " + this.type.pp() + " " + this.ident + " " + "(" + strParametres + ")" + this.statement.pp();
     }
 
     @Override
-    public Ret toIR() throws TypeException {
+    public Ret toIR() throws TypeException
+    {
         return null;
     }
 }
