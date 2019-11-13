@@ -6,27 +6,27 @@ import TP2.exceptions.TypeException;
 
 import java.util.List;
 
-public class Block implements StatementInterface {
-
+public class Block implements StatementInterface
+{
     private List<StatementInterface> statements;
 
-    public Block(List<StatementInterface> statements) {
+    public Block(List<StatementInterface> statements)
+    {
         this.statements = statements;
     }
 
     @Override
     public String pp() {
-        return "{"+
-                statements.stream()
-                        .map(StatementInterface::pp)
-                        .reduce((statement1, statement2) -> statement1 + "\n" + statement2)
-                +"}";
+        return "{" +
+                    statements.stream()
+                    .map(StatementInterface::pp)
+                    .reduce((statement1, statement2) -> statement1 + "\n" + statement2) +
+               "}";
     }
 
     @Override
-    public Ret toIR() throws TypeException {
-
-
+    public Ret toIR() throws TypeException
+    {
         return null;
     }
 }
