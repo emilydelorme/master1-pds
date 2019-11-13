@@ -5,25 +5,39 @@ import TP2.ASD.Ret;
 import TP2.ASD.StatementInterface;
 import TP2.exceptions.TypeException;
 
-public class IfElseStatement implements StatementInterface {
+public class IfElseStatement implements StatementInterface
+{
 
     private ExpressionInterface expression;
-    private Block trueBlock;
-    private Block falseBlock;
+    private StatementInterface trueStatement;
+    private StatementInterface falseStatement;
 
-    public IfElseStatement(ExpressionInterface expression, Block trueBlock, Block falseBlock) {
+    public IfElseStatement(ExpressionInterface expression, StatementInterface trueStatement, StatementInterface falseStatement)
+    {
         this.expression = expression;
-        this.trueBlock = trueBlock;
-        this.falseBlock = falseBlock;
+        this.trueStatement = trueStatement;
+        this.falseStatement = falseStatement;
     }
 
     @Override
-    public String pp() {
-        return "if(" + expression.pp() + ")\n" + trueBlock.pp() + "else\n" + falseBlock.pp();
+    public String pp()
+    {
+        return "IF " + expression.pp() +
+                "\n" +
+                "THEN" +
+                "\n" +
+                trueStatement.pp() +
+                "\n" +
+                "ELSE" +
+                "\n" +
+                falseStatement.pp() +
+                "\n" +
+                "FI";
     }
 
     @Override
-    public Ret toIR() throws TypeException {
+    public Ret toIR() throws TypeException
+    {
         return null;
     }
 }
