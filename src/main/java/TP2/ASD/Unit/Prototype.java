@@ -39,7 +39,7 @@ public class Prototype implements UnitInterface
             }
         }
 
-        return "PROTO" + " " + this.type.pp() + " " + this.ident + " " + "(" + strParametres + ")";
+        return "PROTO" + " " + this.type.pp() + " " + this.ident + "(" + strParametres + ")" + " ";
     }
 
     @Override

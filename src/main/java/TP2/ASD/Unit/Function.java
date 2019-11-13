@@ -43,7 +43,7 @@ public class Function implements UnitInterface
             }
         }
 
-        return "FUNC" + " " + this.type.pp() + " " + this.ident + " " + "(" + strParametres + ")" + this.statement.pp();
+        return "FUNC" + " " + this.type.pp() + " " + this.ident + "(" + strParametres + ")" + " " + this.statement.pp();
     }
 
     @Override

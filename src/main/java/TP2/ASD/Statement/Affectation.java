@@ -9,19 +9,19 @@ import TP2.exceptions.TypeException;
 public class Affectation implements StatementInterface
 {
     private String ident;
-    private ExpressionInterface expressionInterface;
+    private ExpressionInterface expression;
 
-    public Affectation(String ident, ExpressionInterface expressionInterface)
+    public Affectation(String ident, ExpressionInterface expression)
     {
         this.ident = ident;
-        this.expressionInterface = expressionInterface;
+        this.expression = expression;
     }
 
     // Pretty-printer
     @Override
     public String pp()
     {
-        return this.ident + " := " + expressionInterface.pp();
+        return this.ident + " := " + expression.pp();
     }
 
     @Override

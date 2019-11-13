@@ -8,19 +8,19 @@ import TP2.exceptions.TypeException;
 public class WhileStatement implements StatementInterface
 {
 
-    private ExpressionInterface expressionInterface;
+    private ExpressionInterface expression;
     private Block block;
 
-    public WhileStatement(ExpressionInterface expressionInterface, Block block)
+    public WhileStatement(ExpressionInterface expression, Block block)
     {
-        this.expressionInterface = expressionInterface;
+        this.expression = expression;
         this.block = block;
     }
 
     @Override
     public String pp()
     {
-        return "WHILE " + expressionInterface.pp() +
+        return "WHILE " + expression.pp() +
                 "\n" +
                 block.pp() +
                 "\n" +
