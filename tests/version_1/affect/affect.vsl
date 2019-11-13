@@ -1,0 +1,6 @@
+FUNC INT main()
+{
+	a := 5
+	RETURN 0
+}
+
