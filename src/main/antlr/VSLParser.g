@@ -31,23 +31,25 @@ unit returns [List<TP2.ASD.UnitInterface> out]
 // implements Unit
 // prototype(type, IDENT, List<parametre>)
 prototype returns [TP2.ASD.UnitInterface out]
-	: PROTO t=type IDENT LP p=parameters RP { $out = new TP2.ASD.Unit.Prototype($t.out, IDENT.text, $p.out); }
+	: PROTO t=type IDENT LP p=parameters RP { $out = new TP2.ASD.Unit.Prototype($t.out, $IDENT.text, $p.out); }
 	;
 
 // implements Unit
 // function(type, IDENT, List<parametre>, statement)
 function returns [TP2.ASD.UnitInterface out]
-	: PROTO t=type IDENT LP p=parameters RP s=statement { $out = new TP2.ASD.Unit.Function($t.out, IDENT.text, $p.out, $s.out); }
+	: PROTO t=type IDENT LP p=parameters RP s=statement { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out); }
+	| PROTO t=type IDENT LP p=parameters RP b=block { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out); }
 	;
 
 parameters returns [List<String> out]
 @init { List<String> parametres = new ArrayList<>(); }
 	: (IDENT { parametres.add($IDENT.text); } )? { $out = parametres; }
-	| (IDENT { parametres.add($IDENT.text); }) (VIRGULE IDENT { parametres.add($IDENT.text); })+ { $out = parametres; }
+	| (IDENT { parametres.add($IDENT.text); } ) (VIRGULE IDENT { parametres.add($IDENT.text); })+ { $out = parametres; }
 	;
 
 block returns [TP2.ASD.Statement.Block out]
-	: AL (statement)* AR
+@init { List<TP2.ASD.StatementInterface> statements = new ArrayList<>(); }
+	: AL (s=statement { statements.add($s.out); } )* AR { $out = new TP2.ASD.Statement.Block(statements); }
 	;
 
 statement returns [TP2.ASD.StatementInterface out]
@@ -59,14 +61,13 @@ statement returns [TP2.ASD.StatementInterface out]
     | WHILE e=expression DO block1=block DONE { $out = new TP2.ASD.Statement.WhileStatement($e.out, $block1.out); }
 	;
 	
-declaration returns [TP2.ASD.ExpressionInterface out]
+declaration returns [TP2.ASD.StatementInterface out]
     : type (IDENT) { $out = new TP2.ASD.Statement.Declaration($IDENT.text);} (VIRGULE IDENT { $out = new TP2.ASD.Statement.Declaration($IDENT.text);} )*
     ;
 
-affectation returns [TP2.ASD.ExpressionInterface out]
+affectation returns [TP2.ASD.StatementInterface out]
     : IDENT EQUAL l=expression  { $out = new TP2.ASD.Statement.Affectation($IDENT.text, $l.out); }
     ;
-
 
 expression returns [TP2.ASD.ExpressionInterface out]
     : l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }
