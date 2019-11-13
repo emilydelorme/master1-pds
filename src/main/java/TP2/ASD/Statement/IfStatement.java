@@ -5,24 +5,34 @@ import TP2.ASD.Ret;
 import TP2.ASD.StatementInterface;
 import TP2.exceptions.TypeException;
 
-public class IfStatement implements StatementInterface {
+public class IfStatement implements StatementInterface
+{
 
     private ExpressionInterface expression;
-    private Block block;
+    private StatementInterface statement;
 
-    public IfStatement(ExpressionInterface expression, Block block) {
+    public IfStatement(ExpressionInterface expression, StatementInterface statement)
+    {
         this.expression = expression;
-        this.block = block;
+        this.statement = statement;
     }
 
     @Override
-    public String pp() {
-        return "if(" + expression.pp() + ")\n" + block.pp();
+    public String pp()
+    {
+        return "IF " + expression.pp() +
+                "\n" +
+                "THEN" +
+                "\n" +
+                statement.pp() +
+                "\n" +
+                "FI";
     }
 
     @Override
-    public Ret toIR() throws TypeException {
-        //TODO: IF to IR()
+    public Ret toIR() throws TypeException
+    {
+        // TODO: IF to IR()
         return null;
     }
 }
