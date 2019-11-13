@@ -19,16 +19,24 @@ public class Block implements StatementInterface
     public String pp() {
         String str = "";
         
+        int statementSize = this.statements.size();
+        
         str += "{";
         str += "\n";
         
-        for (StatementInterface statement : this.statements)
+        for (int i = 0; i < statementSize; ++i)
         {
-            str += statement.pp();
+            str += "\t";
+            str += this.statements.get(i).pp();
+            
+            if (i < statementSize - 1)
+            {
+                str += "\n";
+            }
         }
         
         str += "\n";
-        str += " }";
+        str += "}";
         
         return str;
     }
