@@ -40,6 +40,7 @@ DO    : 'DO' ;
 DONE  : 'DONE' ;
 PROTO : 'PROTO' ;
 FUNC  : 'FUNC' ;
+RETURN  : 'RETURN' ;
 
 // TODO : other keywords
 
