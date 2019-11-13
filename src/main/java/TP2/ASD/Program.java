@@ -34,9 +34,9 @@ public class Program
         Ret retExpr = this.unitInterface.get(0).toIR();
         this.unitInterface.remove(0);
         
-        for(UnitInterface expressionInterface : this.unitInterface)
+        for(UnitInterface unitInterface : this.unitInterface)
         {
-            retExpr.ir.append(expressionInterface.toIR().ir);
+            retExpr.ir.append(unitInterface.toIR().ir);
         }
         
         // add a return instruction
