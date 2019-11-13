@@ -25,8 +25,8 @@ public class Block implements StatementInterface
     }
 
     @Override
-    public Ret toIR() throws TypeException
-    {
+    public Ret toIR() throws TypeException {
+
         return null;
     }
 }
