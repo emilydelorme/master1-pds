@@ -17,11 +17,20 @@ public class Block implements StatementInterface
 
     @Override
     public String pp() {
-        return "{" +
-                    statements.stream()
-                    .map(StatementInterface::pp)
-                    .reduce((statement1, statement2) -> statement1 + "\n" + statement2) +
-               "}";
+        String str = "";
+        
+        str += "{";
+        str += "\n";
+        
+        for (StatementInterface statement : this.statements)
+        {
+            str += statement.pp();
+        }
+        
+        str += "\n";
+        str += " }";
+        
+        return str;
     }
 
     @Override
