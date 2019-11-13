@@ -5,28 +5,32 @@ import TP2.ASD.Ret;
 import TP2.ASD.StatementInterface;
 import TP2.exceptions.TypeException;
 
-import java.util.List;
-
-public class WhileStatement implements StatementInterface {
+public class WhileStatement implements StatementInterface
+{
 
     private ExpressionInterface expressionInterface;
-    private List<StatementInterface> block;
+    private Block block;
 
-    public WhileStatement(ExpressionInterface expressionInterface, List<StatementInterface> block) {
+    public WhileStatement(ExpressionInterface expressionInterface, Block block)
+    {
         this.expressionInterface = expressionInterface;
         this.block = block;
     }
 
     @Override
-    public String pp() {
-        return "while("+ expressionInterface.pp()+")\n"+block.stream()
-                .map(StatementInterface::pp)
-                .reduce((statement1, statement2) -> statement1 + "\n" + statement2);
+    public String pp()
+    {
+        return "WHILE " + expressionInterface.pp() +
+                "\n" +
+                block.pp() +
+                "\n" +
+                "DONE";
     }
 
     @Override
-    public Ret toIR() throws TypeException {
-        //TODO: While to IR()
+    public Ret toIR() throws TypeException
+    {
+        // TODO: While to IR()
         return null;
     }
 }
