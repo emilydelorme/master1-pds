@@ -37,8 +37,8 @@ prototype returns [TP2.ASD.UnitInterface out]
 // implements Unit
 // function(type, IDENT, List<parametre>, statement)
 function returns [TP2.ASD.UnitInterface out]
-	: PROTO t=type IDENT LP p=parameters RP s=statement { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out); }
-	| PROTO t=type IDENT LP p=parameters RP b=block { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out); }
+	: FUNC t=type IDENT LP p=parameters RP s=statement { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out); }
+	| FUNC t=type IDENT LP p=parameters RP b=block { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out); }
 	;
 
 parameters returns [List<String> out]
