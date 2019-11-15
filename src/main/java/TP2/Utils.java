@@ -1,5 +1,8 @@
 package TP2;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -7,10 +10,23 @@ public class Utils
 {
     private static int tmp = 0;
     private static int lab = 0;
-    private static int glob = 0;
+    private static Map<TypeLabel, Integer> typeLabelToInt = initLabelToInt();
+
     private final static Pattern re = Pattern.compile("\\\\n");
 
     // return " " × level, useful for code indentation
+    private Utils() {}
+
+    private static Map<TypeLabel, Integer> initLabelToInt() {
+        Map<TypeLabel, Integer> map = new HashMap<>();
+        map.put(TypeLabel.WHILE, 0);
+        map.put(TypeLabel.DO, 0);
+        map.put(TypeLabel.ELSE, 0);
+        map.put(TypeLabel.FI, 0);
+        map.put(TypeLabel.THEN, 0);
+        return map;
+    }
+
     static public String indent(int level)
     {
         StringBuilder r = new StringBuilder();
@@ -33,11 +49,14 @@ public class Utils
         return str + lab;
     }
 
-    // generate a new unique global identifier (starting with @tmp) *)
-    public static String newglob(String str)
-    {
-        glob++;
-        return str + glob;
+    public static String newLabel(TypeLabel typeLabel) {
+        typeLabelToInt.compute(typeLabel, (key, val) -> {
+            if(Objects.isNull(val)) {
+                return 0;
+            }
+            return ++val;
+            });
+        return typeLabel.toString() + (typeLabelToInt.get(typeLabel) - 1);
     }
 
     // transform escaped newlines ('\' 'n') into newline form suitable for LLVM
