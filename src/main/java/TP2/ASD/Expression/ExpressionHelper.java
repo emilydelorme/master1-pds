@@ -1,7 +1,7 @@
 package TP2.ASD.Expression;
 
 import TP2.ASD.Ret;
-import TP2.Llvm;
+import TP2.LlvmOld;
 import TP2.Utils;
 import TP2.exceptions.TypeException;
 
@@ -32,7 +32,7 @@ class ExpressionHelper
         String result = Utils.newtmp();
 
         // new sub instruction result = left - right
-        Llvm.Instruction sub = new Llvm.Sub(leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
+        LlvmOld.Instruction sub = new LlvmOld.Sub(leftRet.type.toLlvmType(), leftRet.result, rightRet.result, result);
 
         // append this instruction
         leftRet.ir.appendCode(sub);

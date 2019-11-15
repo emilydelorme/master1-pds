@@ -1,7 +1,7 @@
 package TP2.ASD.Types;
 
 import TP2.ASD.TypeInterface;
-import TP2.Llvm;
+import TP2.LlvmOld;
 
 public class Void implements TypeInterface
 {
@@ -13,8 +13,8 @@ public class Void implements TypeInterface
     }
 
     @Override
-    public Llvm.Type toLlvmType()
+    public LlvmOld.Type toLlvmType()
     {
-        return new Llvm.Void();
+        return new LlvmOld.Void();
     }
 }

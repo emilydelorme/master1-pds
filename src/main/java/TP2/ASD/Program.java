@@ -2,7 +2,8 @@ package TP2.ASD;
 
 import java.util.List;
 
-import TP2.Llvm;
+import TP2.Llvm.Ir;
+import TP2.LlvmOld;
 import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
 
@@ -25,7 +26,7 @@ public class Program
     }
 
     // IR generation
-    public Llvm.IR toIR() throws TypeException, EmptyProgram
+    public Ir toIR() throws TypeException, EmptyProgram
     {
         // TODO : change when you extend the language
         if (this.unitInterface.isEmpty())
@@ -40,7 +41,7 @@ public class Program
         }
 
         // add a return instruction
-        Llvm.Instruction ret = new Llvm.Return(retExpr.type.toLlvmType(), retExpr.result);
+        LlvmOld.Instruction ret = new LlvmOld.Return(retExpr.type.toLlvmType(), retExpr.result);
         retExpr.ir.appendCode(ret);
 
         return retExpr.ir;
