@@ -10,6 +10,7 @@ options {
 
   import java.util.stream.Collectors;
   import java.util.Arrays;
+  import java.util.Optional;
 }
 
 // TODO : other rules
@@ -27,16 +28,16 @@ unit returns [TP2.ASD.UnitInterface out]
 	;
 
 // implements Unit
-// prototype(type, IDENT, List<parametre>)
+// prototype(funcType, IDENT, List<parametre>)
 prototype returns [TP2.ASD.Unit.Prototype out]
-	: PROTO t=type IDENT LP p=parameters RP { $out = new TP2.ASD.Unit.Prototype($t.out, $IDENT.text, $p.out); }
+	: PROTO t=funcType IDENT LP p=parameters RP { $out = new TP2.ASD.Unit.Prototype($t.out, $IDENT.text, $p.out); }
 	;
 
 // implements Unit
-// function(type, IDENT, List<parametre>, statement)
+// function(funcType, IDENT, List<parametre>, statement)
 function returns [TP2.ASD.Unit.Function out]
-	: FUNC t=type IDENT LP p=parameters RP s=statement { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out); }
-	| FUNC t=type IDENT LP p=parameters RP b=block { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out); }
+	: FUNC t=funcType IDENT LP p=parameters RP s=statement { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out); }
+	| FUNC t=funcType IDENT LP p=parameters RP b=block { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out); }
 	;
 
 parameters returns [List<String> out]
@@ -72,8 +73,9 @@ whileState returns [TP2.ASD.Statement.WhileStatement out]
 
 block returns [TP2.ASD.Statement.Block out]
 @init { List<TP2.ASD.StatementInterface> statements = new ArrayList<>(); }
-// CHANGER POUR OPTIONAL (2 lignes ? OU utiliser optional)
-	: AL (d=declaration)? (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block($d.out ,statements); }
+	//: AL (d=declaration)? (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block(Optional.ofNullable($d.out) ,statements); }
+	: AL (d=declaration) (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block(Optional.of($d.out), statements); }
+	| AL (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block(statements); }
 	;
 
 returnState returns [TP2.ASD.Statement.Return out]
@@ -82,8 +84,8 @@ returnState returns [TP2.ASD.Statement.Return out]
 
 declaration returns [TP2.ASD.Declaration.Declaration out]
 @init { List<TP2.ASD.DeclarationInterface> idents = new ArrayList<>(); }
-    : t=type (v=variableForme { idents.add($v.out); }) { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
-    | t=type (v=variableForme { idents.add($v.out); }) (VIRGULE v=variableForme { idents.add($v.out); })+ { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
+    : t=varType (v=variableForme { idents.add($v.out); }) { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
+    | t=varType (v=variableForme { idents.add($v.out); }) (VIRGULE v=variableForme { idents.add($v.out); })+ { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
     ;
     
 variableForme returns [TP2.ASD.DeclarationInterface out]
@@ -121,9 +123,19 @@ primary returns [TP2.ASD.Expression.IntegerExpression out]
     : INTEGER { $out = new TP2.ASD.Expression.IntegerExpression($INTEGER.int); }
     ;
     
-type returns [TP2.ASD.TypeInterface out]
-	: INT { $out = new TP2.ASD.Types.Int(); }
-	| VOID { $out = new TP2.ASD.Types.Void(); }
+funcType returns [TP2.ASD.TypeInterface out]
+	: i=intType { $out = $i.out; }
+	| v=voidType { $out = $v.out; }
+	;
+
+varType returns [TP2.ASD.TypeInterface out]
+	: i=intType { $out = $i.out; }
 	;
     
+intType returns [TP2.ASD.Types.Int out]
+	: INT { $out = new TP2.ASD.Types.Int(); }
+	;
     
+voidType returns [TP2.ASD.Types.Void out]
+	: VOID { $out = new TP2.ASD.Types.Void(); }
+	;  
