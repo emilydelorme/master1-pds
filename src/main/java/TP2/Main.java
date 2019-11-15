@@ -40,7 +40,7 @@ public class Main {
 
       // Compute LLVM IR from the ast
       try {
-        Llvm.IR ir = ast.toIR();
+        LlvmOld.IR ir = ast.toIR();
 
         // Output LLVM IR
         System.out.println(ir);
