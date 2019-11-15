@@ -1,6 +1,7 @@
 package TP2.ASD.Statement;
 
 import java.util.List;
+import java.util.Objects;
 
 import TP2.ASD.Ret;
 import TP2.ASD.StatementInterface;
@@ -28,7 +29,10 @@ public class Block implements StatementInterface
         str += "{";
         str += "\n";
 
-        str += this.declaration.pp();
+        if (!Objects.isNull(this.declaration))
+        {
+            str += this.declaration.pp();
+        }
 
         for (int i = 0; i < statementSize; ++i)
         {

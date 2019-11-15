@@ -21,7 +21,7 @@ public class Affectation implements StatementInterface
     @Override
     public String pp()
     {
-        return this.ident + " := " + expression.pp();
+        return this.ident + " := " + this.expression.pp();
     }
 
     @Override

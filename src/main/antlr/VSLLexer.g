@@ -23,6 +23,8 @@ LP    : '(' ; // Left parenthesis
 RP    : ')' ;
 AL	  : '{' ; // accolade gauche
 AR	  : '}' ;
+CL	  : '[' ; // crochet gauche
+CR	  : ']' ;
 ADD   : '+' ;
 SUB   : '-' ;
 MUL   : '*' ;

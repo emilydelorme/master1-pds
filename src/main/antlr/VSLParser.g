@@ -72,6 +72,7 @@ whileState returns [TP2.ASD.Statement.WhileStatement out]
 
 block returns [TP2.ASD.Statement.Block out]
 @init { List<TP2.ASD.StatementInterface> statements = new ArrayList<>(); }
+// CHANGER POUR OPTIONAL (2 lignes ? OU utiliser optional)
 	: AL (d=declaration)? (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block($d.out ,statements); }
 	;
 
@@ -80,10 +81,23 @@ returnState returns [TP2.ASD.Statement.Return out]
 	;
 
 declaration returns [TP2.ASD.Declaration.Declaration out]
-@init { List<String> idents = new ArrayList<>(); }
-    : t=type (IDENT { idents.add($IDENT.text); }) { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
-    | t=type (IDENT { idents.add($IDENT.text); }) (VIRGULE IDENT { idents.add($IDENT.text); })+ { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
+@init { List<TP2.ASD.DeclarationInterface> idents = new ArrayList<>(); }
+    : t=type (v=variableForme { idents.add($v.out); }) { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
+    | t=type (v=variableForme { idents.add($v.out); }) (VIRGULE v=variableForme { idents.add($v.out); })+ { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
     ;
+    
+variableForme returns [TP2.ASD.DeclarationInterface out]
+	: b=basicForme { $out = $b.out; }
+	| a=arrayForme { $out = $a.out; }
+	;
+
+basicForme returns [TP2.ASD.Declaration.Basic out]
+	: IDENT { $out = new TP2.ASD.Declaration.Basic($IDENT.text); }
+	;
+	
+arrayForme returns [TP2.ASD.Declaration.Array out]
+	: IDENT CL INTEGER CR { $out = new TP2.ASD.Declaration.Array($IDENT.text, $INTEGER.int); }
+	;
 
 expression returns [TP2.ASD.ExpressionInterface out]
 	: p=primary { $out = $p.out; }

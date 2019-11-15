@@ -1,6 +1,5 @@
 FUNC INT main()
 {
-	INT a, b, c[10], s[25], p
 	RETURN 0
 }
 
