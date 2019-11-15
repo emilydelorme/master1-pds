@@ -46,18 +46,13 @@ parameters returns [List<String> out]
 	;
 
 statement returns [TP2.ASD.StatementInterface out]
-	: d=declaration { $out = $d.out; }
-    | a=affectation { $out = $a.out; }
+    : a=affectation { $out = $a.out; }
     | ifS=ifState { $out = $ifS.out; }
     | ifES=ifElseState { $out = $ifES.out; }
     | w=whileState { $out = $w.out; }
     | b=block { $out = $b.out; }
     | r=returnState { $out = $r.out; }
 	;
-
-declaration returns [TP2.ASD.Statement.Declaration out]
-    : type (IDENT) { $out = new TP2.ASD.Statement.Declaration($IDENT.text);} (VIRGULE IDENT { $out = new TP2.ASD.Statement.Declaration($IDENT.text);} )*
-    ;
 
 affectation returns [TP2.ASD.Statement.Affectation out]
     : IDENT EQUAL l=expression  { $out = new TP2.ASD.Statement.Affectation($IDENT.text, $l.out); }
@@ -77,12 +72,18 @@ whileState returns [TP2.ASD.Statement.WhileStatement out]
 
 block returns [TP2.ASD.Statement.Block out]
 @init { List<TP2.ASD.StatementInterface> statements = new ArrayList<>(); }
-	: AL (s=statement { statements.add($s.out); } )* AR { $out = new TP2.ASD.Statement.Block(statements); }
+	: AL (d=declaration)? (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block($d.out ,statements); }
 	;
 
 returnState returns [TP2.ASD.Statement.Return out]
 	: RETURN e=expression { $out = new TP2.ASD.Statement.Return($e.out); }
 	;
+
+declaration returns [TP2.ASD.Declaration.Declaration out]
+@init { List<String> idents = new ArrayList<>(); }
+    : t=type (IDENT { idents.add($IDENT.text); }) { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
+    | t=type (IDENT { idents.add($IDENT.text); }) (VIRGULE IDENT { idents.add($IDENT.text); })+ { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
+    ;
 
 expression returns [TP2.ASD.ExpressionInterface out]
 	: p=primary { $out = $p.out; }
