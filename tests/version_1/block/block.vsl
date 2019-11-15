@@ -1,5 +1,11 @@
 FUNC INT main()
 {
+	a := 5
+	
+	{
+		b := 10
+	}
+
 	RETURN 0
 }
 
