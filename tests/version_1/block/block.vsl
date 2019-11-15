@@ -1,11 +1,14 @@
 FUNC INT main()
 {
+	INT a, b[5]
+
 	a := 5
-	
+
 	{
-		b := 10
+		{
+			c := 5
+		}
 	}
 
 	RETURN 0
 }
-

@@ -23,7 +23,6 @@ public class Declaration
     {
         String str = "";
 
-        str += "\t";
         str += this.type.pp() + " ";
 
         int identsSize = this.idents.size();

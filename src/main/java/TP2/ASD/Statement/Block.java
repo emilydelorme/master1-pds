@@ -1,7 +1,7 @@
 package TP2.ASD.Statement;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 import TP2.ASD.Ret;
 import TP2.ASD.StatementInterface;
@@ -10,12 +10,18 @@ import TP2.exceptions.TypeException;
 
 public class Block implements StatementInterface
 {
-    private Declaration declaration;
+    private Optional<Declaration> declaration;
     private List<StatementInterface> statements;
 
-    public Block(Declaration declaration, List<StatementInterface> statements)
+    public Block(Optional<Declaration> declaration, List<StatementInterface> statements)
     {
         this.declaration = declaration;
+        this.statements = statements;
+    }
+    
+    public Block(List<StatementInterface> statements)
+    {
+        this.declaration = Optional.empty();
         this.statements = statements;
     }
 
@@ -29,9 +35,10 @@ public class Block implements StatementInterface
         str += "{";
         str += "\n";
 
-        if (!Objects.isNull(this.declaration))
+        if (this.declaration.isPresent())
         {
-            str += this.declaration.pp();
+            str += "\t";
+            str += this.declaration.get().pp();
         }
 
         for (int i = 0; i < statementSize; ++i)
