@@ -54,6 +54,12 @@ public class InstructionHandler
         this.header.addAll(header);
     }
 
+    public void appendAll(InstructionHandler ir)
+    {
+        this.header.addAll(ir.header);
+        this.code.addAll(ir.code);
+    }
+
     // Final string generation
     @Override
     public String toString()
@@ -63,4 +69,5 @@ public class InstructionHandler
         code.forEach(r::append);
         return r.toString();
     }
+
 }

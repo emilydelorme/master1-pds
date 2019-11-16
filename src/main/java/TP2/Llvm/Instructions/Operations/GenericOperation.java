@@ -1,6 +1,9 @@
 package TP2.Llvm.Instructions.Operations;
 
-public class GenericOperation {
+import TP2.Llvm.Instruction;
+
+public class GenericOperation implements Instruction
+{
     private Operation operation;
     private String left;
     private String right;
@@ -13,6 +16,7 @@ public class GenericOperation {
         this.right = right;
         this.lvalue = lvalue;
     }
+
 
     @Override
     public String toString()

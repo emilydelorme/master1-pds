@@ -2,7 +2,7 @@ package TP2.Llvm.Types;
 
 import TP2.Llvm.Type;
 
-public class Void implements Type {
+public class LlvmVoid implements Type {
 
     @Override
     public String toString() {

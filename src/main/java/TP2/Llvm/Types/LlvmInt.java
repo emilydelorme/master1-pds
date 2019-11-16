@@ -3,7 +3,7 @@ package TP2.Llvm.Types;
 
 import TP2.Llvm.Type;
 
-public class Int implements Type {
+public class LlvmInt implements Type {
 
     @Override
     public String toString() {
