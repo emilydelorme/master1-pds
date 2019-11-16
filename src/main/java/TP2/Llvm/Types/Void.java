@@ -1,6 +1,6 @@
 package TP2.Llvm.Types;
 
-import TP2.LlvmOld.Type;
+import TP2.Llvm.Type;
 
 public class Void implements Type {
 

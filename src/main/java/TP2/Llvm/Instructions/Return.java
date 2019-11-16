@@ -1,13 +1,13 @@
 package TP2.Llvm.Instructions;
 
-import TP2.LlvmOld.Instruction;
-import TP2.LlvmOld;
+import TP2.Llvm.Instruction;
+import TP2.Llvm.Type;
 
 public class Return implements Instruction {
-    private LlvmOld.Type type;
+    private Type type;
     private String value;
 
-    public Return(LlvmOld.Type type, String value)
+    public Return(Type type, String value)
     {
         this.type = type;
         this.value = value;
