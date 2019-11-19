@@ -73,7 +73,6 @@ whileState returns [TP2.ASD.Statement.WhileStatement out]
 
 block returns [TP2.ASD.Statement.Block out]
 @init { List<TP2.ASD.StatementInterface> statements = new ArrayList<>(); }
-	//: AL (d=declaration)? (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block(Optional.ofNullable($d.out) ,statements); }
 	: AL (d=declaration) (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block(Optional.of($d.out), statements); }
 	| AL (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block(statements); }
 	;
@@ -102,7 +101,7 @@ arrayForme returns [TP2.ASD.Declaration.Array out]
 	;
 
 expression returns [TP2.ASD.ExpressionInterface out]
-	: p=primary { $out = $p.out; }
+	: t=typeExpr { $out = $t.out; }
     | l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }
     | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.Expression.SubExpression($l.out, $r.out); }
     | eP=expressionPrioritaire { $out = $eP.out; }
@@ -115,14 +114,23 @@ expressionPrioritaire returns [TP2.ASD.ExpressionInterface out]
     ;
 
 factor returns [TP2.ASD.ExpressionInterface out]
-    : p=primary { $out = $p.out; }
+    : t=typeExpr { $out = $t.out; }
     | LP e=expression RP { $out = $e.out; }
     ;
 
-primary returns [TP2.ASD.Expression.IntegerExpression out]
+typeExpr returns [TP2.ASD.ExpressionInterface out]
+    : i=integerExpr { $out = $i.out; }
+    | v=varExpr { $out = $v.out; }
+    ;
+
+integerExpr returns [TP2.ASD.Expression.IntegerExpression out]
     : INTEGER { $out = new TP2.ASD.Expression.IntegerExpression($INTEGER.int); }
     ;
-    
+
+varExpr returns [TP2.ASD.Expression.VariableExpression out]
+    : IDENT { $out = new TP2.ASD.Expression.VariableExpression($IDENT.text); }
+    ;
+
 funcType returns [TP2.ASD.TypeInterface out]
 	: i=intType { $out = $i.out; }
 	| v=voidType { $out = $v.out; }
