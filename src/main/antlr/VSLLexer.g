@@ -43,6 +43,8 @@ DONE  : 'DONE' ;
 PROTO : 'PROTO' ;
 FUNC  : 'FUNC' ;
 RETURN  : 'RETURN' ;
+PRINT  : 'PRINT' ;
+READ  : 'READ' ;
 
 // TODO : other keywords
 
