@@ -15,26 +15,20 @@ options {
 
 // TODO : other rules
 
-// program(List<UnitInterface>)
 program returns [TP2.ASD.Program out]
 @init { List<TP2.ASD.UnitInterface> units = new ArrayList<>(); }
     : (u=unit { units.add($u.out); } )* EOF { $out = new TP2.ASD.Program(units); }
     ;
 
-// interface 
 unit returns [TP2.ASD.UnitInterface out]
 	: p=prototype { $out = $p.out; }
 	| f=function { $out = $f.out; }
 	;
 
-// implements Unit
-// prototype(funcType, IDENT, List<parametre>)
 prototype returns [TP2.ASD.Unit.Prototype out]
 	: PROTO t=funcType IDENT LP p=parameters RP { $out = new TP2.ASD.Unit.Prototype($t.out, $IDENT.text, $p.out); }
 	;
 
-// implements Unit
-// function(funcType, IDENT, List<parametre>, statement)
 function returns [TP2.ASD.Unit.Function out]
 	: FUNC t=funcType IDENT LP p=parameters RP s=statement { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out); }
 	| FUNC t=funcType IDENT LP p=parameters RP b=block { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out); }
@@ -52,6 +46,7 @@ statement returns [TP2.ASD.StatementInterface out]
     | ifES=ifElseState { $out = $ifES.out; }
     | w=whileState { $out = $w.out; }
     | b=block { $out = $b.out; }
+    | p=print { $out = $p.out; }
     | r=returnState { $out = $r.out; }
 	;
 
@@ -75,6 +70,24 @@ block returns [TP2.ASD.Statement.Block out]
 @init { List<TP2.ASD.StatementInterface> statements = new ArrayList<>(); }
 	: AL (d=declaration) (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block(Optional.of($d.out), statements); }
 	| AL (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block(statements); }
+	;
+
+print returns [TP2.ASD.Statement.Print out]
+@init { List<TP2.ASD.ItemInterface> items = new ArrayList<>(); }
+	: PRINT (i=item { items.add($i.out); }) (VIRGULE i=item { items.add($i.out); })* { $out = new TP2.ASD.Statement.Print(items); }
+	;
+
+item returns [TP2.ASD.ItemInterface out]
+	: iE=itemExpression { $out = $iE.out; }
+	| iT=itemText { $out = $iT.out; }
+	;
+
+itemExpression returns [TP2.ASD.Item.Expression out]
+	: e=expression { $out = new TP2.ASD.Item.Expression($e.out); }
+	;
+	
+itemText returns [TP2.ASD.Item.Text out]
+	: TEXT { $out = new TP2.ASD.Item.Text($TEXT.text); }
 	;
 
 returnState returns [TP2.ASD.Statement.Return out]
