@@ -37,13 +37,13 @@ public class Block implements StatementInterface
 
         if (this.declaration.isPresent())
         {
-            str += "\t";
+            //str += "\t";
             str += this.declaration.get().pp();
         }
 
         for (int i = 0; i < statementSize; ++i)
         {
-            str += "\t";
+            //str += "\t";
             str += this.statements.get(i).pp();
 
             if (i < statementSize - 1)
