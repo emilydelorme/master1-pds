@@ -1,0 +1,6 @@
+FUNC INT main()
+{
+	PRINT "test", "test", 5 + a
+	RETURN 0
+}
+
