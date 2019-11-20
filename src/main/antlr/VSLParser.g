@@ -47,7 +47,8 @@ statement returns [TP2.ASD.StatementInterface out]
     | w=whileState { $out = $w.out; }
     | b=block { $out = $b.out; }
     | p=print { $out = $p.out; }
-    | r=returnState { $out = $r.out; }
+    | r1=read { $out = $r1.out; }
+    | r2=returnState { $out = $r2.out; }
 	;
 
 affectation returns [TP2.ASD.Statement.Affectation out]
@@ -88,6 +89,11 @@ itemExpression returns [TP2.ASD.Item.Expression out]
 	
 itemText returns [TP2.ASD.Item.Text out]
 	: TEXT { $out = new TP2.ASD.Item.Text($TEXT.text); }
+	;
+
+read returns [TP2.ASD.Statement.Read out]
+@init { List<String> variables = new ArrayList<>(); }
+	: READ (IDENT { variables.add($IDENT.text); }) (VIRGULE IDENT { variables.add($IDENT.text); })* { $out = new TP2.ASD.Statement.Read(variables); }
 	;
 
 returnState returns [TP2.ASD.Statement.Return out]
