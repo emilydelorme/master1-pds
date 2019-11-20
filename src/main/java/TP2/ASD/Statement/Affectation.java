@@ -3,17 +3,17 @@ package TP2.ASD.Statement;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret;
 import TP2.ASD.StatementInterface;
+import TP2.ASD.VariableFormeInterface;
 import TP2.exceptions.TypeException;
 
-// Concrete class for Expression: add case
 public class Affectation implements StatementInterface
 {
-    private String ident;
+    private VariableFormeInterface variableForme;
     private ExpressionInterface expression;
 
-    public Affectation(String ident, ExpressionInterface expression)
+    public Affectation(VariableFormeInterface variableForme, ExpressionInterface expression)
     {
-        this.ident = ident;
+        this.variableForme = variableForme;
         this.expression = expression;
     }
 
@@ -21,7 +21,7 @@ public class Affectation implements StatementInterface
     @Override
     public String pp()
     {
-        return this.ident + " := " + this.expression.pp();
+        return this.variableForme.pp() + " := " + this.expression.pp();
     }
 
     @Override

@@ -1,25 +1,23 @@
-package TP2.ASD.Declaration;
+package TP2.ASD.VariableForme;
 
-import TP2.ASD.DeclarationInterface;
+import TP2.ASD.VariableFormeInterface;
 import TP2.ASD.Ret;
 import TP2.exceptions.TypeException;
 
-public class Array implements DeclarationInterface
+public class Basic implements VariableFormeInterface
 {
     private String ident;
-    private int nbSpace;
 
-    public Array(String ident, int nbSpace)
+    public Basic(String ident)
     {
         this.ident = ident;
-        this.nbSpace = nbSpace;
     }
 
     // Pretty-printer
     @Override
     public String pp()
     {
-        return this.ident + "[" + this.nbSpace + "]";
+        return this.ident;
     }
 
     @Override

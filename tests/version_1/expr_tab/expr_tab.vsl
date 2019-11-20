@@ -1,0 +1,6 @@
+FUNC INT main()
+{
+	a := b[2] + 3
+	RETURN 0
+}
+

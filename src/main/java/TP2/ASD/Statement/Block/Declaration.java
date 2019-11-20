@@ -1,8 +1,8 @@
-package TP2.ASD.Declaration;
+package TP2.ASD.Statement.Block;
 
 import java.util.List;
 
-import TP2.ASD.DeclarationInterface;
+import TP2.ASD.VariableFormeInterface;
 import TP2.ASD.Ret;
 import TP2.ASD.TypeInterface;
 import TP2.exceptions.TypeException;
@@ -10,12 +10,12 @@ import TP2.exceptions.TypeException;
 public class Declaration
 {
     private TypeInterface type;
-    private List<DeclarationInterface> idents;
+    private List<VariableFormeInterface> variablesForme;
 
-    public Declaration(TypeInterface type, List<DeclarationInterface> idents)
+    public Declaration(TypeInterface type, List<VariableFormeInterface> idents)
     {
         this.type = type;
-        this.idents = idents;
+        this.variablesForme = idents;
     }
 
     // Pretty-printer
@@ -25,11 +25,11 @@ public class Declaration
 
         str += this.type.pp() + " ";
 
-        int identsSize = this.idents.size();
+        int identsSize = this.variablesForme.size();
 
         for (int i = 0; i < identsSize; ++i)
         {
-            str += this.idents.get(i).pp();
+            str += this.variablesForme.get(i).pp();
 
             if (i < identsSize - 1)
             {

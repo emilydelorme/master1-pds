@@ -52,7 +52,7 @@ statement returns [TP2.ASD.StatementInterface out]
 	;
 
 affectation returns [TP2.ASD.Statement.Affectation out]
-    : IDENT EQUAL l=expression  { $out = new TP2.ASD.Statement.Affectation($IDENT.text, $l.out); }
+    : v=variableForme EQUAL l=expression  { $out = new TP2.ASD.Statement.Affectation($v.out, $l.out); }
     ;
 
 ifState returns [TP2.ASD.Statement.IfStatement out]
@@ -67,10 +67,10 @@ whileState returns [TP2.ASD.Statement.WhileStatement out]
 	: WHILE e=expression DO statement1=statement DONE { $out = new TP2.ASD.Statement.WhileStatement($e.out, $statement1.out); }
 	;
 
-block returns [TP2.ASD.Statement.Block out]
+block returns [TP2.ASD.Statement.Block.Block out]
 @init { List<TP2.ASD.StatementInterface> statements = new ArrayList<>(); }
-	: AL (d=declaration) (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block(Optional.of($d.out), statements); }
-	| AL (s=statement { statements.add($s.out); } )+ AR { $out = new TP2.ASD.Statement.Block(statements); }
+	: AL (d=declaration) (s=statement { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(Optional.of($d.out), statements); }
+	| AL (s=statement { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(statements); }
 	;
 
 print returns [TP2.ASD.Statement.Print out]
@@ -92,31 +92,31 @@ itemText returns [TP2.ASD.Item.Text out]
 	;
 
 read returns [TP2.ASD.Statement.Read out]
-@init { List<String> variables = new ArrayList<>(); }
-	: READ (IDENT { variables.add($IDENT.text); }) (VIRGULE IDENT { variables.add($IDENT.text); })* { $out = new TP2.ASD.Statement.Read(variables); }
+@init { List<TP2.ASD.VariableFormeInterface> variables = new ArrayList<>(); }
+	: READ (v=variableForme { variables.add($v.out); }) (VIRGULE v=variableForme { variables.add($v.out); })* { $out = new TP2.ASD.Statement.Read(variables); }
 	;
 
 returnState returns [TP2.ASD.Statement.Return out]
 	: RETURN e=expression { $out = new TP2.ASD.Statement.Return($e.out); }
 	;
 
-declaration returns [TP2.ASD.Declaration.Declaration out]
-@init { List<TP2.ASD.DeclarationInterface> idents = new ArrayList<>(); }
-    : t=varType (v=variableForme { idents.add($v.out); }) { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
-    | t=varType (v=variableForme { idents.add($v.out); }) (VIRGULE v=variableForme { idents.add($v.out); })+ { $out = new TP2.ASD.Declaration.Declaration($t.out, idents); }
+declaration returns [TP2.ASD.Statement.Block.Declaration out]
+@init { List<TP2.ASD.VariableFormeInterface> variablesForme = new ArrayList<>(); }
+    : t=varType (v=variableForme { variablesForme.add($v.out); }) { $out = new TP2.ASD.Statement.Block.Declaration($t.out, variablesForme); }
+    | t=varType (v=variableForme { variablesForme.add($v.out); }) (VIRGULE v=variableForme { variablesForme.add($v.out); })+ { $out = new TP2.ASD.Statement.Block.Declaration($t.out, variablesForme); }
     ;
     
-variableForme returns [TP2.ASD.DeclarationInterface out]
+variableForme returns [TP2.ASD.VariableFormeInterface out]
 	: b=basicForme { $out = $b.out; }
 	| a=arrayForme { $out = $a.out; }
 	;
 
-basicForme returns [TP2.ASD.Declaration.Basic out]
-	: IDENT { $out = new TP2.ASD.Declaration.Basic($IDENT.text); }
+basicForme returns [TP2.ASD.VariableForme.Basic out]
+	: IDENT { $out = new TP2.ASD.VariableForme.Basic($IDENT.text); }
 	;
 	
-arrayForme returns [TP2.ASD.Declaration.Array out]
-	: IDENT CL INTEGER CR { $out = new TP2.ASD.Declaration.Array($IDENT.text, $INTEGER.int); }
+arrayForme returns [TP2.ASD.VariableForme.Array out]
+	: IDENT CL INTEGER CR { $out = new TP2.ASD.VariableForme.Array($IDENT.text, $INTEGER.int); }
 	;
 
 expression returns [TP2.ASD.ExpressionInterface out]
@@ -147,7 +147,7 @@ integerExpr returns [TP2.ASD.Expression.IntegerExpression out]
     ;
 
 varExpr returns [TP2.ASD.Expression.VariableExpression out]
-    : IDENT { $out = new TP2.ASD.Expression.VariableExpression($IDENT.text); }
+    : v=variableForme { $out = new TP2.ASD.Expression.VariableExpression($v.out); }
     ;
 
 funcType returns [TP2.ASD.TypeInterface out]

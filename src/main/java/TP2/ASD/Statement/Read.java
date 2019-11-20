@@ -5,15 +5,16 @@ import java.util.List;
 import TP2.ASD.ItemInterface;
 import TP2.ASD.Ret;
 import TP2.ASD.StatementInterface;
+import TP2.ASD.VariableFormeInterface;
 import TP2.exceptions.TypeException;
 
 public class Read implements StatementInterface
 {
-    private List<String> variables;
+    private List<VariableFormeInterface> variablesForme;
 
-    public Read(List<String> items)
+    public Read(List<VariableFormeInterface> variablesForme)
     {
-        this.variables = items;
+        this.variablesForme = variablesForme;
     }
 
     @Override
@@ -21,12 +22,12 @@ public class Read implements StatementInterface
     {
         String str = "READ ";
         
-        int variablesSize = this.variables.size();
+        int variablesSize = this.variablesForme.size();
         
         for(int i = 0; i < variablesSize; ++i)
         {
 
-            str += this.variables.get(i);
+            str += this.variablesForme.get(i).pp();
 
             if (i < variablesSize - 1)
             {
