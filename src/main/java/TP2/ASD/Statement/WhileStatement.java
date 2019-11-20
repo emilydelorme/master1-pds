@@ -22,6 +22,8 @@ public class WhileStatement implements StatementInterface
     {
         return "WHILE " + expression.pp() +
                 "\n" +
+                "DO" +
+                "\n" +
                 statement.pp() +
                 "\n" +
                 "DONE";
