@@ -12,8 +12,12 @@ public class InstructionHandler
     private final List<Instruction> header; // IR instructions to be placed before the code (global definitions)
     private final List<Instruction> code; // main code
 
+<<<<<<< Updated upstream:src/main/java/TP2/Llvm/InstructionHandler.java
     public InstructionHandler()
     {
+=======
+    public Ir() {
+>>>>>>> Stashed changes:src/main/java/TP2/Llvm/Ir.java
         this.header = new ArrayList<>();
         this.code = new ArrayList<>();
     }
