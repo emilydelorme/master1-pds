@@ -1,5 +1,7 @@
 package TP2.Llvm;
 
+import TP2.Llvm.Types.LlvmInt;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +28,12 @@ public class InstructionHandler
     {
         this.header = header;
         this.code = code;
+    }
+
+    public InstructionHandler(InstructionHandler ir)
+    {
+        this();
+        this.appendAll(ir);
     }
 
     public void appendHeader(Instruction instruction)
