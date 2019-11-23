@@ -2,6 +2,7 @@ package TP2.ASD;
 
 import java.util.List;
 
+import TP2.ASD.Ret.GenericRet;
 import TP2.Llvm.Ir;
 import TP2.LlvmOld;
 import TP2.exceptions.EmptyProgram;
@@ -32,7 +33,7 @@ public class Program
         if (this.unitInterface.isEmpty())
             throw new EmptyProgram("Programme vide");
 
-        Ret retExpr = this.unitInterface.get(0).toIR();
+        GenericRet retExpr = this.unitInterface.get(0).toIR();
         this.unitInterface.remove(0);
 
         for (UnitInterface unitInterface : this.unitInterface)

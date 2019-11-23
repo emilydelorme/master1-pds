@@ -1,7 +1,9 @@
 package TP2.ASD.Expression;
 
 import TP2.ASD.ExpressionInterface;
-import TP2.ASD.Ret;
+import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.Ret.TypeRet;
+import TP2.Llvm.Instructions.Operations.Operation;
 import TP2.exceptions.TypeException;
 
 // Concrete class for Expression: sub case
@@ -23,8 +25,8 @@ public class SubExpression implements ExpressionInterface
     }
 
     // IR generation (IR = Représentation intermédiaire)
-    public Ret toIR() throws TypeException
+    public TypeRet toIR() throws TypeException
     {
-        return ExpressionHelper.retExpression(left.toIR(), right.toIR());
+        return ExpressionHelper.retExpression(left.toIR(), right.toIR(), Operation.SUB);
     }
 }

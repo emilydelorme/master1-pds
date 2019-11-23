@@ -1,6 +1,6 @@
 package TP2.ASD.Statement;
 
-import TP2.ASD.Ret;
+import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.StatementInterface;
 import TP2.exceptions.TypeException;
 
@@ -17,32 +17,31 @@ public class Block implements StatementInterface
 
     @Override
     public String pp() {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         
         int statementSize = this.statements.size();
         
-        str += "{";
-        str += "\n";
+        str.append("{\n");
         
         for (int i = 0; i < statementSize; ++i)
         {
-            str += "\t";
-            str += this.statements.get(i).pp();
+            str.append("\t");
+            str.append(this.statements.get(i).pp());
             
             if (i < statementSize - 1)
             {
-                str += "\n";
+                str.append("\n");
             }
         }
         
-        str += "\n";
-        str += "}";
+        str.append("\n");
+        str.append("}");
         
-        return str;
+        return str.toString();
     }
 
     @Override
-    public Ret toIR() throws TypeException {
+    public GenericRet toIR() throws TypeException {
 
         return null;
     }
