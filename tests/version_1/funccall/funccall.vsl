@@ -1,0 +1,6 @@
+FUNC INT main()
+{
+	toto(a + 5, b, 3, h[5 + b])
+	RETURN 0
+}
+
