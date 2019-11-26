@@ -34,6 +34,7 @@ function returns [TP2.ASD.Unit.Function out]
 	| FUNC t=funcType IDENT LP p=parameters RP b=block { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out); }
 	;
 
+// TODO : tableau en paramètre (t[])
 parameters returns [List<String> out]
 @init { List<String> parametres = new ArrayList<>(); }
 	: (IDENT { parametres.add($IDENT.text); } )? { $out = parametres; }
@@ -48,11 +49,14 @@ statement returns [TP2.ASD.StatementInterface out]
     | b=block { $out = $b.out; }
     | p=print { $out = $p.out; }
     | r1=read { $out = $r1.out; }
+    | f=funcCall { $out = $f.out; }
     | r2=returnState { $out = $r2.out; }
 	;
 
+// TODO : chainage des expression non géré, a := 1 + 1 + 1
+// modification à faire dans expression ?
 affectation returns [TP2.ASD.Statement.Affectation out]
-    : v=variableForme EQUAL l=expression  { $out = new TP2.ASD.Statement.Affectation($v.out, $l.out); }
+    : v=variableForme EQUAL e=expression  { $out = new TP2.ASD.Statement.Affectation($v.out, $e.out); }
     ;
 
 ifState returns [TP2.ASD.Statement.IfStatement out]
@@ -86,26 +90,33 @@ item returns [TP2.ASD.ItemInterface out]
 itemExpression returns [TP2.ASD.Item.Expression out]
 	: e=expression { $out = new TP2.ASD.Item.Expression($e.out); }
 	;
-	
+
 itemText returns [TP2.ASD.Item.Text out]
 	: TEXT { $out = new TP2.ASD.Item.Text($TEXT.text); }
 	;
 
 read returns [TP2.ASD.Statement.Read out]
-@init { List<TP2.ASD.VariableFormeInterface> variables = new ArrayList<>(); }
-	: READ (v=variableForme { variables.add($v.out); }) (VIRGULE v=variableForme { variables.add($v.out); })* { $out = new TP2.ASD.Statement.Read(variables); }
+@init { List<TP2.ASD.VariableFormeInterface> variablesForme = new ArrayList<>(); }
+	: READ (v=variableForme { variablesForme.add($v.out); }) (VIRGULE v=variableForme { variablesForme.add($v.out); })* { $out = new TP2.ASD.Statement.Read(variablesForme); }
+	;
+
+funcCall returns [TP2.ASD.Statement.FunctionCall out]
+@init { List<TP2.ASD.ExpressionInterface> expressions = new ArrayList<>(); }
+	: IDENT LP (e=expression { expressions.add($e.out); })? RP { $out = new TP2.ASD.Statement.FunctionCall($IDENT.text, expressions); }
+	| IDENT LP (e=expression { expressions.add($e.out); }) (VIRGULE e=expression { expressions.add($e.out); })+ RP { $out = new TP2.ASD.Statement.FunctionCall($IDENT.text, expressions); }
 	;
 
 returnState returns [TP2.ASD.Statement.Return out]
 	: RETURN e=expression { $out = new TP2.ASD.Statement.Return($e.out); }
 	;
 
+// TODO : FAIRE UN INIT ARRAY (array[INT] et non array[expression]) pour la declaration
 declaration returns [TP2.ASD.Statement.Block.Declaration out]
 @init { List<TP2.ASD.VariableFormeInterface> variablesForme = new ArrayList<>(); }
     : t=varType (v=variableForme { variablesForme.add($v.out); }) { $out = new TP2.ASD.Statement.Block.Declaration($t.out, variablesForme); }
     | t=varType (v=variableForme { variablesForme.add($v.out); }) (VIRGULE v=variableForme { variablesForme.add($v.out); })+ { $out = new TP2.ASD.Statement.Block.Declaration($t.out, variablesForme); }
     ;
-    
+
 variableForme returns [TP2.ASD.VariableFormeInterface out]
 	: b=basicForme { $out = $b.out; }
 	| a=arrayForme { $out = $a.out; }
@@ -114,13 +125,14 @@ variableForme returns [TP2.ASD.VariableFormeInterface out]
 basicForme returns [TP2.ASD.VariableForme.Basic out]
 	: IDENT { $out = new TP2.ASD.VariableForme.Basic($IDENT.text); }
 	;
-	
+
 arrayForme returns [TP2.ASD.VariableForme.Array out]
-	: IDENT CL INTEGER CR { $out = new TP2.ASD.VariableForme.Array($IDENT.text, $INTEGER.int); }
+	: IDENT CL e=expression CR { $out = new TP2.ASD.VariableForme.Array($IDENT.text, $e.out); }
 	;
 
 expression returns [TP2.ASD.ExpressionInterface out]
 	: t=typeExpr { $out = $t.out; }
+	| f=funcCall { $out = $f.out; }
     | l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }
     | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.Expression.SubExpression($l.out, $r.out); }
     | eP=expressionPrioritaire { $out = $eP.out; }
