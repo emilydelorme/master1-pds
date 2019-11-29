@@ -1,11 +1,11 @@
-PROTO INT test(a, t[])
+PROTO INT test(a, t[], b)
 
 FUNC INT main()
 {
 	RETURN 0
 }
 
-FUNC INT test()
+FUNC INT test(a, t[], b)
 {
 	RETURN 0
 }
