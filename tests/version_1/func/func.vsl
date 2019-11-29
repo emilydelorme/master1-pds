@@ -1,0 +1,11 @@
+PROTO INT test(a, t[])
+
+FUNC INT main()
+{
+	RETURN 0
+}
+
+FUNC INT test()
+{
+	RETURN 0
+}

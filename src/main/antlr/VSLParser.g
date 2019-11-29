@@ -13,12 +13,18 @@ options {
   import java.util.Optional;
 }
 
-// TODO : other rules
+// =====================================================================
+// ---------- PROGRAM
+// =====================================================================
 
 program returns [TP2.ASD.Program out]
 @init { List<TP2.ASD.UnitInterface> units = new ArrayList<>(); }
     : (u=unit { units.add($u.out); } )* EOF { $out = new TP2.ASD.Program(units); }
     ;
+
+// =====================================================================
+// ---------- PROTO/FUNCTION
+// =====================================================================
 
 unit returns [TP2.ASD.UnitInterface out]
 	: p=prototype { $out = $p.out; }
@@ -34,12 +40,41 @@ function returns [TP2.ASD.Unit.Function out]
 	| FUNC t=funcType IDENT LP p=parameters RP b=block { $out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out); }
 	;
 
-// TODO : tableau en paramètre (t[])
-parameters returns [List<String> out]
-@init { List<String> parametres = new ArrayList<>(); }
-	: (IDENT { parametres.add($IDENT.text); } )? { $out = parametres; }
-	| (IDENT { parametres.add($IDENT.text); } ) (VIRGULE IDENT { parametres.add($IDENT.text); })+ { $out = parametres; }
+// =====================================================================
+// ---------- PARAMETERS (function parameter Basic/Array)
+// =====================================================================
+
+parameters returns [List<TP2.ASD.ParameterInterface> out]
+@init { List<TP2.ASD.ParameterInterface> parametres = new ArrayList<>(); }
+	: (p=parameterType { parametres.add($p.out); } )? { $out = parametres; }
+	| (p=parameterType { parametres.add($p.out); } ) (VIRGULE p2=parameterType { parametres.add($p2.out); })+ { $out = parametres; }
 	;
+
+parameterType returns [TP2.ASD.ParameterInterface out]
+	: b=parameterBasic { $out = $b.out; }
+	| a=parameterArray { $out = $a.out; }
+	;
+	
+parameterBasic returns [TP2.ASD.Parameter.Basic out]
+	: IDENT { $out = new TP2.ASD.Parameter.Basic($IDENT.text); }
+	;
+
+parameterArray returns [TP2.ASD.Parameter.Array out]
+	: IDENT CL CR { $out = new TP2.ASD.Parameter.Array($IDENT.text); }
+	;
+
+// =====================================================================
+// ---------- STATEMENT
+// * affectation
+// * if then fi
+// * if then else fi
+// * while do done
+// * block
+// * print
+// * read
+// * function call
+// * return
+// =====================================================================
 
 statement returns [TP2.ASD.StatementInterface out]
     : a=affectation { $out = $a.out; }
@@ -53,7 +88,7 @@ statement returns [TP2.ASD.StatementInterface out]
     | r2=returnState { $out = $r2.out; }
 	;
 
-// TODO : chainage des expression non géré, a := 1 + 1 + 1
+// TODO : chainage des expression non géré, a := 1 + 1 + 1 (rework expression ?)
 // modification à faire dans expression ?
 affectation returns [TP2.ASD.Statement.Affectation out]
     : v=variableForme EQUAL e=expression  { $out = new TP2.ASD.Statement.Affectation($v.out, $e.out); }

@@ -1,5 +1,6 @@
 package TP2.ASD.Unit;
 
+import TP2.ASD.ParameterInterface;
 import TP2.ASD.Ret;
 import TP2.ASD.UnitInterface;
 
@@ -8,14 +9,13 @@ import java.util.List;
 import TP2.ASD.TypeInterface;
 import TP2.exceptions.TypeException;;
 
-// prototype(type, IDENT, List<parametre>)
 public class Prototype implements UnitInterface
 {
     private TypeInterface type;
     private String ident;
-    private List<String> parametres;
+    private List<ParameterInterface> parametres;
     
-    public Prototype(TypeInterface type, String ident, List<String> parametres)
+    public Prototype(TypeInterface type, String ident, List<ParameterInterface> parametres)
     {
         this.type = type;
         this.ident = ident;
@@ -31,7 +31,7 @@ public class Prototype implements UnitInterface
         
         for (int i = 0; i < parametersSize; ++i)
         {
-            strParametres += this.parametres.get(i);
+            strParametres += this.parametres.get(i).pp();
             
             if (i < parametersSize - 1)
             {
@@ -39,7 +39,7 @@ public class Prototype implements UnitInterface
             }
         }
 
-        return "PROTO" + " " + this.type.pp() + " " + this.ident + "(" + strParametres + ")" + " ";
+        return "PROTO" + " " + this.type.pp() + " " + this.ident + "(" + strParametres + ")" + "";
     }
 
     @Override
