@@ -22,7 +22,9 @@ public class WhileStatement implements StatementInterface
     {
         return "WHILE " + expression.pp() +
                 "\n" +
-                block.pp() +
+                "DO" +
+                "\n" +
+                statement.pp() +
                 "\n" +
                 "DONE";
     }

@@ -1,6 +1,6 @@
 FUNC INT main()
 {
-	a := b + 5
+	a := b[2] + 3
 	RETURN 0
 }
 

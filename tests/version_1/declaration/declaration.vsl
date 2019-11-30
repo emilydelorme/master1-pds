@@ -1,6 +1,6 @@
 FUNC INT main()
 {
-	a := b + 5
+	INT a, b, c[10], s[25], p
 	RETURN 0
 }
 

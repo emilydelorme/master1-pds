@@ -1,6 +1,6 @@
 FUNC INT main()
 {
-	a := b + 5
+	PRINT "test", "test", 5 + a
 	RETURN 0
 }
 

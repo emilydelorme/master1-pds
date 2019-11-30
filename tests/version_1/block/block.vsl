@@ -1,0 +1,14 @@
+FUNC INT main()
+{
+	INT a, b[5]
+
+	a := 5
+
+	{
+		{
+			c := 5
+		}
+	}
+
+	RETURN 0
+}

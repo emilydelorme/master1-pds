@@ -23,6 +23,8 @@ LP    : '(' ; // Left parenthesis
 RP    : ')' ;
 AL	  : '{' ; // accolade gauche
 AR	  : '}' ;
+CL	  : '[' ; // crochet gauche
+CR	  : ']' ;
 ADD   : '+' ;
 SUB   : '-' ;
 MUL   : '*' ;
@@ -41,6 +43,8 @@ DONE  : 'DONE' ;
 PROTO : 'PROTO' ;
 FUNC  : 'FUNC' ;
 RETURN  : 'RETURN' ;
+PRINT  : 'PRINT' ;
+READ  : 'READ' ;
 
 // TODO : other keywords
 

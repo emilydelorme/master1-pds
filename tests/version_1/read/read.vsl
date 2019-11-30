@@ -1,6 +1,7 @@
 FUNC INT main()
 {
-	a := b + 5
+	READ n
+	READ b, d
 	RETURN 0
 }
 

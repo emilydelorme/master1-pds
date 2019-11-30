@@ -14,10 +14,10 @@ public class Function implements UnitInterface
 {
     private TypeInterface type;
     private String ident;
-    private List<String> parametres;
+    private List<ParameterInterface> parametres;
     private StatementInterface statement;
 
-    public Function(TypeInterface type, String ident, List<String> parametres, StatementInterface statement)
+    public Function(TypeInterface type, String ident, List<ParameterInterface> parametres, StatementInterface statement)
     {
         this.type = type;
         this.ident = ident;
@@ -35,7 +35,7 @@ public class Function implements UnitInterface
         
         for (int i = 0; i < parametersSize; ++i)
         {
-            strParametres += this.parametres.get(i);
+            strParametres += this.parametres.get(i).pp();
             
             if (i < parametersSize - 1)
             {

@@ -11,17 +11,33 @@ public class AddExpression implements ExpressionInterface
 {
     private ExpressionInterface left;
     private ExpressionInterface right;
+    private boolean parenthesis;
 
     public AddExpression(ExpressionInterface left, ExpressionInterface right)
     {
         this.left = left;
         this.right = right;
+        this.parenthesis = false;
     }
 
     // Pretty-printer
     public String pp()
     {
-        return left.pp() + " + " + right.pp();
+        String str = "";
+        
+        if (this.parenthesis)
+        {
+            str += "(";
+        }
+        
+        str += left.pp() + " + " + right.pp();
+        
+        if (this.parenthesis)
+        {
+            str += ")";
+        }
+        
+        return str;
     }
 
     // IR generation (IR = Représentation intermédiaire)
