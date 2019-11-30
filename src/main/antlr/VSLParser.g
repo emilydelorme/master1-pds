@@ -197,7 +197,7 @@ returnState returns [TP2.ASD.Statement.Return out]
 // =====================================================================
 
 expression returns [TP2.ASD.ExpressionInterface out]
-	: t=typeOfExpression { $out = $t.out; }
+	: t=unaryExpression { $out = $t.out; }
 	| f=funcCall { $out = $f.out; }
     | l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }
     | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.Expression.SubExpression($l.out, $r.out); }
@@ -211,15 +211,15 @@ expressionPrioritaire returns [TP2.ASD.ExpressionInterface out]
     ;
 
 factor returns [TP2.ASD.ExpressionInterface out]
-    : t=typeOfExpression { $out = $t.out; }
+    : t=unaryExpression { $out = $t.out; }
     | LP e=expression RP { $out = $e.out; }
     ;
 
 // =====================================================================
-// ---------- TYPE OF EXPRESSION
+// ---------- UNARY EXPRESSION
 // =====================================================================
 
-typeOfExpression returns [TP2.ASD.ExpressionInterface out]
+unaryExpression returns [TP2.ASD.ExpressionInterface out]
     : i=integerExpression { $out = $i.out; }
     | v=variableExpression { $out = $v.out; }
     ;
