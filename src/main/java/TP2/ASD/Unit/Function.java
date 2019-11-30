@@ -1,7 +1,7 @@
 package TP2.ASD.Unit;
 
 import TP2.ASD.ParameterInterface;
-import TP2.ASD.Ret;
+import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.UnitInterface;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class Function implements UnitInterface
     }
 
     @Override
-    public Ret toIR() throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         return null;
     }

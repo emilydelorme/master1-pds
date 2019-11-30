@@ -1,10 +1,8 @@
 package TP2.ASD.Expression;
 
 import TP2.ASD.ExpressionInterface;
-import TP2.ASD.Ret;
+import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.VariableFormInterface;
-import TP2.ASD.Types.Int;
-import TP2.Llvm;
 
 public class VariableExpression implements ExpressionInterface
 {
@@ -20,7 +18,7 @@ public class VariableExpression implements ExpressionInterface
         return this.variable.pp();
     }
 
-    public Ret toIR()
+    public TypeRet toIR()
     {
         return null;
     }

@@ -3,7 +3,7 @@ package TP2.ASD.Statement.Block;
 import java.util.List;
 import java.util.Optional;
 
-import TP2.ASD.Ret;
+import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.StatementInterface;
 import TP2.exceptions.TypeException;
 
@@ -58,7 +58,7 @@ public class Block implements StatementInterface
     }
 
     @Override
-    public Ret toIR() throws TypeException
+    public GenericRet toIR() throws TypeException
     {
 
         return null;

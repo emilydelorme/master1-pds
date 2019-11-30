@@ -1,7 +1,8 @@
 package TP2.ASD.Types;
 
 import TP2.ASD.TypeInterface;
-import TP2.Llvm;
+import TP2.Llvm.Type;
+import TP2.Llvm.Types.LlvmInt;
 
 public class Int implements TypeInterface
 {
@@ -16,8 +17,8 @@ public class Int implements TypeInterface
         return obj instanceof Int;
     }
 
-    public Llvm.Type toLlvmType()
+    public Type toLlvmType()
     {
-        return new Llvm.Int();
+        return new LlvmInt();
     }
 }
