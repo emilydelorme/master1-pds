@@ -1,0 +1,9 @@
+FUNC INT main()
+{
+	a := 5
+	b[3] := 10
+	b[2] := k
+	b[1] := v + 10
+	RETURN 0
+}
+

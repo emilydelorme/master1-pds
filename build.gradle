@@ -2,6 +2,7 @@ plugins {
   id 'java'
   id 'antlr'
   id 'eclipse'
+  id 'idea'
   id 'application'
 }
 

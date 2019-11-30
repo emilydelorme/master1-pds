@@ -2,7 +2,7 @@ package TP2;
 
 import java.util.Map;
 
-import TP2.ASD.Type;
+import TP2.ASD.TypeInterface;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,9 +24,9 @@ public class SymbolTable
 
     public static class VariableSymbol extends Symbol
     {
-        Type type;
+        TypeInterface type;
 
-        VariableSymbol(Type type,String ident)
+        VariableSymbol(TypeInterface type, String ident)
         {
             this.type = type;
             this.ident = ident;
@@ -48,11 +48,11 @@ public class SymbolTable
 
     public static class FunctionSymbol extends Symbol
     {
-        Type returnType;
+        TypeInterface returnType;
         List<VariableSymbol> arguments; // arguments is an ordered list of VariableSymbol
         boolean defined; // false if declared but not defined
 
-        FunctionSymbol(Type returnType,String ident,List<VariableSymbol> arguments,boolean defined)
+        FunctionSymbol(TypeInterface returnType, String ident, List<VariableSymbol> arguments, boolean defined)
         {
             this.returnType = returnType;
             this.ident = ident;

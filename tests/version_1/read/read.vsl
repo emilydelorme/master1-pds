@@ -1,0 +1,7 @@
+FUNC INT main()
+{
+	READ n
+	READ b, d
+	RETURN 0
+}
+

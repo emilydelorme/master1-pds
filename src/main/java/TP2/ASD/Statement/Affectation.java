@@ -1,27 +1,32 @@
 package TP2.ASD.Statement;
 
+import TP2.ASD.ExpressionInterface;
+import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.StatementInterface;
+import TP2.ASD.VariableFormInterface;
 import TP2.exceptions.TypeException;
 
-// Concrete class for Expression: add case
-public class Affectation implements StatementInterface {
-    private String ident;
-    private StatementInterface statementInterface;
+public class Affectation implements StatementInterface
+{
+    private VariableFormInterface variableForme;
+    private ExpressionInterface expression;
 
-    public Affectation(String ident, StatementInterface statementInterface) {
-      this.ident = ident;
-      this.statementInterface = statementInterface;
+    public Affectation(VariableFormInterface variableForme, ExpressionInterface expression)
+    {
+        this.variableForme = variableForme;
+        this.expression = expression;
     }
 
     // Pretty-printer
+    @Override
     public String pp()
     {
-        return this.ident + " = " + statementInterface.pp();
+        return this.variableForme.pp() + " := " + this.expression.pp();
     }
 
     @Override
-    public RetInstruction toIR() throws TypeException {
-
+    public GenericRet toIR() throws TypeException
+    {
         return null;
     }
 }
