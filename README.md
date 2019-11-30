@@ -1,7 +1,12 @@
 # Projet PDS ISTIC Année 2019-2020 Compilateur VSL+
 
 <p align="center">
-![](https://github.com/emilydelorme/master1-pds/workflows/Java%20CI/badge.svg)<br><br>
+    <a href="https://github.com/emilydelorme/master1-pds/actions"
+    ><img
+      src="https://github.com/emilydelorme/master1-pds/workflows/Java%20CI/badge.svg"
+      alt="GitHub Actions workflow status"
+  /></a>
+ <br><br>
 
 Compilateur VSL+<br>
 Réaliser à l'aide d'Antlr et LLVM
