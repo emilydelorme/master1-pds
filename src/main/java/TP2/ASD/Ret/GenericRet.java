@@ -8,10 +8,18 @@ public class GenericRet
 {
     private InstructionHandler ir;
     // And additional stuff:
+<<<<<<< Updated upstream
     private String result; // The name containing the expression's result
     // (either an identifier, or an immediate value)
 
     public GenericRet(InstructionHandler ir, String result)
+=======
+    private TypeInterface type; // The type of the expression
+    private String result; // The name containing the expression's result
+    // (either an identifier, or an immediate value)
+
+    public GenericRet(InstructionHandler ir, TypeInterface type, String result)
+>>>>>>> Stashed changes
     {
         this.ir = ir;
         this.result = result;
@@ -25,6 +33,36 @@ public class GenericRet
     public void setIr(InstructionHandler ir)
     {
         this.ir = ir;
+    }
+
+    public String getResult()
+    {
+        return result;
+    }
+
+    public void setResult(String result)
+    {
+        this.result = result;
+    }
+
+    public InstructionHandler getIr()
+    {
+        return ir;
+    }
+
+    public void setIr(InstructionHandler ir)
+    {
+        this.ir = ir;
+    }
+
+    public TypeInterface getType()
+    {
+        return type;
+    }
+
+    public void setType(TypeInterface type)
+    {
+        this.type = type;
     }
 
     public String getResult()
