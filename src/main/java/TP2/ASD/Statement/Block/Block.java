@@ -27,34 +27,30 @@ public class Block implements StatementInterface
     @Override
     public String pp()
     {
-        String str = "";
+        StringBuilder str = new StringBuilder();
 
         int statementSize = this.statements.size();
 
-        str += "{";
-        str += "\n";
+        str.append("{").append("\n");
 
-        if (this.declaration.isPresent())
-        {
-            //str += "\t";
-            str += this.declaration.get().pp();
-        }
+        //str += "\t";
+        this.declaration.ifPresent(value -> str.append(value.pp()));
 
         for (int i = 0; i < statementSize; ++i)
         {
             //str += "\t";
-            str += this.statements.get(i).pp();
+            str.append(this.statements.get(i).pp());
 
             if (i < statementSize - 1)
             {
-                str += "\n";
+                str.append("\n");
             }
         }
 
-        str += "\n";
-        str += "}";
+        str.append("\n");
+        str.append("}");
 
-        return str;
+        return str.toString();
     }
 
     @Override

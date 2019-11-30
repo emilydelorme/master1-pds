@@ -1,7 +1,6 @@
 package TP2.ASD.Ret;
 
 
-import TP2.ASD.TypeInterface;
 import TP2.Llvm.InstructionHandler;
 
 public class GenericRet

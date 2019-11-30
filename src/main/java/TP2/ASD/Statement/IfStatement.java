@@ -32,7 +32,6 @@ public class IfStatement implements StatementInterface
     @Override
     public GenericRet toIR() throws TypeException
     {
-        // TODO: IF to IR()
         return null;
     }
 }

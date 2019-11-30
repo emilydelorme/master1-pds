@@ -6,23 +6,22 @@ import TP2.exceptions.TypeException;
 
 public class Text implements ItemInterface
 {
-    private String text;
+    private String value;
 
-    public Text(String text)
+    public Text(String value)
     {
-        this.text = text;
+        this.value = value;
     }
 
     @Override
     public String pp()
     {
-        return this.text;
+        return this.value;
     }
 
     @Override
     public GenericRet toIR() throws TypeException
     {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -19,22 +19,22 @@ public class Read implements StatementInterface
     @Override
     public String pp()
     {
-        String str = "READ ";
+        StringBuilder str = new StringBuilder("READ ");
         
         int variablesSize = this.variablesForme.size();
         
         for(int i = 0; i < variablesSize; ++i)
         {
 
-            str += this.variablesForme.get(i).pp();
+            str.append(this.variablesForme.get(i).pp());
 
             if (i < variablesSize - 1)
             {
-                str += ", ";
+                str.append(", ");
             }
         }
         
-        return str;
+        return str.toString();
     }
 
     @Override

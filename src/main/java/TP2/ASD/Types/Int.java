@@ -4,6 +4,8 @@ import TP2.ASD.TypeInterface;
 import TP2.Llvm.Type;
 import TP2.Llvm.Types.LlvmInt;
 
+import java.util.Objects;
+
 public class Int implements TypeInterface
 {
     public String pp()
@@ -20,5 +22,11 @@ public class Int implements TypeInterface
     public Type toLlvmType()
     {
         return new LlvmInt();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash();
     }
 }

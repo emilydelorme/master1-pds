@@ -83,14 +83,14 @@ public class SymbolTable
     // Construct a new symbol table
     public SymbolTable()
     {
-        this.table = new HashMap<String, Symbol>();
+        this.table = new HashMap<>();
         this.parent = null;
     }
 
     // Construct a new symbol table with a parent
     public SymbolTable(SymbolTable parent)
     {
-        this.table = new HashMap<String, Symbol>();
+        this.table = new HashMap<>();
         this.parent = parent;
     }
 

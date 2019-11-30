@@ -1,6 +1,5 @@
 package TP2.ASD.Expression;
 
-import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.Ret.TypeRet;
 import TP2.Llvm.Instruction;
 import TP2.Llvm.Instructions.Operations.GenericOperation;

@@ -31,7 +31,6 @@ public class Program
     // IR generation
     public InstructionHandler toIR() throws TypeException, EmptyProgram
     {
-        // TODO : change when you extend the language
         if (this.unitInterface.isEmpty())
             throw new EmptyProgram("Programme vide");
 

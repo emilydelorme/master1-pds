@@ -21,26 +21,26 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
     @Override
     public String pp()
     {
-        String str = this.funcIdent;
+        StringBuilder str = new StringBuilder(this.funcIdent);
         
-        str += "(";
+        str.append("(");
         
         int variablesSize = this.expressions.size();
         
         for(int i = 0; i < variablesSize; ++i)
         {
 
-            str += this.expressions.get(i).pp();
+            str.append(this.expressions.get(i).pp());
 
             if (i < variablesSize - 1)
             {
-                str += ", ";
+                str.append(", ");
             }
         }
         
-        str += ")";
+        str.append(")");
         
-        return str;
+        return str.toString();
     }
 
     @Override

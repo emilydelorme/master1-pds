@@ -8,7 +8,7 @@ import java.util.List;
 
 import TP2.ASD.StatementInterface;
 import TP2.ASD.TypeInterface;
-import TP2.exceptions.TypeException;;
+import TP2.exceptions.TypeException;
 
 // function(type, IDENT, List<parametre>, statement)
 public class Function implements UnitInterface
@@ -30,17 +30,17 @@ public class Function implements UnitInterface
     @Override
     public String pp()
     {
-        String strParametres = "";
+        StringBuilder strParametres = new StringBuilder();
 
         int parametersSize = this.parametres.size();
         
         for (int i = 0; i < parametersSize; ++i)
         {
-            strParametres += this.parametres.get(i).pp();
+            strParametres.append(this.parametres.get(i).pp());
             
             if (i < parametersSize - 1)
             {
-                strParametres += ", ";
+                strParametres.append(", ");
             }
         }
 

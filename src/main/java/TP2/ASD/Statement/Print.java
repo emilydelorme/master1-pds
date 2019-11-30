@@ -19,7 +19,7 @@ public class Print implements StatementInterface
     @Override
     public String pp()
     {
-        String str = "PRINT ";
+        StringBuilder str = new StringBuilder("PRINT ");
         
         int itemsSize = this.items.size();
         
@@ -27,21 +27,21 @@ public class Print implements StatementInterface
         {
             if (this.items.get(i) instanceof TP2.ASD.Item.Expression)
             {
-                str += this.items.get(i).pp();
+                str.append(this.items.get(i).pp());
             }
             
             if (this.items.get(i) instanceof TP2.ASD.Item.Text)
             {
-                str += "\"" + this.items.get(i).pp() + "\"";
+                str.append("\"").append(this.items.get(i).pp()).append("\"");
             }
             
             if (i < itemsSize - 1)
             {
-                str += ", ";
+                str.append(", ");
             }
         }
         
-        return str;
+        return str.toString();
     }
 
     @Override

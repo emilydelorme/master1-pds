@@ -1,6 +1,6 @@
 package TP2;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -18,7 +18,7 @@ public class Utils
     private Utils() {}
 
     private static Map<TypeLabel, Integer> initLabelToInt() {
-        Map<TypeLabel, Integer> map = new HashMap<>();
+        Map<TypeLabel, Integer> map = new EnumMap<>(TypeLabel.class);
         map.put(TypeLabel.WHILE, 0);
         map.put(TypeLabel.DO, 0);
         map.put(TypeLabel.ELSE, 0);

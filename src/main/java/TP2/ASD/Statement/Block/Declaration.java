@@ -21,25 +21,25 @@ public class Declaration
     // Pretty-printer
     public String pp()
     {
-        String str = "";
+        StringBuilder str = new StringBuilder();
 
-        str += this.type.pp() + " ";
+        str.append(this.type.pp()).append(" ");
 
         int identsSize = this.variablesForme.size();
 
         for (int i = 0; i < identsSize; ++i)
         {
-            str += this.variablesForme.get(i).pp();
+            str.append(this.variablesForme.get(i).pp());
 
             if (i < identsSize - 1)
             {
-                str += ", ";
+                str.append(", ");
             }
         }
 
-        str += "\n";
+        str.append("\n");
 
-        return str;
+        return str.toString();
     }
 
     public GenericRet toIR() throws TypeException
