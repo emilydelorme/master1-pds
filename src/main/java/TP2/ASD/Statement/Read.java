@@ -1,12 +1,11 @@
 package TP2.ASD.Statement;
 
-import java.util.List;
-
-import TP2.ASD.ItemInterface;
-import TP2.ASD.Ret;
+import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.StatementInterface;
 import TP2.ASD.VariableFormInterface;
 import TP2.exceptions.TypeException;
+
+import java.util.List;
 
 public class Read implements StatementInterface
 {
@@ -39,7 +38,7 @@ public class Read implements StatementInterface
     }
 
     @Override
-    public Ret toIR() throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         return null;
     }

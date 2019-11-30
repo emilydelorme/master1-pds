@@ -3,7 +3,7 @@ package TP2.ASD.Statement;
 import java.util.List;
 
 import TP2.ASD.ExpressionInterface;
-import TP2.ASD.Ret;
+import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.StatementInterface;
 import TP2.exceptions.TypeException;
 
@@ -44,7 +44,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
     }
 
     @Override
-    public Ret toIR() throws TypeException
+    public TypeRet toIR() throws TypeException
     {
         return null;
     }

@@ -1,7 +1,7 @@
 package TP2.ASD.Item;
 
 import TP2.ASD.ItemInterface;
-import TP2.ASD.Ret;
+import TP2.ASD.Ret.GenericRet;
 import TP2.exceptions.TypeException;
 
 public class Text implements ItemInterface
@@ -20,7 +20,7 @@ public class Text implements ItemInterface
     }
 
     @Override
-    public Ret toIR() throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         // TODO Auto-generated method stub
         return null;

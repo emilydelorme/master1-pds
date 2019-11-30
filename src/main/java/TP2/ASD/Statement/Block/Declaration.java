@@ -2,7 +2,7 @@ package TP2.ASD.Statement.Block;
 
 import java.util.List;
 
-import TP2.ASD.Ret;
+import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.TypeInterface;
 import TP2.ASD.VariableFormDeclarationInterface;
 import TP2.exceptions.TypeException;
@@ -42,7 +42,7 @@ public class Declaration
         return str;
     }
 
-    public Ret toIR() throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         return null;
     }

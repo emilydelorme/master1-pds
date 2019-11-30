@@ -1,6 +1,7 @@
 package TP2.ASD.Ret;
 
 import TP2.ASD.TypeInterface;
+import TP2.ASD.Types.Void;
 import TP2.Llvm.InstructionHandler;
 
 public class TypeRet extends GenericRet
@@ -11,6 +12,12 @@ public class TypeRet extends GenericRet
     public TypeRet(InstructionHandler ir, String result, TypeInterface type)
     {
         super(ir, result);
+        this.type = type;
+    }
+
+    public TypeRet(GenericRet genericRet, TypeInterface type)
+    {
+        super(genericRet.getIr(), genericRet.getResult());
         this.type = type;
     }
 

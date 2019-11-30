@@ -1,7 +1,7 @@
 package TP2.ASD.VariableForm;
 
+import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.VariableFormInterface;
-import TP2.ASD.Ret;
 import TP2.exceptions.TypeException;
 
 public class Basic implements VariableFormInterface
@@ -21,7 +21,7 @@ public class Basic implements VariableFormInterface
     }
 
     @Override
-    public Ret toIR() throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         return null;
     }
