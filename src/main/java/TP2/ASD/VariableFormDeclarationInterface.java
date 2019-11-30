@@ -2,7 +2,7 @@ package TP2.ASD;
 
 import TP2.exceptions.TypeException;
 
-public interface VariableFormeInterface
+public interface VariableFormDeclarationInterface
 {
     String pp();
 

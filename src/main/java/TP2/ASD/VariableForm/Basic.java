@@ -1,10 +1,10 @@
-package TP2.ASD.VariableForme;
+package TP2.ASD.VariableForm;
 
-import TP2.ASD.VariableFormeInterface;
+import TP2.ASD.VariableFormInterface;
 import TP2.ASD.Ret;
 import TP2.exceptions.TypeException;
 
-public class Basic implements VariableFormeInterface
+public class Basic implements VariableFormInterface
 {
     private String ident;
 

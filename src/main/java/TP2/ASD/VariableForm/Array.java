@@ -1,11 +1,11 @@
-package TP2.ASD.VariableForme;
+package TP2.ASD.VariableForm;
 
-import TP2.ASD.VariableFormeInterface;
+import TP2.ASD.VariableFormInterface;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret;
 import TP2.exceptions.TypeException;
 
-public class Array implements VariableFormeInterface
+public class Array implements VariableFormInterface
 {
     private String ident;
     private ExpressionInterface expression;

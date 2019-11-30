@@ -3,15 +3,15 @@ package TP2.ASD.Statement;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret;
 import TP2.ASD.StatementInterface;
-import TP2.ASD.VariableFormeInterface;
+import TP2.ASD.VariableFormInterface;
 import TP2.exceptions.TypeException;
 
 public class Affectation implements StatementInterface
 {
-    private VariableFormeInterface variableForme;
+    private VariableFormInterface variableForme;
     private ExpressionInterface expression;
 
-    public Affectation(VariableFormeInterface variableForme, ExpressionInterface expression)
+    public Affectation(VariableFormInterface variableForme, ExpressionInterface expression)
     {
         this.variableForme = variableForme;
         this.expression = expression;

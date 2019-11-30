@@ -5,14 +5,14 @@ import java.util.List;
 import TP2.ASD.ItemInterface;
 import TP2.ASD.Ret;
 import TP2.ASD.StatementInterface;
-import TP2.ASD.VariableFormeInterface;
+import TP2.ASD.VariableFormInterface;
 import TP2.exceptions.TypeException;
 
 public class Read implements StatementInterface
 {
-    private List<VariableFormeInterface> variablesForme;
+    private List<VariableFormInterface> variablesForme;
 
-    public Read(List<VariableFormeInterface> variablesForme)
+    public Read(List<VariableFormInterface> variablesForme)
     {
         this.variablesForme = variablesForme;
     }

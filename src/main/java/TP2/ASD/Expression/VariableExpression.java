@@ -2,15 +2,15 @@ package TP2.ASD.Expression;
 
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret;
-import TP2.ASD.VariableFormeInterface;
+import TP2.ASD.VariableFormInterface;
 import TP2.ASD.Types.Int;
 import TP2.Llvm;
 
 public class VariableExpression implements ExpressionInterface
 {
-    private VariableFormeInterface variable;
+    private VariableFormInterface variable;
 
-    public VariableExpression(VariableFormeInterface variable)
+    public VariableExpression(VariableFormInterface variable)
     {
         this.variable = variable;
     }

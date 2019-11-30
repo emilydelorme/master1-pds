@@ -2,17 +2,17 @@ package TP2.ASD.Statement.Block;
 
 import java.util.List;
 
-import TP2.ASD.VariableFormeInterface;
 import TP2.ASD.Ret;
 import TP2.ASD.TypeInterface;
+import TP2.ASD.VariableFormDeclarationInterface;
 import TP2.exceptions.TypeException;
 
 public class Declaration
 {
     private TypeInterface type;
-    private List<VariableFormeInterface> variablesForme;
+    private List<VariableFormDeclarationInterface> variablesForme;
 
-    public Declaration(TypeInterface type, List<VariableFormeInterface> idents)
+    public Declaration(TypeInterface type, List<VariableFormDeclarationInterface> idents)
     {
         this.type = type;
         this.variablesForme = idents;
