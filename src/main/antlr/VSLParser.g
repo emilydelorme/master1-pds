@@ -92,8 +92,6 @@ statement returns [TP2.ASD.StatementInterface out]
 // ## affectation
 // ------------------------------------
 
-// TODO : chainage des expression non géré, a := 1 + 1 + 1 (rework expression ?)
-// modification à faire dans expression ?
 affectation returns [TP2.ASD.Statement.Affectation out]
     : v=variableForm EQUAL e=expression  { $out = new TP2.ASD.Statement.Affectation($v.out, $e.out); }
     ;
@@ -131,7 +129,6 @@ block returns [TP2.ASD.Statement.Block.Block out]
 	: AL (d=declaration) (s=statement { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(Optional.of($d.out), statements); }
 	| AL (s=statement { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(statements); }
 	;
-
 
 // ******** DECLARATION ********
 
@@ -196,32 +193,24 @@ returnState returns [TP2.ASD.Statement.Return out]
 // ---------- EXPRESSION
 // =====================================================================
 
+// https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md
+// https://stackoverflow.com/questions/44531576/why-does-antlr-require-all-or-none-alternatives-be-labeled
+
 expression returns [TP2.ASD.ExpressionInterface out]
-	: t=unaryExpression { $out = $t.out; }
-	| f=funcCall { $out = $f.out; }
-    | l=expressionPrioritaire ADD r=expressionPrioritaire  { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }
-    | l=expressionPrioritaire SUB r=expressionPrioritaire  { $out = new TP2.ASD.Expression.SubExpression($l.out, $r.out); }
-    | eP=expressionPrioritaire { $out = $eP.out; }
-    ;
+	: l=expression MUL r=expression { $out = new TP2.ASD.Expression.MulExpression($l.out, $r.out); }	# MultExpr
+	| l=expression DIV r=expression { $out = new TP2.ASD.Expression.DivExpression($l.out, $r.out); }	# DivExpr
+	| l=expression ADD r=expression { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }	# AddExpr
+	| l=expression SUB r=expression { $out = new TP2.ASD.Expression.SubExpression($l.out, $r.out); }	# SubExpr
+	| LP e=expression RP { $out = $e.out; }																# ParenthesisExpr
+	| at=atomicExpression { $out = $at.out; }															# AtomicExpr
+	;
 
-expressionPrioritaire returns [TP2.ASD.ExpressionInterface out]
-    : l=factor MUL r=factor  { $out = new TP2.ASD.Expression.MulExpression($l.out, $r.out); }
-    | l=factor DIV r=factor  { $out = new TP2.ASD.Expression.DivExpression($l.out, $r.out); }
-    | f=factor { $out = $f.out; }
-    ;
+// ******** ATOMIC EXPRESSION ********
 
-factor returns [TP2.ASD.ExpressionInterface out]
-    : t=unaryExpression { $out = $t.out; }
-    | LP e=expression RP { $out = $e.out; }
-    ;
-
-// =====================================================================
-// ---------- UNARY EXPRESSION
-// =====================================================================
-
-unaryExpression returns [TP2.ASD.ExpressionInterface out]
+atomicExpression returns [TP2.ASD.ExpressionInterface out]
     : i=integerExpression { $out = $i.out; }
     | v=variableExpression { $out = $v.out; }
+    | f=funcCall { $out = $f.out; }
     ;
 
 integerExpression returns [TP2.ASD.Expression.IntegerExpression out]

@@ -1,0 +1,7 @@
+FUNC INT main()
+{
+	a := 1 + 1 + 1 / test(c) * 3 - b + f[5 + n[5 / 2]]
+	j := 5 + (2 - 3) + (call(tds / 2 + (5 + call2(3))) - 1)
+	
+	RETURN 0
+}
