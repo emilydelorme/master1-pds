@@ -11,8 +11,12 @@ repositories {
 }
 
 dependencies {
-  antlr 'org.antlr:antlr4:4.7.1'
-  testImplementation 'junit:junit:4.12'
+  antlr('org.antlr:antlr4:4.7.2')
+  testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+}
+
+test {
+    useJUnitPlatform()
 }
 
 generateGrammarSource {
