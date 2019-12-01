@@ -1,89 +1,107 @@
 package TP2;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
-import junit.framework.TestCase;
-import org.junit.*;
+
+import org.junit.jupiter.api.Test;
 
 import TP2.ASD.Types.Int;
+import TP2.SymbolTable.FunctionSymbol;
+import TP2.SymbolTable.Symbol;
+import TP2.SymbolTable.SymbolTable;
+import TP2.SymbolTable.VariableSymbol;
 
-import static org.junit.Assert.assertNotEquals;
+public class SymbolTableTest
+{
+    @Test
+    public void testLookupEmpty()
+    {
+        SymbolTable table = new SymbolTable();
 
+        assertNull(table.lookup("unknown"));
+    }
 
-public class SymbolTableTest extends TestCase {
-  @Test
-  public static void testLookupEmpty() {
-    SymbolTable table = new SymbolTable();
+    @Test
+    public void testSimple()
+    {
+        SymbolTable table = new SymbolTable();
+        Symbol symbol = new VariableSymbol(new Int(), "key");
 
-    assertNull(table.lookup("unknown"));
-  }
+        assertTrue(table.add(symbol));
 
-  @Test
-  public static void testSimple() {
-    SymbolTable table = new SymbolTable();
-    SymbolTable.Symbol sym = new SymbolTable.VariableSymbol(new Int(), "key");
+        assertNull(table.lookup("unknown"));
+        assertNotNull(table.lookup(symbol.getIdent()));
+        assertEquals(table.lookup(symbol.getIdent()), symbol);
 
-    assertTrue(table.add(sym));
+        assertTrue(table.remove(symbol.getIdent()));
+        assertFalse(table.remove(symbol.getIdent()));
 
-    assertNull(table.lookup("unknown"));
-    assertNotNull(table.lookup(sym.ident));
-    assertEquals(table.lookup(sym.ident), sym);
+        assertNull(table.lookup(symbol.getIdent()));
+    }
 
-    assertTrue(table.remove(sym.ident));
-    assertFalse(table.remove(sym.ident));
+    @Test
+    public void testParent()
+    {
+        SymbolTable parent = new SymbolTable();
+        Symbol symbol = new VariableSymbol(new Int(), "key");
 
-    assertNull(table.lookup(sym.ident));
-  }
+        assertTrue(parent.add(symbol));
 
-  @Test
-  public static void testParent() {
-    SymbolTable parent = new SymbolTable();
-    SymbolTable.Symbol sym = new SymbolTable.VariableSymbol(new Int(), "key");
+        SymbolTable table = new SymbolTable();
+        table.setParent(parent);
 
-    assertTrue(parent.add(sym));
+        Symbol symbol2 = new VariableSymbol(new Int(), "key2");
 
-    SymbolTable table = new SymbolTable(parent);
-    SymbolTable.Symbol sym2 = new SymbolTable.VariableSymbol(new Int(), "key2");
+        assertTrue(table.add(symbol2));
 
-    assertTrue(table.add(sym2));
+        assertEquals(table.lookup(symbol2.getIdent()), symbol2);
+        assertEquals(table.lookup(symbol.getIdent()), symbol); // in parent
 
-    assertEquals(table.lookup(sym2.ident), sym2);
-    assertEquals(table.lookup(sym.ident), sym); // in parent
+        assertFalse(table.remove(symbol.getIdent())); // in parent
+        assertTrue(table.remove(symbol2.getIdent()));
+    }
 
-    assertFalse(table.remove(sym.ident)); // in parent
-    assertTrue(table.remove(sym2.ident));
-  }
+    @Test
+    public void testEquals()
+    {
+        SymbolTable table = new SymbolTable();
+        SymbolTable table2 = new SymbolTable();
+        
+        Symbol symbol = new VariableSymbol(new Int(), "key");
+        Symbol symbol2 = new VariableSymbol(new Int(), "key2");
 
-  @Test
-  public static void testEquals() {
-    SymbolTable table = new SymbolTable();
-    SymbolTable table2 = new SymbolTable();
-    SymbolTable.Symbol sym = new SymbolTable.VariableSymbol(new Int(), "key");
-    SymbolTable.Symbol sym2 = new SymbolTable.VariableSymbol(new Int(), "key2");
+        assertNotEquals(symbol, symbol2);
+        assertEquals(table, table2);
 
-    assertNotEquals(sym, sym2);
-    assertEquals(table, table2);
+        assertTrue(table.add(symbol));
+        assertTrue(table2.add(symbol2));
 
-    assertTrue(table.add(sym));
-    assertTrue(table2.add(sym2));
+        assertNotEquals(table, table2);
 
-    assertNotEquals(table, table2);
+        assertTrue(table2.add(symbol));
+        assertTrue(table.add(symbol2));
 
-    assertTrue(table2.add(sym));
-    assertTrue(table.add(sym2));
+        assertEquals(table, table2);
 
-    assertEquals(table, table2);
+        ArrayList<VariableSymbol> arguments = new ArrayList<VariableSymbol>();
 
-    ArrayList<SymbolTable.VariableSymbol> arguments = new ArrayList<SymbolTable.VariableSymbol>();
-    SymbolTable.VariableSymbol arg0 = new SymbolTable.VariableSymbol(new Int(), "arg0");
-    SymbolTable.VariableSymbol arg1 = new SymbolTable.VariableSymbol(new Int(), "arg1");
-    arguments.add(0, arg0);
-    arguments.add(0, arg1);
+        VariableSymbol arg0 = new VariableSymbol(new Int(), "arg0");
+        VariableSymbol arg1 = new VariableSymbol(new Int(), "arg1");
 
-    SymbolTable.Symbol fun = new SymbolTable.FunctionSymbol(new Int(), "fun", arguments, true);
-    SymbolTable.Symbol fun2 = new SymbolTable.FunctionSymbol(new Int(), "fun2", new ArrayList<SymbolTable.VariableSymbol>(), true);
+        arguments.add(0, arg0);
+        arguments.add(0, arg1);
 
-    assertNotEquals(fun, fun2);
-    assertTrue(table2.add(fun));
-    assertNotEquals(table, table2);
-  }
+        Symbol fun = new FunctionSymbol(new Int(), "fun", arguments, true);
+        Symbol fun2 = new FunctionSymbol(new Int(), "fun2", new ArrayList<VariableSymbol>(), true);
+
+        assertNotEquals(fun, fun2);
+        assertTrue(table2.add(fun));
+        assertNotEquals(table, table2);
+    }
 }
