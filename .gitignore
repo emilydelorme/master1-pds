@@ -135,6 +135,9 @@ local.properties
 .gradle
 /build/
 
+### Eclipse ANTLR plugin
+/target/
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
