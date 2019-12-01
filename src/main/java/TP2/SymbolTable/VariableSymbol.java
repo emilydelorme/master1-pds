@@ -6,12 +6,24 @@ import TP2.ASD.TypeInterface;
 public class VariableSymbol extends Symbol
 {
     private TypeInterface type;
+    private boolean isArray;
 
-    public VariableSymbol(TypeInterface type, String ident)
+    public VariableSymbol(TypeInterface type, String ident, boolean isArray)
     {
         super(ident);
 
         this.type = type;
+        this.isArray = isArray;
+    }
+
+    public TypeInterface getType()
+    {
+        return type;
+    }
+
+    public boolean isArray()
+    {
+        return isArray;
     }
 
     @Override
@@ -39,6 +51,11 @@ public class VariableSymbol extends Symbol
         
         final VariableSymbol other = (VariableSymbol) obj;
 
+        if (this.isArray != other.isArray)
+        {
+            return false;
+        }
+        
         if (!Objects.equals(this.type, other.type))
         {
             return false;

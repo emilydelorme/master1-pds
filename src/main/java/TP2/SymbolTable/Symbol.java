@@ -15,6 +15,12 @@ public abstract class Symbol
     {
         return this.ident;
     }
+    
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.ident);
+    }
 
     @Override
     public boolean equals(Object obj)

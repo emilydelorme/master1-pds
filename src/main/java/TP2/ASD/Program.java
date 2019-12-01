@@ -7,16 +7,19 @@ import TP2.ASD.Types.Void;
 import TP2.Llvm.Instruction;
 import TP2.Llvm.InstructionHandler;
 import TP2.Llvm.Instructions.Return;
+import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
 
 public class Program
 {
     private List<UnitInterface> unitInterface;
+    private SymbolTable symbolTable;
 
-    public Program(List<UnitInterface> unitInterface)
+    public Program(List<UnitInterface> unitInterface, SymbolTable symbolTable)
     {
         this.unitInterface = unitInterface;
+        this.symbolTable = symbolTable;
     }
 
     // Pretty-printer

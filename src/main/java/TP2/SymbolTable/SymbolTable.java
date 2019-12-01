@@ -23,7 +23,6 @@ public class SymbolTable
 
     public boolean add(Symbol symbol)
     {
-
         if (symbol == null)
         {
             return false;

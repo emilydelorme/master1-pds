@@ -31,7 +31,7 @@ public class SymbolTableTest
     public void testSimple()
     {
         SymbolTable table = new SymbolTable();
-        Symbol symbol = new VariableSymbol(new Int(), "key");
+        Symbol symbol = new VariableSymbol(new Int(), "key", false);
 
         assertTrue(table.add(symbol));
 
@@ -49,14 +49,14 @@ public class SymbolTableTest
     public void testParent()
     {
         SymbolTable parent = new SymbolTable();
-        Symbol symbol = new VariableSymbol(new Int(), "key");
+        Symbol symbol = new VariableSymbol(new Int(), "key", false);
 
         assertTrue(parent.add(symbol));
 
         SymbolTable table = new SymbolTable();
         table.setParent(parent);
 
-        Symbol symbol2 = new VariableSymbol(new Int(), "key2");
+        Symbol symbol2 = new VariableSymbol(new Int(), "key2", false);
 
         assertTrue(table.add(symbol2));
 
@@ -73,8 +73,8 @@ public class SymbolTableTest
         SymbolTable table = new SymbolTable();
         SymbolTable table2 = new SymbolTable();
         
-        Symbol symbol = new VariableSymbol(new Int(), "key");
-        Symbol symbol2 = new VariableSymbol(new Int(), "key2");
+        Symbol symbol = new VariableSymbol(new Int(), "key", false);
+        Symbol symbol2 = new VariableSymbol(new Int(), "key2", false);
 
         assertNotEquals(symbol, symbol2);
         assertEquals(table, table2);
@@ -91,8 +91,8 @@ public class SymbolTableTest
 
         ArrayList<VariableSymbol> arguments = new ArrayList<VariableSymbol>();
 
-        VariableSymbol arg0 = new VariableSymbol(new Int(), "arg0");
-        VariableSymbol arg1 = new VariableSymbol(new Int(), "arg1");
+        VariableSymbol arg0 = new VariableSymbol(new Int(), "arg0", false);
+        VariableSymbol arg1 = new VariableSymbol(new Int(), "arg1", false);
 
         arguments.add(0, arg0);
         arguments.add(0, arg1);
