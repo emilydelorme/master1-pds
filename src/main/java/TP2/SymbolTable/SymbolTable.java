@@ -65,7 +65,6 @@ public class SymbolTable
 
     public Symbol lookup(String ident)
     {
-
         if (ident == null)
         {
             return null;

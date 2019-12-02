@@ -1,4 +1,4 @@
-PROTO INT toto()
+PROTO INT toto(a, t[])
 
 FUNC INT main()
 {
@@ -10,7 +10,7 @@ FUNC INT main()
 		{
 			INT c
 			
-			c := c + 5
+			c := toto(a, b)
 		}
 	}
 

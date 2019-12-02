@@ -209,8 +209,8 @@ read[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Read ou
 
 funcCall[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.FunctionCall out]
 @init { List<TP2.ASD.ExpressionInterface> expressions = new ArrayList<>(); }
-	: IDENT LP (e=expression[symbolTable] { expressions.add($e.out); })? RP { $out = new TP2.ASD.Statement.FunctionCall($IDENT.text, expressions); }
-	| IDENT LP (e=expression[symbolTable] { expressions.add($e.out); }) (VIRGULE e=expression[symbolTable] { expressions.add($e.out); })+ RP { $out = new TP2.ASD.Statement.FunctionCall($IDENT.text, expressions); }
+	: IDENT LP (e=expression[symbolTable] { expressions.add($e.out); })? RP { $out = new TP2.ASD.Statement.FunctionCall($IDENT.text, expressions, $symbolTable); }
+	| IDENT LP (e=expression[symbolTable] { expressions.add($e.out); }) (VIRGULE e=expression[symbolTable] { expressions.add($e.out); })+ RP { $out = new TP2.ASD.Statement.FunctionCall($IDENT.text, expressions, $symbolTable); }
 	;
 
 // ------------------------------------

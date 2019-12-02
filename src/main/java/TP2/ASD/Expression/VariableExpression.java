@@ -7,18 +7,23 @@ import TP2.ASD.VariableFormInterface;
 
 public class VariableExpression implements ExpressionInterface
 {
-    private VariableFormInterface variable;
+    private VariableFormInterface variableForm;
     private SymbolTable symbolTable;
 
     public VariableExpression(VariableFormInterface variable, SymbolTable symbolTable)
     {
-        this.variable = variable;
+        this.variableForm = variable;
         this.symbolTable = symbolTable;
+    }
+
+    public VariableFormInterface getVariableForm()
+    {
+        return variableForm;
     }
 
     public String pp()
     {
-        return this.variable.pp();
+        return this.variableForm.pp();
     }
 
     public TypeRet toIR()

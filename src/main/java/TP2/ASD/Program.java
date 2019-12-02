@@ -2,7 +2,7 @@ package TP2.ASD;
 
 import java.util.List;
 
-import TP2.errorHandlerInterface;
+import TP2.ErrorHandlerInterface;
 import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.Types.Void;
 import TP2.ASD.Unit.Function;
@@ -14,7 +14,7 @@ import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
 
-public class Program implements errorHandlerInterface
+public class Program implements ErrorHandlerInterface
 {
     private List<UnitInterface> unitInterface;
     private SymbolTable symbolTable;
@@ -25,7 +25,6 @@ public class Program implements errorHandlerInterface
         this.symbolTable = symbolTable;
     }
     
-
     @Override
     public void exitWithMessage(String message)
     {

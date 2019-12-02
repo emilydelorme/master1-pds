@@ -1,6 +1,6 @@
 package TP2;
 
-public interface errorHandlerInterface
+public interface ErrorHandlerInterface
 {
     void exitWithMessage(String message);
     
