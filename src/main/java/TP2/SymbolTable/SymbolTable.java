@@ -62,6 +62,11 @@ public class SymbolTable
 
         return true;
     }
+    
+    public Symbol[] getValuesToArray()
+    {
+        return this.table.values().toArray(new Symbol[0]);
+    }
 
     public Symbol lookup(String ident)
     {

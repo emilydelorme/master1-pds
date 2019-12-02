@@ -9,10 +9,17 @@ FUNC INT main()
 	{
 		{
 			INT c
-			
-			c := toto(a, b)
+
+			c := 5
+
+			c := toto(a + 5, b + 1)
 		}
 	}
 
+	RETURN 0
+}
+
+FUNC INT toto(a, t[])
+{
 	RETURN 0
 }

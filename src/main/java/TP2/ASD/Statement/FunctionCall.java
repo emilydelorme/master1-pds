@@ -40,55 +40,49 @@ public class FunctionCall implements StatementInterface, ExpressionInterface, Er
     {
         Symbol symbol = this.symbolTable.lookup(this.funcIdent);
 
-        if (symbol == null)
-        {
-            exitWithMessage(String.format("unknown function call (%s)", this.funcIdent));
-        }
-        
         if (symbol instanceof PrototypeSymbol)
         {
             PrototypeSymbol prototypeSymbol = (PrototypeSymbol)symbol;
-            
+
             if (!prototypeSymbol.isDefined())
             {
-                exitWithMessage(String.format("function not defined (%s)", this.funcIdent));
+                exitWithMessage(String.format("[Function call] (%s) function not defined", this.funcIdent));
             }
             
             if (prototypeSymbol.getArguments().size() != this.expressions.size())
             {
-                exitWithMessage("wrong parameters number");
+                exitWithMessage("[Function call] mismatch parameters number");
             }
             
             int argumentsSize = prototypeSymbol.getArguments().size();
             
             for (int i = 0; i < argumentsSize; ++i)
             {
-                ExpressionInterface tmpExpression = this.expressions.get(i);
-
-                if (tmpExpression instanceof VariableExpression)
+                VariableSymbol prototypeVariableSymbol = prototypeSymbol.getArguments().get(i);
+                ExpressionInterface currentCallParameter = this.expressions.get(i);
+                VariableSymbol functionCallParameterVariableSymbol = (VariableSymbol)this.symbolTable.lookup(((VariableExpression)this.expressions.get(i)).getVariableForm().getIdent());
+                
+                if (currentCallParameter instanceof VariableExpression)
                 {
-                    VariableExpression variableExpression = (VariableExpression)tmpExpression;
-                    
-                    Symbol tmpSymbol = this.symbolTable.lookup(variableExpression.getVariableForm().getIdent());
-                    
-                    if (tmpSymbol instanceof VariableSymbol)
+                    if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray())
                     {
-                        VariableSymbol variableSymbol = (VariableSymbol)tmpSymbol;
-                        
-                        if (prototypeSymbol.getArguments().get(i).isArray() && !variableSymbol.isArray())
-                        {
-                            exitWithMessage(String.format("wrong parameter form, needed an array on parameter number (%d)", i));
-                        }
-                        
-                        if (!prototypeSymbol.getArguments().get(i).isArray() && variableSymbol.isArray())
-                        {
-                            exitWithMessage(String.format("wrong parameter form, needed a basic variable on parameter number (%d)", i));
-                        }
+                        exitWithMessage(String.format("[Function call] (%s) needs to be an array", functionCallParameterVariableSymbol.getIdent()));
+                    }
+                    
+                    if (!prototypeVariableSymbol.isArray() && functionCallParameterVariableSymbol.isArray())
+                    {
+                        exitWithMessage(String.format("[Function call] (%s) needs to be a normal variable", functionCallParameterVariableSymbol.getIdent()));
                     }
                 }
-                
-                // TODO: check si c'est autre chose qu'une VariableExpression alors qu'on veut un array
+                else if (!(currentCallParameter instanceof VariableExpression) && prototypeVariableSymbol.isArray())
+                {
+                    exitWithMessage(String.format("[Function call] (%s) needs to be an array", functionCallParameterVariableSymbol.getIdent()));
+                }
             }
+        }
+        else
+        {
+            exitWithMessage(String.format("[Function call] (%s) unknown function name", this.funcIdent));
         }
     }
 
@@ -105,7 +99,6 @@ public class FunctionCall implements StatementInterface, ExpressionInterface, Er
         
         for(int i = 0; i < variablesSize; ++i)
         {
-
             str.append(this.expressions.get(i).pp());
 
             if (i < variablesSize - 1)

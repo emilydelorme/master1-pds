@@ -10,9 +10,9 @@ public class VariableExpression implements ExpressionInterface
     private VariableFormInterface variableForm;
     private SymbolTable symbolTable;
 
-    public VariableExpression(VariableFormInterface variable, SymbolTable symbolTable)
+    public VariableExpression(VariableFormInterface variableForm, SymbolTable symbolTable)
     {
-        this.variableForm = variable;
+        this.variableForm = variableForm;
         this.symbolTable = symbolTable;
     }
 
