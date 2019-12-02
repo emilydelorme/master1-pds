@@ -5,7 +5,6 @@ import java.util.List;
 import TP2.ErrorHandlerInterface;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.TypeRet;
-import TP2.ASD.VariableForm.Array;
 import TP2.SymbolTable.PrototypeSymbol;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
@@ -60,10 +59,11 @@ public class FunctionCall implements StatementInterface, ExpressionInterface, Er
             {
                 VariableSymbol prototypeVariableSymbol = prototypeSymbol.getArguments().get(i);
                 ExpressionInterface currentCallParameter = this.expressions.get(i);
-                VariableSymbol functionCallParameterVariableSymbol = (VariableSymbol)this.symbolTable.lookup(((VariableExpression)this.expressions.get(i)).getVariableForm().getIdent());
-                
+
                 if (currentCallParameter instanceof VariableExpression)
                 {
+                    VariableSymbol functionCallParameterVariableSymbol = (VariableSymbol)this.symbolTable.lookup(((VariableExpression)this.expressions.get(i)).getVariableForm().getIdent());
+                    
                     if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray())
                     {
                         exitWithMessage(String.format("[Function call] (%s) needs to be an array", functionCallParameterVariableSymbol.getIdent()));
@@ -76,7 +76,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface, Er
                 }
                 else if (!(currentCallParameter instanceof VariableExpression) && prototypeVariableSymbol.isArray())
                 {
-                    exitWithMessage(String.format("[Function call] (%s) needs to be an array", functionCallParameterVariableSymbol.getIdent()));
+                    exitWithMessage(String.format("[Function call] (%s) needs to be an array", currentCallParameter.pp()));
                 }
             }
         }
