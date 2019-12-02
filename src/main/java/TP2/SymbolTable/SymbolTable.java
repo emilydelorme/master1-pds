@@ -28,19 +28,28 @@ public class SymbolTable
             return false;
         }
 
-        if (this.table.containsKey(symbol.getIdent()))
+        Symbol tmpSymbol = this.table.get(symbol.getIdent());
+
+        if (tmpSymbol instanceof PrototypeSymbol && symbol instanceof FunctionSymbol)
+        {
+            PrototypeSymbol prototypeSymbol = (PrototypeSymbol)tmpSymbol;
+            
+            prototypeSymbol.setDefined(true);
+        }
+        else if (tmpSymbol != null)
         {
             return false;
         }
-
-        this.table.put(symbol.getIdent(), symbol);
+        else
+        {
+            this.table.put(symbol.getIdent(), symbol);
+        }
 
         return true;
     }
 
     public boolean remove(String ident)
     {
-
         if (ident == null)
         {
             return false;

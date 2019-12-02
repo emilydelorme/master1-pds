@@ -14,6 +14,12 @@ public class Array implements VariableFormDeclarationInterface
         this.ident = ident;
         this.size = size;
     }
+    
+    @Override
+    public String getIdent()
+    {
+        return this.ident;
+    }
 
     // Pretty-printer
     @Override

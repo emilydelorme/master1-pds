@@ -2,6 +2,8 @@ package TP2.ASD.Unit;
 
 import TP2.ASD.ParameterInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.SymbolTable.FunctionSymbol;
+import TP2.SymbolTable.SymbolTable;
 import TP2.ASD.UnitInterface;
 
 import java.util.List;
@@ -22,11 +24,26 @@ public class Prototype implements UnitInterface
         this.parametres = parametres;
     }
 
+    public TypeInterface getType()
+    {
+        return type;
+    }
+
+    public String getIdent()
+    {
+        return ident;
+    }
+
+    public List<ParameterInterface> getParametres()
+    {
+        return parametres;
+    }
+
     @Override
     public String pp()
     {
         StringBuilder strParametres = new StringBuilder();
-
+        
         int parametersSize = this.parametres.size();
         
         for (int i = 0; i < parametersSize; ++i)

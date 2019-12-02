@@ -13,6 +13,12 @@ public class Basic implements VariableFormDeclarationInterface
         this.ident = ident;
     }
 
+    @Override
+    public String getIdent()
+    {
+        return this.ident;
+    }
+    
     // Pretty-printer
     @Override
     public String pp()

@@ -97,8 +97,8 @@ public class SymbolTableTest
         arguments.add(0, arg0);
         arguments.add(0, arg1);
 
-        Symbol fun = new FunctionSymbol(new Int(), "fun", arguments, true);
-        Symbol fun2 = new FunctionSymbol(new Int(), "fun2", new ArrayList<VariableSymbol>(), true);
+        Symbol fun = new FunctionSymbol(new Int(), "fun", arguments);
+        Symbol fun2 = new FunctionSymbol(new Int(), "fun2", new ArrayList<VariableSymbol>());
 
         assertNotEquals(fun, fun2);
         assertTrue(table2.add(fun));

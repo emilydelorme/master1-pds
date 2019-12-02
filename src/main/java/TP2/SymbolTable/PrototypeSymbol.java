@@ -5,17 +5,19 @@ import java.util.Objects;
 
 import TP2.ASD.TypeInterface;
 
-public class FunctionSymbol extends Symbol
+public class PrototypeSymbol extends Symbol
 {
     private TypeInterface returnType;
     private List<VariableSymbol> arguments;
+    private boolean defined;
 
-    public FunctionSymbol(TypeInterface returnType, String ident, List<VariableSymbol> arguments)
+    public PrototypeSymbol(TypeInterface returnType, String ident, List<VariableSymbol> arguments, boolean defined)
     {
         super(ident);
 
         this.returnType = returnType;
         this.arguments = arguments;
+        this.defined = defined;
     }
 
     public TypeInterface getReturnType()
@@ -26,6 +28,16 @@ public class FunctionSymbol extends Symbol
     public List<VariableSymbol> getArguments()
     {
         return arguments;
+    }
+
+    public boolean isDefined()
+    {
+        return defined;
+    }
+
+    public void setDefined(boolean defined)
+    {
+        this.defined = defined;
     }
 
     @Override
@@ -51,8 +63,12 @@ public class FunctionSymbol extends Symbol
             return false;
         }
         
-        final FunctionSymbol other = (FunctionSymbol) obj;
+        final PrototypeSymbol other = (PrototypeSymbol) obj;
 
+        if (this.defined != other.defined)
+        {
+            return false;
+        }
 
         if (!Objects.equals(this.returnType, other.returnType))
         {

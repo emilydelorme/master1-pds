@@ -39,7 +39,7 @@ prototype[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Prototy
 	List<TP2.SymbolTable.VariableSymbol> arguments = new ArrayList<>();
 }
 	: PROTO t=functionType IDENT LP p=parameters[arguments] RP { 
-		$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments, false));
+		$symbolTable.add(new TP2.SymbolTable.PrototypeSymbol($t.out, $IDENT.text, arguments, false));
 		$out = new TP2.ASD.Unit.Prototype($t.out, $IDENT.text, $p.out);
 	}
 	;
@@ -49,11 +49,11 @@ function[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Function
 	List<TP2.SymbolTable.VariableSymbol> arguments = new ArrayList<>();
 }
 	: FUNC t=functionType IDENT LP p=parameters[arguments] RP s=statement[symbolTable] {
-		$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments, true));
+		$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments));
 		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out);
 	}
 	| FUNC t=functionType IDENT LP p=parameters[arguments] RP b=block[symbolTable] {
-		$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments, true));
+		$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments));
 		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out);
 	}
 	;
@@ -151,17 +151,23 @@ whileState[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.W
 // ------------------------------------
 
 block[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Block.Block out]
-@init { List<TP2.ASD.StatementInterface> statements = new ArrayList<>(); }
-	: AL (d=declaration[symbolTable]) (s=statement[symbolTable] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(Optional.of($d.out), statements); }
-	| AL (s=statement[symbolTable] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(statements); }
+@init {
+	List<TP2.ASD.StatementInterface> statements = new ArrayList<>();
+	TP2.SymbolTable.SymbolTable symbolTableBlock = new TP2.SymbolTable.SymbolTable();
+	symbolTableBlock.setParent(symbolTable);
+}
+	: AL (d=declaration[symbolTableBlock]) (s=statement[symbolTableBlock] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(Optional.of($d.out), statements, symbolTableBlock); }
+	| AL (s=statement[symbolTableBlock] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(statements, symbolTableBlock); }
 	;
 
 // ******** DECLARATION ********
 
-declaration[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Block.Declaration out]
-@init { List<TP2.ASD.VariableFormDeclarationInterface> variablesFormDeclaration = new ArrayList<>(); }
-    : t=variableType (v=variableFormDeclaration { variablesFormDeclaration.add($v.out); }) { $out = new TP2.ASD.Statement.Block.Declaration($t.out, variablesFormDeclaration); }
-    | t=variableType (v=variableFormDeclaration { variablesFormDeclaration.add($v.out); }) (VIRGULE v=variableFormDeclaration { variablesFormDeclaration.add($v.out); })+ { $out = new TP2.ASD.Statement.Block.Declaration($t.out, variablesFormDeclaration); }
+declaration[TP2.SymbolTable.SymbolTable symbolTableBlock] returns [TP2.ASD.Statement.Block.Declaration out]
+@init { 
+	List<TP2.ASD.VariableFormDeclarationInterface> variablesFormDeclaration = new ArrayList<>();
+}
+    : t=variableType (v=variableFormDeclaration[$t.out, symbolTableBlock] { variablesFormDeclaration.add($v.out); }) { $out = new TP2.ASD.Statement.Block.Declaration($t.out, variablesFormDeclaration); }
+    | t=variableType (v=variableFormDeclaration[$t.out, symbolTableBlock] { variablesFormDeclaration.add($v.out); }) (VIRGULE v=variableFormDeclaration[$t.out, symbolTableBlock] { variablesFormDeclaration.add($v.out); })+ { $out = new TP2.ASD.Statement.Block.Declaration($t.out, variablesFormDeclaration); }
     ;
 
 // ------------------------------------
@@ -263,7 +269,7 @@ integerExpression returns [TP2.ASD.Expression.IntegerExpression out]
     ;
 
 variableExpression[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Expression.VariableExpression out]
-    : v=variableForm[symbolTable] { $out = new TP2.ASD.Expression.VariableExpression($v.out); }
+    : v=variableForm[symbolTable] { $out = new TP2.ASD.Expression.VariableExpression($v.out, $symbolTable); }
     ;
 
 // =====================================================================
@@ -287,17 +293,23 @@ arrayForm[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.VariableForm
 // ---------- FORM OF VARIABLE ON DECLARATION (Basic/Array)
 // =====================================================================
 
-variableFormDeclaration returns [TP2.ASD.VariableFormDeclarationInterface out]
-	: b=basicFormDeclaration { $out = $b.out; }
-	| a=arrayFormDeclaration { $out = $a.out; }
-	;
-	
-basicFormDeclaration returns [TP2.ASD.Statement.Block.VariableFormDeclaration.Basic out]
-	: IDENT { $out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Basic($IDENT.text); }
+variableFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable symbolTableBlock] returns [TP2.ASD.VariableFormDeclarationInterface out]
+	: b=basicFormDeclaration[type, symbolTableBlock] { $out = $b.out; }
+	| a=arrayFormDeclaration[type, symbolTableBlock] { $out = $a.out; }
 	;
 
-arrayFormDeclaration returns [TP2.ASD.Statement.Block.VariableFormDeclaration.Array out]
-	: IDENT CL INTEGER CR { $out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Array($IDENT.text, $INTEGER.int); }
+basicFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable symbolTableBlock] returns [TP2.ASD.Statement.Block.VariableFormDeclaration.Basic out]
+	: IDENT {
+		$symbolTableBlock.add(new TP2.SymbolTable.VariableSymbol($type, $IDENT.text, false));
+		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Basic($IDENT.text);
+	}
+	;
+
+arrayFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable symbolTableBlock] returns [TP2.ASD.Statement.Block.VariableFormDeclaration.Array out]
+	: IDENT CL INTEGER CR {
+		$symbolTableBlock.add(new TP2.SymbolTable.VariableSymbol($type, $IDENT.text, true));
+		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Array($IDENT.text, $INTEGER.int);
+	}
 	;
 
 // =====================================================================

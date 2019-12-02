@@ -26,6 +26,26 @@ public class Function implements UnitInterface
         this.statement = statement;
     }
 
+    public TypeInterface getType()
+    {
+        return type;
+    }
+
+    public String getIdent()
+    {
+        return ident;
+    }
+
+    public List<ParameterInterface> getParametres()
+    {
+        return parametres;
+    }
+
+    public StatementInterface getStatement()
+    {
+        return statement;
+    }
+
     // Pretty-printer
     @Override
     public String pp()

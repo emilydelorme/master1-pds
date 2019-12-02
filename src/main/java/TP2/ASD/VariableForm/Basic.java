@@ -12,6 +12,12 @@ public class Basic implements VariableFormInterface
     {
         this.ident = ident;
     }
+    
+    @Override
+    public String getIdent()
+    {
+        return this.ident;
+    }
 
     // Pretty-printer
     @Override
