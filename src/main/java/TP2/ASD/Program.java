@@ -2,106 +2,62 @@ package TP2.ASD;
 
 import java.util.List;
 
-import TP2.ErrorHandlerInterface;
 import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.Types.Void;
 import TP2.ASD.Unit.Function;
-import TP2.ASD.Unit.Prototype;
 import TP2.Llvm.Instruction;
 import TP2.Llvm.InstructionHandler;
 import TP2.Llvm.Instructions.Return;
-import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
 
-public class Program implements ErrorHandlerInterface
+public class Program
 {
     private List<UnitInterface> unitInterface;
-    private SymbolTable symbolTable;
+    private static final String MAIN_FUNCTION_NAME = "main";
 
-    public Program(List<UnitInterface> unitInterface, SymbolTable symbolTable)
+    private Program(List<UnitInterface> unitInterface)
     {
         this.unitInterface = unitInterface;
-        this.symbolTable = symbolTable;
     }
     
-    @Override
-    public void exitWithMessage(String message)
+    public static Program create(List<UnitInterface> unitInterface)
     {
-        System.err.println("ERROR: " + message);
+        Function mainFunction = null;
         
-        System.exit(1);
-    }
-
-    @Override
-    public void checkError()
-    {
-        Function main = null;
-        
-        boolean duplicatedPrototype = false;
-        boolean duplicatedFunction = false;
-        
-        int unitInterfaceSize = this.unitInterface.size();
-        
-        for (int i = 0; i < unitInterfaceSize; ++i)
+        for (UnitInterface unit : unitInterface)
         {
-            if (this.unitInterface.get(i) instanceof Function)
+            if (unit instanceof Function && unit.getIdent().equals(MAIN_FUNCTION_NAME))
             {
-                Function tmpFunction = (Function) this.unitInterface.get(i);
-                
-                if (tmpFunction.getIdent().equals("main"))
-                {
-                    main = tmpFunction;
-                }
-                
-                for (int j = 0; j < unitInterfaceSize; ++j)
-                {
-                    if (i == j)
-                    {
-                        continue;
-                    }
-                    
-                    
-                }
-            }
-            
-            if (this.unitInterface.get(i) instanceof Prototype)
-            {
-                Prototype tmpPrototype = (Prototype) this.unitInterface.get(i);
-                
-                for (int j = 0; j < unitInterfaceSize; ++j)
-                {
-                    if (i == j)
-                    {
-                        continue;
-                    }
-                    
-                    
-                }
+                mainFunction = (Function)unit;
             }
         }
-
-        if (main == null)
+        
+        if (mainFunction == null)
         {
-            exitWithMessage("Function main isn't defined.");
+            System.err.println(String.format("ERROR: [Program] (%s) function not detected", MAIN_FUNCTION_NAME));
             
-            return;
+            System.exit(1);
         }
         
-        if (!main.getParametres().isEmpty())
+        if (!mainFunction.getParametres().isEmpty())
         {
-            exitWithMessage("Function main shouldn't have any parameters.");
+            System.err.println(String.format("ERROR: [Program] (%s) function shouldn't have any parameters", MAIN_FUNCTION_NAME));
+            
+            System.exit(1);
         }
         
-        // Check duplicated prototype
+        for (UnitInterface unit : unitInterface)
+        {
+            unit.checkError();
+        }
         
+        return new Program(unitInterface);
     }
 
     // Pretty-printer
     public String pp()
     {
-        //checkError();
-        
         return unitInterface.stream()
                 .map(UnitInterface::pp)
                 .reduce((e1, e2) -> e1 + "\n" + e2)
@@ -111,8 +67,6 @@ public class Program implements ErrorHandlerInterface
     // IR generation
     public InstructionHandler toIR() throws TypeException, EmptyProgram
     {
-        //checkError();
-        
         if (this.unitInterface.isEmpty())
             throw new EmptyProgram("Programme vide");
 

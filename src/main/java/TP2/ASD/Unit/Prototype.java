@@ -64,4 +64,18 @@ public class Prototype implements UnitInterface
     {
         return null;
     }
+
+    @Override
+    public void exitWithMessage(String message)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void checkError()
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }

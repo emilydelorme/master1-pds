@@ -25,14 +25,6 @@ public class FunctionCall implements StatementInterface, ExpressionInterface, Er
         this.expressions = expressions;
         this.symbolTable = symbolTable;
     }
-    
-    @Override
-    public void exitWithMessage(String message)
-    {
-        System.err.println("ERROR: " + message);
-        
-        System.exit(1);
-    }
 
     @Override
     public void checkError()
@@ -63,7 +55,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface, Er
                 if (currentCallParameter instanceof VariableExpression)
                 {
                     VariableSymbol functionCallParameterVariableSymbol = (VariableSymbol)this.symbolTable.lookup(((VariableExpression)this.expressions.get(i)).getVariableForm().getIdent());
-                    
+
                     if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray())
                     {
                         exitWithMessage(String.format("[Function call] (%s) needs to be an array", functionCallParameterVariableSymbol.getIdent()));
@@ -115,6 +107,8 @@ public class FunctionCall implements StatementInterface, ExpressionInterface, Er
     @Override
     public TypeRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
     }
 }

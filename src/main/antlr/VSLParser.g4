@@ -22,7 +22,7 @@ program returns [TP2.ASD.Program out]
 	List<TP2.ASD.UnitInterface> units = new ArrayList<>();
 	TP2.SymbolTable.SymbolTable symbolTable = new TP2.SymbolTable.SymbolTable();
 }
-    : (u=unit[symbolTable] { units.add($u.out); } )* EOF { $out = new TP2.ASD.Program(units, symbolTable); }
+    : (u=unit[symbolTable] { units.add($u.out); } )* EOF { $out = TP2.ASD.Program.create(units); }
     ;
 
 // =====================================================================
@@ -39,7 +39,13 @@ prototype[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Prototy
 	List<TP2.SymbolTable.VariableSymbol> arguments = new ArrayList<>();
 }
 	: PROTO t=functionType IDENT LP p=parameters[arguments] RP { 
-		$symbolTable.add(new TP2.SymbolTable.PrototypeSymbol($t.out, $IDENT.text, arguments, false));
+		if (!$symbolTable.add(new TP2.SymbolTable.PrototypeSymbol($t.out, $IDENT.text, arguments, false)))
+		{
+			System.err.println(String.format("ERROR: [Prototype] (%s) already exists", $IDENT.text));
+        
+        	System.exit(1);
+		}
+		
 		$out = new TP2.ASD.Unit.Prototype($t.out, $IDENT.text, $p.out);
 	}
 	;
@@ -49,11 +55,23 @@ function[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Function
 	List<TP2.SymbolTable.VariableSymbol> arguments = new ArrayList<>();
 }
 	: FUNC t=functionType IDENT LP p=parameters[arguments] RP s=statement[symbolTable] {
-		$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments));
+		if (!$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments)))
+		{
+			System.err.println(String.format("ERROR: [Function] (%s) already defined", $IDENT.text));
+        
+        	System.exit(1);
+		}
+
 		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out);
 	}
 	| FUNC t=functionType IDENT LP p=parameters[arguments] RP b=block[symbolTable] {
-		$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments));
+		if (!$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments)))
+		{
+			System.err.println(String.format("ERROR: [Function] (%s) already defined", $IDENT.text));
+        
+        	System.exit(1);
+		}
+		
 		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out);
 	}
 	;
