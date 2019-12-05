@@ -8,11 +8,15 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import TP2.ASD.Program;
+import TP2.Llvm.InstructionHandler;
+import TP2.exceptions.EmptyProgram;
+import TP2.exceptions.TypeException;
 
 public class Main
 {
     public static void main(String[] args)
     {
+
         try
         {
             // Set input
@@ -40,17 +44,21 @@ public class Main
 
             // Pretty-print the program (to debug parsing, if you implemented it!)
             System.err.println(ast.pp());
+            
+            System.out.println("");
 
             // Compute LLVM IR from the ast
-//      try {
-//        Llvm.IR ir = ast.toIR();
-//
-//        // Output LLVM IR
-//        System.out.println(ir);
-//      } catch(TypeException | EmptyProgram e) {
-//        e.printStackTrace(); // Useful for developping, not for the ``end users''!
-//        System.err.println(e.getMessage());
-//      }
+            try
+            {
+                InstructionHandler ir = ast.toIR();
+
+                // Output LLVM IR
+                System.out.println(ir);
+            } catch (TypeException | EmptyProgram e)
+            {
+                e.printStackTrace(); // Useful for developping, not for the ``end users''!
+                System.err.println(e.getMessage());
+            }
         } catch (IOException e)
         {
             e.printStackTrace();
