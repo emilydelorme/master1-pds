@@ -75,7 +75,6 @@ public class Block implements StatementInterface
                 str.append("\n");
             }
         }
-
         
         str.append("\n");
         identLevel--;

@@ -64,6 +64,7 @@ public class Affectation implements StatementInterface
             }
         }
         
+        /*
         if (this.variableForme instanceof Basic)
         {
             if (this.expression instanceof VariableExpression)
@@ -83,6 +84,7 @@ public class Affectation implements StatementInterface
                 }
             }
         }
+        */
         
         if (this.expression instanceof FunctionCall)
         {

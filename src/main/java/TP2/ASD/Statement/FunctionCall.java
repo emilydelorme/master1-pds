@@ -52,7 +52,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
             
             if (prototypeSymbol.getArguments().size() != this.expressions.size())
             {
-                exitWithMessage("[Function call] mismatch parameters number");
+                exitWithMessage(String.format("[Function call] (%s) mismatch parameters number", this.funcIdent));
             }
             
             int argumentsSize = prototypeSymbol.getArguments().size();
@@ -65,20 +65,20 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
                 if (currentCallParameter instanceof VariableExpression)
                 {
                     VariableSymbol functionCallParameterVariableSymbol = (VariableSymbol)this.symbolTable.lookup(((VariableExpression)this.expressions.get(i)).getVariableForm().getIdent());
-
+                    
                     if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray())
                     {
-                        exitWithMessage(String.format("[Function call] (%s) needs to be an array", functionCallParameterVariableSymbol.getIdent()));
+                        exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array", this.funcIdent, functionCallParameterVariableSymbol.getIdent()));
                     }
-                    
+/*
                     if (!prototypeVariableSymbol.isArray() && functionCallParameterVariableSymbol.isArray())
                     {
-                        exitWithMessage(String.format("[Function call] (%s) needs to be a normal variable", functionCallParameterVariableSymbol.getIdent()));
-                    }
+                        exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be a normal variable", this.funcIdent, functionCallParameterVariableSymbol.getIdent()));
+                    }*/
                 }
                 else if (!(currentCallParameter instanceof VariableExpression) && prototypeVariableSymbol.isArray())
                 {
-                    exitWithMessage(String.format("[Function call] (%s) needs to be an array", currentCallParameter.pp()));
+                    exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array", this.funcIdent, currentCallParameter.pp()));
                 }
             }
         }
@@ -89,7 +89,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
 
             if (functionSymbol.getArguments().size() != this.expressions.size())
             {
-                exitWithMessage("[Function call] mismatch parameters number");
+                exitWithMessage(String.format("[Function call] (%s) mismatch parameters number", this.funcIdent));
             }
             
             int argumentsSize = functionSymbol.getArguments().size();
@@ -105,17 +105,17 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
 
                     if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray())
                     {
-                        exitWithMessage(String.format("[Function call] (%s) needs to be an array", functionCallParameterVariableSymbol.getIdent()));
+                        exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array", this.funcIdent, functionCallParameterVariableSymbol.getIdent()));
                     }
                     
                     if (!prototypeVariableSymbol.isArray() && functionCallParameterVariableSymbol.isArray())
                     {
-                        exitWithMessage(String.format("[Function call] (%s) needs to be a normal variable", functionCallParameterVariableSymbol.getIdent()));
+                        exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be a normal variable", this.funcIdent, functionCallParameterVariableSymbol.getIdent()));
                     }
                 }
                 else if (!(currentCallParameter instanceof VariableExpression) && prototypeVariableSymbol.isArray())
                 {
-                    exitWithMessage(String.format("[Function call] (%s) needs to be an array", currentCallParameter.pp()));
+                    exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array", this.funcIdent, currentCallParameter.pp()));
                 }
             }
         }

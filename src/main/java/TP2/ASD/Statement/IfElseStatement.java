@@ -1,7 +1,9 @@
 package TP2.ASD.Statement;
 
+import TP2.Utils;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.Statement.Block.Block;
 import TP2.ASD.StatementInterface;
 import TP2.exceptions.TypeException;
 
@@ -32,16 +34,22 @@ public class IfElseStatement implements StatementInterface
     {
         checkError();
         
+        //TODO fix indent
         return "IF " + expression.pp() +
                 "\n" +
+                Utils.indent(Block.identLevel) +
                 "THEN" +
                 "\n" +
+                Utils.indent(Block.identLevel) +
                 trueStatement.pp() +
                 "\n" +
+                Utils.indent(Block.identLevel) +
                 "ELSE" +
                 "\n" +
+                Utils.indent(Block.identLevel) +
                 falseStatement.pp() +
                 "\n" +
+                Utils.indent(Block.identLevel) +
                 "FI";
     }
 

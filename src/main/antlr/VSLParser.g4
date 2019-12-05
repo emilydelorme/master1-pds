@@ -156,7 +156,7 @@ statement[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.StatementInt
 // ------------------------------------
 
 affectation[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Affectation out]
-    : v=variableForm[symbolTable] EQUAL e=expression[symbolTable]  { $out = new TP2.ASD.Statement.Affectation($v.out, $e.out, $symbolTable); }
+    : v=variableForm[symbolTable, false] EQUAL e=expression[symbolTable, false]  { $out = new TP2.ASD.Statement.Affectation($v.out, $e.out, $symbolTable); }
     ;
 
 // ------------------------------------
@@ -164,7 +164,7 @@ affectation[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.
 // ------------------------------------
 
 ifState[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.IfStatement out]
-	: IF e=expression[symbolTable] THEN statement1=statement[symbolTable] FI { $out = new TP2.ASD.Statement.IfStatement($e.out, $statement1.out); }
+	: IF e=expression[symbolTable, false] THEN statement1=statement[symbolTable] FI { $out = new TP2.ASD.Statement.IfStatement($e.out, $statement1.out); }
 	;
 
 // ------------------------------------
@@ -172,7 +172,7 @@ ifState[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.IfSt
 // ------------------------------------
 
 ifElseState[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.IfElseStatement out]
-	: IF e=expression[symbolTable] THEN statement1=statement[symbolTable] ELSE statement2=statement[symbolTable] FI { $out = new TP2.ASD.Statement.IfElseStatement($e.out, $statement1.out, $statement2.out); }
+	: IF e=expression[symbolTable, false] THEN statement1=statement[symbolTable] ELSE statement2=statement[symbolTable] FI { $out = new TP2.ASD.Statement.IfElseStatement($e.out, $statement1.out, $statement2.out); }
 	;
 
 // ------------------------------------
@@ -180,7 +180,7 @@ ifElseState[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.
 // ------------------------------------
 
 whileState[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.WhileStatement out]
-	: WHILE e=expression[symbolTable] DO statement1=statement[symbolTable] DONE { $out = new TP2.ASD.Statement.WhileStatement($e.out, $statement1.out); }
+	: WHILE e=expression[symbolTable, false] DO statement1=statement[symbolTable] DONE { $out = new TP2.ASD.Statement.WhileStatement($e.out, $statement1.out); }
 	;
 
 // ------------------------------------
@@ -225,7 +225,7 @@ item[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.ItemInterface out
 	;
 
 itemExpression[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Item.Expression out]
-	: e=expression[symbolTable] { $out = new TP2.ASD.Item.Expression($e.out); }
+	: e=expression[symbolTable, false] { $out = new TP2.ASD.Item.Expression($e.out); }
 	;
 
 itemText returns [TP2.ASD.Item.Text out]
@@ -238,7 +238,7 @@ itemText returns [TP2.ASD.Item.Text out]
 
 read[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Read out]
 @init { List<TP2.ASD.VariableFormInterface> variablesForm = new ArrayList<>(); }
-	: READ (v=variableForm[symbolTable] { variablesForm.add($v.out); }) (VIRGULE v=variableForm[symbolTable] { variablesForm.add($v.out); })* { $out = new TP2.ASD.Statement.Read(variablesForm); }
+	: READ (v=variableForm[symbolTable, false] { variablesForm.add($v.out); }) (VIRGULE v=variableForm[symbolTable, false] { variablesForm.add($v.out); })* { $out = new TP2.ASD.Statement.Read(variablesForm); }
 	;
 
 // ------------------------------------
@@ -247,8 +247,8 @@ read[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Read ou
 
 funcCall[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.FunctionCall out]
 @init { List<TP2.ASD.ExpressionInterface> expressions = new ArrayList<>(); }
-	: IDENT LP (e=expression[symbolTable] { expressions.add($e.out); })? RP { $out = new TP2.ASD.Statement.FunctionCall($IDENT.text, expressions, $symbolTable); }
-	| IDENT LP (e=expression[symbolTable] { expressions.add($e.out); }) (VIRGULE e=expression[symbolTable] { expressions.add($e.out); })+ RP { $out = new TP2.ASD.Statement.FunctionCall($IDENT.text, expressions, $symbolTable); }
+	: IDENT LP (e=expression[symbolTable, true] { expressions.add($e.out); })? RP { $out = new TP2.ASD.Statement.FunctionCall($IDENT.text, expressions, $symbolTable); }
+	| IDENT LP (e=expression[symbolTable, true] { expressions.add($e.out); }) (VIRGULE e=expression[symbolTable, true] { expressions.add($e.out); })+ RP { $out = new TP2.ASD.Statement.FunctionCall($IDENT.text, expressions, $symbolTable); }
 	;
 
 // ------------------------------------
@@ -256,7 +256,7 @@ funcCall[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Fun
 // ------------------------------------
 
 returnState[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Return out]
-	: RETURN e=expression[symbolTable] { $out = new TP2.ASD.Statement.Return($e.out, $symbolTable); }
+	: RETURN e=expression[symbolTable, false] { $out = new TP2.ASD.Statement.Return($e.out, $symbolTable); }
 	;
 
 // =====================================================================
@@ -268,37 +268,37 @@ returnState[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.
  // https://stackoverflow.com/questions/44531576/why-does-antlr-require-all-or-none-alternatives-be-labeled
 
 expression[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.ExpressionInterface out]
-	: l=atomicExpression[symbolTable] MUL r=expression[symbolTable] { $out = new TP2.ASD.Expression.MulExpression($l.out, $r.out); }
-	| l=atomicExpression[symbolTable] DIV r=expression[symbolTable] { $out = new TP2.ASD.Expression.DivExpression($l.out, $r.out); }
-	| l=atomicExpression[symbolTable] ADD r=expression[symbolTable] { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }
-	| l=atomicExpression[symbolTable] SUB r=expression[symbolTable] { $out = new TP2.ASD.Expression.SubExpression($l.out, $r.out); }
-	| LP e=expression[symbolTable] RP { $out = $e.out; }
+	: l=atomicExpression[symbolTable] MUL r=expression[symbolTable, functionCall] { $out = new TP2.ASD.Expression.MulExpression($l.out, $r.out); }
+	| l=atomicExpression[symbolTable] DIV r=expression[symbolTable, functionCall] { $out = new TP2.ASD.Expression.DivExpression($l.out, $r.out); }
+	| l=atomicExpression[symbolTable] ADD r=expression[symbolTable, functionCall] { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }
+	| l=atomicExpression[symbolTable] SUB r=expression[symbolTable, functionCall] { $out = new TP2.ASD.Expression.SubExpression($l.out, $r.out); }
+	| LP e=expression[symbolTable, functionCall] RP { $out = $e.out; }
 	| at=atomicExpression[symbolTable] { $out = $at.out; }
 	;
 */
 
-expression[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.ExpressionInterface out]
-    : f=factor[symbolTable] { $out = $f.out; }
-    | l=factor[symbolTable] ADD r=expression[symbolTable] { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }
-    | l=factor[symbolTable] SUB r=expression[symbolTable] { $out = new TP2.ASD.Expression.SubExpression($l.out, $r.out); }
+expression[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns [TP2.ASD.ExpressionInterface out]
+    : f=factor[symbolTable, functionCall] { $out = $f.out; }
+    | l=factor[symbolTable, functionCall] ADD r=expression[symbolTable, functionCall] { $out = new TP2.ASD.Expression.AddExpression($l.out, $r.out); }
+    | l=factor[symbolTable, functionCall] SUB r=expression[symbolTable, functionCall] { $out = new TP2.ASD.Expression.SubExpression($l.out, $r.out); }
     ;
 
-factor[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.ExpressionInterface out]
-    : p=primary[symbolTable] { $out = $p.out; }
-    | p=primary[symbolTable] MUL f=factor[symbolTable] { $out= new TP2.ASD.Expression.MulExpression($p.out,$f.out); }
-    | p=primary[symbolTable] DIV f=factor[symbolTable] { $out= new TP2.ASD.Expression.DivExpression($p.out,$f.out); }
+factor[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns [TP2.ASD.ExpressionInterface out]
+    : p=primary[symbolTable, functionCall] { $out = $p.out; }
+    | p=primary[symbolTable, functionCall] MUL f=factor[symbolTable, functionCall] { $out= new TP2.ASD.Expression.MulExpression($p.out,$f.out); }
+    | p=primary[symbolTable, functionCall] DIV f=factor[symbolTable, functionCall] { $out= new TP2.ASD.Expression.DivExpression($p.out,$f.out); }
     ;
 
-primary[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.ExpressionInterface out]
-    : at=atomicExpression[symbolTable] { $out = $at.out; }
-    | LP e=expression[symbolTable] RP { $out = $e.out; }
+primary[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns [TP2.ASD.ExpressionInterface out]
+    : at=atomicExpression[symbolTable, functionCall] { $out = $at.out; }
+    | LP e=expression[symbolTable, functionCall] RP { $out = $e.out; }
     ;
 
 // ******** ATOMIC EXPRESSION ********
 
-atomicExpression[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.ExpressionInterface out]
+atomicExpression[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns [TP2.ASD.ExpressionInterface out]
     : i=integerExpression { $out = $i.out; }
-    | v=variableExpression[symbolTable] { $out = $v.out; }
+    | v=variableExpression[symbolTable, functionCall] { $out = $v.out; }
     | f=funcCall[symbolTable] { $out = $f.out; }
     ;
 
@@ -306,25 +306,57 @@ integerExpression returns [TP2.ASD.Expression.IntegerExpression out]
     : INTEGER { $out = new TP2.ASD.Expression.IntegerExpression($INTEGER.int); }
     ;
 
-variableExpression[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Expression.VariableExpression out]
-    : v=variableForm[symbolTable] { $out = new TP2.ASD.Expression.VariableExpression($v.out, $symbolTable); }
+variableExpression[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns [TP2.ASD.Expression.VariableExpression out]
+    : v=variableForm[symbolTable, functionCall] { $out = new TP2.ASD.Expression.VariableExpression($v.out, $symbolTable); }
     ;
 
 // =====================================================================
 // ---------- FORM OF VARIABLE ON USE (Basic/Array)
 // =====================================================================
 
-variableForm[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.VariableFormInterface out]
-	: b=basicForm[symbolTable] { $out = $b.out; }
-	| a=arrayForm[symbolTable] { $out = $a.out; }
+variableForm[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns [TP2.ASD.VariableFormInterface out]
+	: b=basicForm[symbolTable, functionCall] { $out = $b.out; }
+	| a=arrayForm[symbolTable, functionCall] { $out = $a.out; }
 	;
 
-basicForm[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.VariableForm.Basic out]
-	: IDENT { $out = new TP2.ASD.VariableForm.Basic($IDENT.text, $symbolTable); }
+basicForm[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns [TP2.ASD.VariableForm.Basic out]
+	: IDENT {
+		TP2.SymbolTable.Symbol symbol = $symbolTable.lookup($IDENT.text);
+		
+		if (symbol instanceof TP2.SymbolTable.VariableSymbol && $functionCall == false)
+		{
+			TP2.SymbolTable.VariableSymbol variableSymbol = (TP2.SymbolTable.VariableSymbol)symbol;
+			
+			if (variableSymbol.isArray())
+            {
+            	System.err.println(String.format("[Affectation] (%s) needs to be called as an array", $IDENT.text));
+        
+        		System.exit(1);
+            }
+		}
+		
+		$out = new TP2.ASD.VariableForm.Basic($IDENT.text, $symbolTable);
+	}
 	;
 
-arrayForm[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.VariableForm.Array out]
-	: IDENT CL e=expression[symbolTable] CR { $out = new TP2.ASD.VariableForm.Array($IDENT.text, $e.out, $symbolTable); }
+arrayForm[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns [TP2.ASD.VariableForm.Array out]
+	: IDENT CL e=expression[symbolTable, false] CR { 
+		/*TP2.SymbolTable.Symbol symbol = $symbolTable.lookup($IDENT.text);
+		
+		if (symbol instanceof TP2.SymbolTable.VariableSymbol && $functionCall == false)
+		{
+			TP2.SymbolTable.VariableSymbol variableSymbol = (TP2.SymbolTable.VariableSymbol)symbol;
+			
+			if (!variableSymbol.isArray())
+            {
+            	System.err.println(String.format("[Affectation] (%s) needs to be a normal variable", $IDENT.text));
+        
+        		System.exit(1);
+            }
+		}*/
+		
+		$out = new TP2.ASD.VariableForm.Array($IDENT.text, $e.out, $symbolTable);
+	}
 	;
 
 // =====================================================================
