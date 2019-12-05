@@ -256,7 +256,7 @@ funcCall[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Fun
 // ------------------------------------
 
 returnState[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Return out]
-	: RETURN e=expression[symbolTable] { $out = new TP2.ASD.Statement.Return($e.out); }
+	: RETURN e=expression[symbolTable] { $out = new TP2.ASD.Statement.Return($e.out, $symbolTable); }
 	;
 
 // =====================================================================
