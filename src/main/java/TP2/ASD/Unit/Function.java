@@ -2,7 +2,12 @@ package TP2.ASD.Unit;
 
 import TP2.ASD.ParameterInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.SymbolTable.FunctionSymbol;
+import TP2.SymbolTable.PrototypeSymbol;
+import TP2.SymbolTable.Symbol;
+import TP2.SymbolTable.SymbolTable;
 import TP2.ASD.UnitInterface;
+import TP2.ASD.Parameter.Array;
 
 import java.util.List;
 
@@ -10,20 +15,21 @@ import TP2.ASD.StatementInterface;
 import TP2.ASD.TypeInterface;
 import TP2.exceptions.TypeException;
 
-// function(type, IDENT, List<parametre>, statement)
 public class Function implements UnitInterface
 {
     private TypeInterface type;
     private String ident;
-    private List<ParameterInterface> parametres;
+    private List<ParameterInterface> arguments;
     private StatementInterface statement;
+    private SymbolTable symbolTable;
 
-    public Function(TypeInterface type, String ident, List<ParameterInterface> parametres, StatementInterface statement)
+    public Function(TypeInterface type, String ident, List<ParameterInterface> arguments, StatementInterface statement, SymbolTable symbolTable)
     {
         this.type = type;
         this.ident = ident;
-        this.parametres = parametres;
+        this.arguments = arguments;
         this.statement = statement;
+        this.symbolTable = symbolTable;
     }
 
     public TypeInterface getType()
@@ -36,9 +42,9 @@ public class Function implements UnitInterface
         return ident;
     }
 
-    public List<ParameterInterface> getParametres()
+    public List<ParameterInterface> getArguments()
     {
-        return parametres;
+        return arguments;
     }
 
     public StatementInterface getStatement()
@@ -46,17 +52,87 @@ public class Function implements UnitInterface
         return statement;
     }
 
-    // Pretty-printer
+    @Override
+    public void checkError()
+    {
+        Symbol symbol = this.symbolTable.lookup(this.ident);
+        
+        // TOTO: remake this
+        if(!this.ident.equals("main"))
+        {
+            if (symbol instanceof PrototypeSymbol)
+            {
+                if (!(symbol instanceof PrototypeSymbol))
+                {
+                    exitWithMessage(String.format("[Function definition] (%s) unknown function definition", this.ident));
+                }
+                
+                PrototypeSymbol prototypeSymbol = (PrototypeSymbol)symbol;
+                
+                if (!prototypeSymbol.getReturnType().equals(this.type))
+                {
+                    exitWithMessage(String.format("[Function definition] (%s) mismatch return type with the function prototype", this.ident));
+                }
+                
+                int argsSize = this.arguments.size();
+                
+                if (argsSize != prototypeSymbol.getArguments().size())
+                {
+                    exitWithMessage(String.format("[Function definition] (%s) mismatch arguments number with the function prototype", this.ident));
+                }
+                
+                for (int i = 0; i < argsSize; ++i)
+                {
+                    if (this.arguments.get(i) instanceof Array && !prototypeSymbol.getArguments().get(i).isArray() ||
+                        !(this.arguments.get(i) instanceof Array) && prototypeSymbol.getArguments().get(i).isArray())
+                    {
+                        exitWithMessage(String.format("[Function definition] (%s) (%s) mismatch argument form with the function prototype", this.arguments.get(i).getIdent(), prototypeSymbol.getArguments().get(i).getIdent()));
+                    }
+                }
+            }
+
+            if (symbol instanceof FunctionSymbol)
+            {
+                FunctionSymbol functionSymbol = (FunctionSymbol)symbol;
+                
+                if (!functionSymbol.getReturnType().equals(this.type))
+                {
+                    exitWithMessage(String.format("[Function definition] (%s) mismatch return type with the function prototype", this.ident));
+                }
+                
+                int argsSize = this.arguments.size();
+                
+                if (argsSize != functionSymbol.getArguments().size())
+                {
+                    exitWithMessage(String.format("[Function definition] (%s) mismatch arguments number with the function prototype", this.ident));
+                }
+                
+                for (int i = 0; i < argsSize; ++i)
+                {
+                    if (this.arguments.get(i) instanceof Array && !functionSymbol.getArguments().get(i).isArray() ||
+                        !(this.arguments.get(i) instanceof Array) && functionSymbol.getArguments().get(i).isArray())
+                    {
+                        exitWithMessage(String.format("[Function definition] (%s) (%s) mismatch argument form with the function prototype", this.arguments.get(i).getIdent(), functionSymbol.getArguments().get(i).getIdent()));
+                    }
+                }
+            }
+        }
+
+        this.statement.checkError();
+    }
+
     @Override
     public String pp()
     {
+        checkError();
+        
         StringBuilder strParametres = new StringBuilder();
 
-        int parametersSize = this.parametres.size();
+        int parametersSize = this.arguments.size();
         
         for (int i = 0; i < parametersSize; ++i)
         {
-            strParametres.append(this.parametres.get(i).pp());
+            strParametres.append(this.arguments.get(i).pp());
             
             if (i < parametersSize - 1)
             {
@@ -70,20 +146,8 @@ public class Function implements UnitInterface
     @Override
     public GenericRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
-    }
-
-    @Override
-    public void exitWithMessage(String message)
-    {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void checkError()
-    {
-        // TODO Auto-generated method stub
-        
     }
 }

@@ -37,11 +37,13 @@ unit[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.UnitInterface out
 prototype[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Prototype out]
 @init { 
 	List<TP2.SymbolTable.VariableSymbol> arguments = new ArrayList<>();
+	TP2.SymbolTable.SymbolTable symbolTableWithArgs = new TP2.SymbolTable.SymbolTable();
+	symbolTableWithArgs.setParent($symbolTable);
 }
-	: PROTO t=functionType IDENT LP p=parameters[arguments] RP { 
+	: PROTO t=functionType IDENT LP p=parameters[arguments, symbolTableWithArgs] RP {
 		if (!$symbolTable.add(new TP2.SymbolTable.PrototypeSymbol($t.out, $IDENT.text, arguments, false)))
 		{
-			System.err.println(String.format("ERROR: [Prototype] (%s) already exists", $IDENT.text));
+			System.err.println(String.format("ERROR: [Function prototype] (%s) already exists", $IDENT.text));
         
         	System.exit(1);
 		}
@@ -53,26 +55,28 @@ prototype[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Prototy
 function[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Function out]
 @init { 
 	List<TP2.SymbolTable.VariableSymbol> arguments = new ArrayList<>();
+	TP2.SymbolTable.SymbolTable symbolTableWithArgs = new TP2.SymbolTable.SymbolTable();
+	symbolTableWithArgs.setParent($symbolTable);
 }
-	: FUNC t=functionType IDENT LP p=parameters[arguments] RP s=statement[symbolTable] {
+	: FUNC t=functionType IDENT LP p=parameters[arguments, symbolTableWithArgs] RP s=statement[symbolTableWithArgs] {
 		if (!$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments)))
 		{
-			System.err.println(String.format("ERROR: [Function] (%s) already defined", $IDENT.text));
+			System.err.println(String.format("ERROR: [Function definition] (%s) already defined", $IDENT.text));
         
         	System.exit(1);
 		}
 
-		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out);
+		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out, symbolTableWithArgs);
 	}
-	| FUNC t=functionType IDENT LP p=parameters[arguments] RP b=block[symbolTable] {
+	| FUNC t=functionType IDENT LP p=parameters[arguments, symbolTableWithArgs] RP b=block[symbolTableWithArgs] {
 		if (!$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments)))
 		{
-			System.err.println(String.format("ERROR: [Function] (%s) already defined", $IDENT.text));
+			System.err.println(String.format("ERROR: [Function definition] (%s) already defined", $IDENT.text));
         
         	System.exit(1);
 		}
 		
-		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out);
+		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out, symbolTableWithArgs);
 	}
 	;
 
@@ -80,28 +84,43 @@ function[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Function
 // ---------- PARAMETERS (function parameter Basic/Array)
 // =====================================================================
 
-parameters[List<TP2.SymbolTable.VariableSymbol> arguments] returns [List<TP2.ASD.ParameterInterface> out]
+parameters[List<TP2.SymbolTable.VariableSymbol> arguments, TP2.SymbolTable.SymbolTable symbolTableWithArgs] returns [List<TP2.ASD.ParameterInterface> out]
 @init { 
 	List<TP2.ASD.ParameterInterface> parametres = new ArrayList<>();
 }
-	: (p=parameterForm[arguments] { parametres.add($p.out); } )? { $out = parametres; }
-	| (p=parameterForm[arguments] { parametres.add($p.out); } ) (VIRGULE p2=parameterForm[arguments] { parametres.add($p2.out); })+ { $out = parametres; }
+	: (p=parameterForm[arguments, symbolTableWithArgs] { parametres.add($p.out); } )? { $out = parametres; }
+	| (p=parameterForm[arguments, symbolTableWithArgs] { parametres.add($p.out); } ) (VIRGULE p2=parameterForm[arguments, symbolTableWithArgs] { parametres.add($p2.out); })+ { $out = parametres; }
 	;
 
-parameterForm[List<TP2.SymbolTable.VariableSymbol> arguments] returns [TP2.ASD.ParameterInterface out]
-	: b=parameterBasic[arguments] { $out = $b.out; }
-	| a=parameterArray[arguments] { $out = $a.out; }
+parameterForm[List<TP2.SymbolTable.VariableSymbol> arguments, TP2.SymbolTable.SymbolTable symbolTableWithArgs] returns [TP2.ASD.ParameterInterface out]
+	: b=parameterBasic[arguments, symbolTableWithArgs] { $out = $b.out; }
+	| a=parameterArray[arguments, symbolTableWithArgs] { $out = $a.out; }
 	;
 
-parameterBasic[List<TP2.SymbolTable.VariableSymbol> arguments] returns [TP2.ASD.Parameter.Basic out]
-	: IDENT { 
+parameterBasic[List<TP2.SymbolTable.VariableSymbol> arguments, TP2.SymbolTable.SymbolTable symbolTableWithArgs] returns [TP2.ASD.Parameter.Basic out]
+	: IDENT {
+		//TODO: Change if we add types
+		if (!$symbolTableWithArgs.add(new TP2.SymbolTable.VariableSymbol(new TP2.ASD.Types.Int(), $IDENT.text, false)))
+		{
+			System.err.println(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
+        
+        	System.exit(1);
+		}
+		
 		$arguments.add(new TP2.SymbolTable.VariableSymbol(new TP2.ASD.Types.Int(), $IDENT.text, false));
 		$out = new TP2.ASD.Parameter.Basic($IDENT.text);
 	}
 	;
 
-parameterArray[List<TP2.SymbolTable.VariableSymbol> arguments] returns [TP2.ASD.Parameter.Array out]
-	: IDENT CL CR { 
+parameterArray[List<TP2.SymbolTable.VariableSymbol> arguments, TP2.SymbolTable.SymbolTable symbolTableWithArgs] returns [TP2.ASD.Parameter.Array out]
+	: IDENT CL CR {
+		if (!$symbolTableWithArgs.add(new TP2.SymbolTable.VariableSymbol(new TP2.ASD.Types.Int(), $IDENT.text, true)))
+		{
+			System.err.println(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
+        
+        	System.exit(1);
+		}
+		
 		$arguments.add(new TP2.SymbolTable.VariableSymbol(new TP2.ASD.Types.Int(), $IDENT.text, true));
 		$out = new TP2.ASD.Parameter.Array($IDENT.text);
 	}
@@ -137,7 +156,7 @@ statement[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.StatementInt
 // ------------------------------------
 
 affectation[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Affectation out]
-    : v=variableForm[symbolTable] EQUAL e=expression[symbolTable]  { $out = new TP2.ASD.Statement.Affectation($v.out, $e.out); }
+    : v=variableForm[symbolTable] EQUAL e=expression[symbolTable]  { $out = new TP2.ASD.Statement.Affectation($v.out, $e.out, $symbolTable); }
     ;
 
 // ------------------------------------
@@ -171,11 +190,12 @@ whileState[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.W
 block[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Block.Block out]
 @init {
 	List<TP2.ASD.StatementInterface> statements = new ArrayList<>();
+	List<TP2.ASD.Statement.Block.Declaration> declarations = new ArrayList<>();
 	TP2.SymbolTable.SymbolTable symbolTableBlock = new TP2.SymbolTable.SymbolTable();
 	symbolTableBlock.setParent(symbolTable);
 }
-	: AL (d=declaration[symbolTableBlock]) (s=statement[symbolTableBlock] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(Optional.of($d.out), statements, symbolTableBlock); }
-	| AL (s=statement[symbolTableBlock] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(statements, symbolTableBlock); }
+	: AL (d=declaration[symbolTableBlock] { declarations.add($d.out); })+ (s=statement[symbolTableBlock] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(Optional.of(declarations), statements); }
+	| AL (s=statement[symbolTableBlock] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(statements); }
 	;
 
 // ******** DECLARATION ********
@@ -295,16 +315,16 @@ variableExpression[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Exp
 // =====================================================================
 
 variableForm[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.VariableFormInterface out]
-	: b=basicForm { $out = $b.out; }
+	: b=basicForm[symbolTable] { $out = $b.out; }
 	| a=arrayForm[symbolTable] { $out = $a.out; }
 	;
 
-basicForm returns [TP2.ASD.VariableForm.Basic out]
-	: IDENT { $out = new TP2.ASD.VariableForm.Basic($IDENT.text); }
+basicForm[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.VariableForm.Basic out]
+	: IDENT { $out = new TP2.ASD.VariableForm.Basic($IDENT.text, $symbolTable); }
 	;
 
 arrayForm[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.VariableForm.Array out]
-	: IDENT CL e=expression[symbolTable] CR { $out = new TP2.ASD.VariableForm.Array($IDENT.text, $e.out); }
+	: IDENT CL e=expression[symbolTable] CR { $out = new TP2.ASD.VariableForm.Array($IDENT.text, $e.out, $symbolTable); }
 	;
 
 // =====================================================================
@@ -318,14 +338,26 @@ variableFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable 
 
 basicFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable symbolTableBlock] returns [TP2.ASD.Statement.Block.VariableFormDeclaration.Basic out]
 	: IDENT {
-		$symbolTableBlock.add(new TP2.SymbolTable.VariableSymbol($type, $IDENT.text, false));
+		if (!$symbolTableBlock.add(new TP2.SymbolTable.VariableSymbol($type, $IDENT.text, false)))
+		{
+			System.err.println(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
+        
+        	System.exit(1);
+		}
+
 		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Basic($IDENT.text);
 	}
 	;
 
 arrayFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable symbolTableBlock] returns [TP2.ASD.Statement.Block.VariableFormDeclaration.Array out]
 	: IDENT CL INTEGER CR {
-		$symbolTableBlock.add(new TP2.SymbolTable.VariableSymbol($type, $IDENT.text, true));
+		if (!$symbolTableBlock.add(new TP2.SymbolTable.VariableSymbol($type, $IDENT.text, true)))
+		{
+			System.err.println(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
+        
+        	System.exit(1);
+		}
+
 		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Array($IDENT.text, $INTEGER.int);
 	}
 	;

@@ -9,13 +9,17 @@ public class FunctionSymbol extends Symbol
 {
     private TypeInterface returnType;
     private List<VariableSymbol> arguments;
+    //private boolean isPrototype;
+    //private boolean isDefined;
 
-    public FunctionSymbol(TypeInterface returnType, String ident, List<VariableSymbol> arguments)
+    public FunctionSymbol(TypeInterface returnType, String ident, List<VariableSymbol> arguments/*, boolean isPrototype, boolean isDefined*/)
     {
         super(ident);
 
         this.returnType = returnType;
         this.arguments = arguments;
+        //this.isPrototype = isPrototype;
+        //this.isDefined = isDefined;
     }
 
     public TypeInterface getReturnType()
@@ -27,7 +31,19 @@ public class FunctionSymbol extends Symbol
     {
         return arguments;
     }
+    
+    /*
+    public boolean isPrototype()
+    {
+        return isPrototype;
+    }
 
+    public boolean isDefined()
+    {
+        return isDefined;
+    }
+     */
+    
     @Override
     public boolean equals(Object obj)
     {

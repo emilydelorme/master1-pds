@@ -3,11 +3,12 @@ package TP2.ASD.Statement.Block;
 import java.util.List;
 
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.ErrorHandlerInterface;
 import TP2.ASD.TypeInterface;
 import TP2.ASD.VariableFormDeclarationInterface;
 import TP2.exceptions.TypeException;
 
-public class Declaration
+public class Declaration implements ErrorHandlerInterface
 {
     private TypeInterface type;
     private List<VariableFormDeclarationInterface> variablesForme;
@@ -17,8 +18,13 @@ public class Declaration
         this.type = type;
         this.variablesForme = idents;
     }
-
-    // Pretty-printer
+    
+    @Override
+    public void checkError()
+    {
+        
+    }
+    
     public String pp()
     {
         StringBuilder str = new StringBuilder();

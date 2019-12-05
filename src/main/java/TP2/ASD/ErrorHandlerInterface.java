@@ -1,4 +1,4 @@
-package TP2;
+package TP2.ASD;
 
 public interface ErrorHandlerInterface
 {

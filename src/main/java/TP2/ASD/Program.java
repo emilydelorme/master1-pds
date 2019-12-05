@@ -40,9 +40,9 @@ public class Program
             System.exit(1);
         }
         
-        if (!mainFunction.getParametres().isEmpty())
+        if (!mainFunction.getArguments().isEmpty())
         {
-            System.err.println(String.format("ERROR: [Program] (%s) function shouldn't have any parameters", MAIN_FUNCTION_NAME));
+            System.err.println(String.format("ERROR: [Program] (%s) function shouldn't have any arguments", MAIN_FUNCTION_NAME));
             
             System.exit(1);
         }

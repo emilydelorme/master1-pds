@@ -16,10 +16,19 @@ public class WhileStatement implements StatementInterface
         this.expression = expression;
         this.statementInterface = statementInterface;
     }
+    
+    @Override
+    public void checkError()
+    {
+        this.expression.checkError();
+        this.statementInterface.checkError();
+    }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         return "WHILE " + expression.pp() +
                 "\n" +
                 "DO" +
@@ -32,6 +41,8 @@ public class WhileStatement implements StatementInterface
     @Override
     public GenericRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
     }
 }

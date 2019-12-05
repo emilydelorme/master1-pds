@@ -16,10 +16,19 @@ public class IfStatement implements StatementInterface
         this.expression = expression;
         this.statement = statement;
     }
+    
+    @Override
+    public void checkError()
+    {
+        this.expression.checkError();
+        this.statement.checkError();
+    }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         return "IF " + expression.pp() +
                 "\n" +
                 "THEN" +
@@ -32,6 +41,8 @@ public class IfStatement implements StatementInterface
     @Override
     public GenericRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
     }
 }

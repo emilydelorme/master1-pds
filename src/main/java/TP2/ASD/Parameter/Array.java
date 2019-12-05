@@ -12,6 +12,12 @@ public class Array implements ParameterInterface
     {
         this.ident = ident;
     }
+    
+    @Override
+    public String getIdent()
+    {
+        return this.ident;
+    }
 
     @Override
     public String pp()

@@ -10,34 +10,56 @@ import TP2.exceptions.TypeException;
 
 public class Block implements StatementInterface
 {
-    private Optional<Declaration> declaration;
+    private Optional<List<Declaration>> declarations;
     private List<StatementInterface> statements;
-    private SymbolTable symbolTable;
 
-    public Block(Optional<Declaration> declaration, List<StatementInterface> statements, SymbolTable symbolTable)
+    public Block(Optional<List<Declaration>> declarations, List<StatementInterface> statements)
     {
-        this.declaration = declaration;
+        this.declarations = declarations;
         this.statements = statements;
-        this.symbolTable = symbolTable;
     }
     
-    public Block(List<StatementInterface> statements, SymbolTable symbolTable)
+    public Block(List<StatementInterface> statements)
     {
-        this.declaration = Optional.empty();
+        this.declarations = Optional.empty();
         this.statements = statements;
-        this.symbolTable = symbolTable;
+    }
+    
+    @Override
+    public void checkError()
+    {
+        if (!declarations.isEmpty())
+        {
+            for (Declaration declaration : this.declarations.get())
+            {
+                declaration.checkError();
+            }
+        }
+        
+        for (StatementInterface statementInterface : this.statements)
+        {
+            statementInterface.checkError();
+        }
     }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         StringBuilder str = new StringBuilder();
 
         int statementSize = this.statements.size();
 
         str.append("{").append("\n");
 
-        this.declaration.ifPresent(value -> str.append(value.pp()));
+        if (!declarations.isEmpty())
+        {
+            for (Declaration declaration : this.declarations.get())
+            {
+                str.append(declaration.pp());
+            }
+        }
 
         for (int i = 0; i < statementSize; ++i)
         {
@@ -58,7 +80,8 @@ public class Block implements StatementInterface
     @Override
     public GenericRet toIR() throws TypeException
     {
-
+        checkError();
+        
         return null;
     }
 }

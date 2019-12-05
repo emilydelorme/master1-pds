@@ -8,6 +8,13 @@ import java.util.Objects;
 
 public class Int implements TypeInterface
 {
+    private static final String int_t = "INT";
+    
+    public String getType()
+    {
+        return int_t;
+    }
+    
     public String pp()
     {
         return "INT";

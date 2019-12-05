@@ -2,8 +2,6 @@ package TP2.ASD.Unit;
 
 import TP2.ASD.ParameterInterface;
 import TP2.ASD.Ret.GenericRet;
-import TP2.SymbolTable.FunctionSymbol;
-import TP2.SymbolTable.SymbolTable;
 import TP2.ASD.UnitInterface;
 
 import java.util.List;
@@ -15,13 +13,13 @@ public class Prototype implements UnitInterface
 {
     private TypeInterface type;
     private String ident;
-    private List<ParameterInterface> parametres;
+    private List<ParameterInterface> arguments;
     
-    public Prototype(TypeInterface type, String ident, List<ParameterInterface> parametres)
+    public Prototype(TypeInterface type, String ident, List<ParameterInterface> arguments)
     {
         this.type = type;
         this.ident = ident;
-        this.parametres = parametres;
+        this.arguments = arguments;
     }
 
     public TypeInterface getType()
@@ -34,21 +32,29 @@ public class Prototype implements UnitInterface
         return ident;
     }
 
-    public List<ParameterInterface> getParametres()
+    public List<ParameterInterface> getArguments()
     {
-        return parametres;
+        return arguments;
+    }
+    
+    @Override
+    public void checkError()
+    {
+        // Only one function prototype allowed, check done in VSLParser.g4 (prototype[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Prototype out])
     }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         StringBuilder strParametres = new StringBuilder();
         
-        int parametersSize = this.parametres.size();
+        int parametersSize = this.arguments.size();
         
         for (int i = 0; i < parametersSize; ++i)
         {
-            strParametres.append(this.parametres.get(i).pp());
+            strParametres.append(this.arguments.get(i).pp());
             
             if (i < parametersSize - 1)
             {
@@ -62,20 +68,8 @@ public class Prototype implements UnitInterface
     @Override
     public GenericRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
-    }
-
-    @Override
-    public void exitWithMessage(String message)
-    {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void checkError()
-    {
-        // TODO Auto-generated method stub
-        
     }
 }

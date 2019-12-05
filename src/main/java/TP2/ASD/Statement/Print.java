@@ -15,10 +15,21 @@ public class Print implements StatementInterface
     {
         this.items = items;
     }
+    
+    @Override
+    public void checkError()
+    {
+        for (ItemInterface itemInterface : this.items)
+        {
+            itemInterface.checkError();
+        }
+    }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         StringBuilder str = new StringBuilder("PRINT ");
         
         int itemsSize = this.items.size();
@@ -47,7 +58,8 @@ public class Print implements StatementInterface
     @Override
     public GenericRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
     }
-
 }

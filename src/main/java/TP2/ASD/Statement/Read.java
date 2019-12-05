@@ -15,10 +15,21 @@ public class Read implements StatementInterface
     {
         this.variablesForme = variablesForme;
     }
+    
+    @Override
+    public void checkError()
+    {
+        for (VariableFormInterface variableFormInterface : this.variablesForme)
+        {
+            variableFormInterface.checkError();
+        }
+    }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         StringBuilder str = new StringBuilder("READ ");
         
         int variablesSize = this.variablesForme.size();
@@ -40,7 +51,8 @@ public class Read implements StatementInterface
     @Override
     public GenericRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
     }
-
 }

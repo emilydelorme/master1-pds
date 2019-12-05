@@ -12,7 +12,7 @@ FUNC INT main()
 
 			c := 5
 
-			c := toto(a + 5, b + 1)
+			c := toto(a + 5, b)
 		}
 	}
 

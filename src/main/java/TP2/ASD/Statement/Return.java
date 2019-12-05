@@ -15,14 +15,26 @@ public class Return implements StatementInterface
     }
     
     @Override
+    public void checkError()
+    {
+        // TODO
+        
+        this.expression.checkError();
+    }
+    
+    @Override
     public String pp()
     {
+        checkError();
+        
         return "RETURN" + " " + this.expression.pp();
     }
 
     @Override
     public GenericRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
     }
 }

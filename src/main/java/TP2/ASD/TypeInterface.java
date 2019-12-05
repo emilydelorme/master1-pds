@@ -5,6 +5,7 @@ import TP2.Llvm.Type;
 // Warning: this is the type from VSL+, not the LLVM types!
 public interface TypeInterface
 {
+    String getType();
     String pp();
     Type toLlvmType();
 }

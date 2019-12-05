@@ -12,17 +12,26 @@ public class Text implements ItemInterface
     {
         this.value = value;
     }
+    
+    @Override
+    public void checkError()
+    {
+        // No error check
+    }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         return this.value;
     }
 
     @Override
     public GenericRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
     }
-
 }

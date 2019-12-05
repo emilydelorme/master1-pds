@@ -18,10 +18,20 @@ public class IfElseStatement implements StatementInterface
         this.trueStatement = trueStatement;
         this.falseStatement = falseStatement;
     }
+    
+    @Override
+    public void checkError()
+    {
+        this.expression.checkError();
+        this.trueStatement.checkError();
+        this.falseStatement.checkError();
+    }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         return "IF " + expression.pp() +
                 "\n" +
                 "THEN" +
@@ -38,6 +48,8 @@ public class IfElseStatement implements StatementInterface
     @Override
     public GenericRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
     }
 }
