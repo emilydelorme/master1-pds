@@ -12,7 +12,7 @@ public class Utils
     private static int lab = 0;
     private static Map<TypeLabel, Integer> typeLabelToInt = initLabelToInt();
 
-    private final static Pattern re = Pattern.compile("\\\\n");
+    private static final Pattern re = Pattern.compile("\\\\n");
 
     // return " " × level, useful for code indentation
     private Utils() {}
@@ -27,7 +27,7 @@ public class Utils
         return map;
     }
 
-    static public String indent(int level)
+    public static String indent(int level)
     {
         StringBuilder r = new StringBuilder();
         while (level-- > 0)

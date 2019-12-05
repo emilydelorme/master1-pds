@@ -4,7 +4,7 @@ public class LlvmUtils {
 
     private LlvmUtils() {}
 
-    public String globalInit() {
+    public static String globalInit() {
         return "; Target\n" +
                 "target triple = \"x86_64-unknown-linux-gnu\"\n" + // Change this if you want to compile for
                 // another OS
