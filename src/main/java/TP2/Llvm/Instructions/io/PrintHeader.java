@@ -18,4 +18,8 @@ public class PrintHeader implements Instruction
     {
         return "@." + printIdent + " = global [" + text.getLength() + " x i8] c\"" + text.getStr() + "\"\n";
     }
+
+    public int getLenght() {
+        return text.getLength();
+    }
 }
