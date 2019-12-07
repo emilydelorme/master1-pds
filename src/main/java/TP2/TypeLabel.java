@@ -5,5 +5,6 @@ public enum TypeLabel {
     ELSE,
     FI,
     WHILE,
-    DO
+    DO,
+    FMT
 }
