@@ -15,6 +15,16 @@ public class GenericRet
         this.result = result;
     }
 
+    public GenericRet(String result)
+    {
+        this(new InstructionHandler(), result);
+    }
+
+    public GenericRet()
+    {
+        this(new InstructionHandler(), "");
+    }
+
     public InstructionHandler getIr()
     {
         return ir;
