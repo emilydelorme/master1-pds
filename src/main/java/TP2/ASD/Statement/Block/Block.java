@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import TP2.ASD.Ret.GenericRet;
+import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.Utils;
 import TP2.ASD.StatementInterface;
@@ -86,7 +87,7 @@ public class Block implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
         

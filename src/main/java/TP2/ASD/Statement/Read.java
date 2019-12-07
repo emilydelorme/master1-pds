@@ -3,6 +3,7 @@ package TP2.ASD.Statement;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.StatementInterface;
 import TP2.ASD.VariableFormInterface;
+import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.TypeException;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class Read implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
         

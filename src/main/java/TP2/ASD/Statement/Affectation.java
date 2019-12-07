@@ -123,7 +123,7 @@ public class Affectation implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
         

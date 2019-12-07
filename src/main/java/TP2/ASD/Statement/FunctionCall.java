@@ -148,7 +148,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
     }
 
     @Override
-    public TypeRet toIR() throws TypeException
+    public TypeRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
         

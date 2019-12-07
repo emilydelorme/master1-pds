@@ -1,5 +1,6 @@
 package TP2.ASD.Statement;
 
+import TP2.SymbolTable.SymbolTable;
 import TP2.Utils;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.GenericRet;
@@ -44,7 +45,7 @@ public class WhileStatement implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
         
