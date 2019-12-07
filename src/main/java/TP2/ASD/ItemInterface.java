@@ -7,5 +7,5 @@ public interface ItemInterface extends ErrorHandlerInterface
 {
     String pp();
 
-    GenericRet toIR() throws TypeException;
+    GenericRet toIR();
 }

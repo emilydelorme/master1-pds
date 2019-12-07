@@ -29,7 +29,7 @@ public class Expression implements ItemInterface
     }
 
     @Override
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR()
     {
         checkError();
         

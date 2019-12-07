@@ -2,6 +2,7 @@ package TP2.ASD.Item;
 
 import TP2.ASD.ItemInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.Llvm.InstructionHandler;
 import TP2.exceptions.TypeException;
 
 public class Text implements ItemInterface
@@ -23,15 +24,13 @@ public class Text implements ItemInterface
     public String pp()
     {
         checkError();
-        
         return this.value;
     }
 
     @Override
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR()
     {
         checkError();
-        
-        return null;
+        return new GenericRet(value != null ? value : "%d");
     }
 }
