@@ -60,12 +60,7 @@ public class VariableSymbol extends Symbol
         {
             return false;
         }
-        
-        if (!Objects.equals(this.type, other.type))
-        {
-            return false;
-        }
-        
-        return true;
+
+        return Objects.equals(this.type, other.type);
     }
 }

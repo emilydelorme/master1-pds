@@ -75,11 +75,6 @@ public class FunctionSymbol extends Symbol
             return false;
         }
 
-        if (!Objects.equals(this.arguments, other.arguments))
-        {
-            return false;
-        }
-        
-        return true;
+        return Objects.equals(this.arguments, other.arguments);
     }
 }

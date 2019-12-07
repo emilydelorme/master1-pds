@@ -42,12 +42,7 @@ public abstract class Symbol
         
         final Symbol other = (Symbol) obj;
 
-        if (!Objects.equals(this.ident, other.ident))
-        {
-            return false;
-        }
-        
-        return true;
+        return Objects.equals(this.ident, other.ident);
     }
 
 }

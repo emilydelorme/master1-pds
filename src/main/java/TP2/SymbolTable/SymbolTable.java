@@ -55,12 +55,7 @@ public class SymbolTable
             return false;
         }
 
-        if (this.table.remove(ident) == null)
-        {
-            return false;
-        }
-
-        return true;
+        return this.table.remove(ident) != null;
     }
     
     public Symbol[] getValuesToArray()
@@ -110,11 +105,6 @@ public class SymbolTable
             return false;
         }
 
-        if (!Objects.equals(this.parent, other.parent))
-        {
-            return false;
-        }
-
-        return true;
+        return Objects.equals(this.parent, other.parent);
     }
 }
