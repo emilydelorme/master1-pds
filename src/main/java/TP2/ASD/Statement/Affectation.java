@@ -9,21 +9,19 @@ import TP2.SymbolTable.SymbolTable;
 import TP2.SymbolTable.VariableSymbol;
 import TP2.ASD.StatementInterface;
 import TP2.ASD.VariableFormInterface;
-import TP2.ASD.Expression.VariableExpression;
 import TP2.ASD.Types.Void;
 import TP2.ASD.VariableForm.Array;
-import TP2.ASD.VariableForm.Basic;
 import TP2.exceptions.TypeException;
 
 public class Affectation implements StatementInterface
 {
-    private VariableFormInterface variableForme;
+    private VariableFormInterface variableForm;
     private ExpressionInterface expression;
     private SymbolTable symbolTable;
 
-    public Affectation(VariableFormInterface variableForme, ExpressionInterface expression, SymbolTable symbolTable)
+    public Affectation(VariableFormInterface variableForm, ExpressionInterface expression, SymbolTable symbolTable)
     {
-        this.variableForme = variableForme;
+        this.variableForm = variableForm;
         this.expression = expression;
         this.symbolTable = symbolTable;
     }
@@ -31,12 +29,12 @@ public class Affectation implements StatementInterface
     @Override
     public void checkError()
     {
-        this.variableForme.checkError();
+        this.variableForm.checkError();
         this.expression.checkError();
 
-        if (!(this.variableForme instanceof Array))
+        if (!(this.variableForm instanceof Array))
         {
-            Symbol symbol = this.symbolTable.lookup(this.variableForme.getIdent());
+            Symbol symbol = this.symbolTable.lookup(this.variableForm.getIdent());
             
             if (symbol instanceof VariableSymbol)
             {
@@ -49,9 +47,9 @@ public class Affectation implements StatementInterface
             }
         }
         
-        if (this.variableForme instanceof Array)
+        if (this.variableForm instanceof Array)
         {
-            Symbol symbol = this.symbolTable.lookup(this.variableForme.getIdent());
+            Symbol symbol = this.symbolTable.lookup(this.variableForm.getIdent());
             
             if (symbol instanceof VariableSymbol)
             {
@@ -119,7 +117,7 @@ public class Affectation implements StatementInterface
     {
         checkError();
         
-        return this.variableForme.pp() + " := " + this.expression.pp();
+        return this.variableForm.pp() + " := " + this.expression.pp();
     }
 
     @Override
