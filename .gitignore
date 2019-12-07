@@ -163,3 +163,5 @@ gradle-app.setting
 build
 src/main/antlr/.antlr
 .idea/sonarlint/
+
+.classpath
