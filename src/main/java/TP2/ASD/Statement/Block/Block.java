@@ -1,7 +1,9 @@
 package TP2.ASD.Statement.Block;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import TP2.ASD.Ret.GenericRet;
 import TP2.SymbolTable.Symbol;
@@ -12,11 +14,11 @@ import TP2.exceptions.TypeException;
 
 public class Block implements StatementInterface
 {
-    private Optional<List<Declaration>> declarations;
+    private List<Declaration> declarations;
     private List<StatementInterface> statements;
     public static int identLevel = 0;
 
-    public Block(Optional<List<Declaration>> declarations, List<StatementInterface> statements)
+    public Block(List<Declaration> declarations, List<StatementInterface> statements)
     {
         this.declarations = declarations;
         this.statements = statements;
@@ -24,7 +26,7 @@ public class Block implements StatementInterface
     
     public Block(List<StatementInterface> statements)
     {
-        this.declarations = Optional.empty();
+        this.declarations = new ArrayList<>();
         this.statements = statements;
     }
     
@@ -33,7 +35,7 @@ public class Block implements StatementInterface
     {
         if (!declarations.isEmpty())
         {
-            for (Declaration declaration : this.declarations.get())
+            for (Declaration declaration : this.declarations)
             {
                 declaration.checkError();
             }
@@ -51,7 +53,6 @@ public class Block implements StatementInterface
         checkError();
         
         StringBuilder str = new StringBuilder();
-
         int statementSize = this.statements.size();
 
         str.append("{").append("\n");
@@ -59,29 +60,19 @@ public class Block implements StatementInterface
 
         if (!declarations.isEmpty())
         {
-            for (Declaration declaration : this.declarations.get())
-            {
-                str.append(Utils.indent(identLevel));
-                str.append(declaration.pp());
-            }
+            this.declarations.forEach(declaration -> str.append(Utils.indent(identLevel)).append(declaration.pp()));
         }
 
-        for (int i = 0; i < statementSize; ++i)
-        {
-            str.append(Utils.indent(identLevel));
-            str.append(this.statements.get(i).pp());
-
-            if (i < statementSize - 1)
-            {
+        IntStream.range(0, statementSize).forEach(i -> {
+            str.append(Utils.indent(identLevel)).append(this.statements.get(i).pp());
+            if (i < statementSize - 1) {
                 str.append("\n");
             }
-        }
+        });
         
         str.append("\n");
         identLevel--;
-        str.append(Utils.indent(identLevel));
-        str.append("}");
-        
+        str.append(Utils.indent(identLevel)).append("}");
 
         return str.toString();
     }
@@ -90,7 +81,15 @@ public class Block implements StatementInterface
     public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
-        
-        return null;
+
+        GenericRet result = new GenericRet();
+
+        identLevel++;
+        for (StatementInterface statement : statements) {
+            result.getIr().appendAll(statement.toIR(symbolTable).getIr());
+        }
+        identLevel--;
+
+        return result;
     }
 }

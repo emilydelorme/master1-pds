@@ -194,7 +194,7 @@ block[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Statement.Block.
 	TP2.SymbolTable.SymbolTable symbolTableBlock = new TP2.SymbolTable.SymbolTable();
 	symbolTableBlock.setParent(symbolTable);
 }
-	: AL (d=declaration[symbolTableBlock] { declarations.add($d.out); })+ (s=statement[symbolTableBlock] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(Optional.of(declarations), statements); }
+	: AL (d=declaration[symbolTableBlock] { declarations.add($d.out); })+ (s=statement[symbolTableBlock] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(declarations, statements); }
 	| AL (s=statement[symbolTableBlock] { statements.add($s.out); })+ AR { $out = new TP2.ASD.Statement.Block.Block(statements); }
 	;
 
