@@ -1,6 +1,7 @@
 package TP2.ASD.Statement;
 
 import TP2.SymbolTable.SymbolTable;
+import TP2.TypeLabel;
 import TP2.Utils;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.GenericRet;
@@ -11,20 +12,20 @@ import TP2.exceptions.TypeException;
 public class WhileStatement implements StatementInterface
 {
 
-    private ExpressionInterface expression;
-    private StatementInterface statementInterface;
+    private ExpressionInterface condition;
+    private StatementInterface statement;
 
-    public WhileStatement(ExpressionInterface expression, StatementInterface statementInterface)
+    public WhileStatement(ExpressionInterface condition, StatementInterface statement)
     {
-        this.expression = expression;
-        this.statementInterface = statementInterface;
+        this.condition = condition;
+        this.statement = statement;
     }
     
     @Override
     public void checkError()
     {
-        this.expression.checkError();
-        this.statementInterface.checkError();
+        this.condition.checkError();
+        this.statement.checkError();
     }
 
     @Override
@@ -32,13 +33,13 @@ public class WhileStatement implements StatementInterface
     {
         checkError();
         
-        return "WHILE " + expression.pp() +
+        return "WHILE " + condition.pp() +
                 "\n" +
                 Utils.indent(Block.identLevel) +
                 "DO" +
                 "\n" +
                 Utils.indent(Block.identLevel) +
-                statementInterface.pp() +
+                statement.pp() +
                 "\n" +
                 Utils.indent(Block.identLevel) +
                 "DONE";
@@ -48,7 +49,6 @@ public class WhileStatement implements StatementInterface
     public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
-        
-        return null;
+        return StatementUtils.createControl(ControlType.WHILE, symbolTable, Utils.newLabel(TypeLabel.WHILE), Utils.newLabel(TypeLabel.DONE), condition, statement, Utils.newLabel(TypeLabel.DO), null);
     }
 }

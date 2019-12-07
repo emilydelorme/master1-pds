@@ -1,6 +1,11 @@
 package TP2.ASD.Statement;
 
+import TP2.ASD.Ret.TypeRet;
+import TP2.Llvm.Instructions.Br;
+import TP2.Llvm.Instructions.Label;
+import TP2.Llvm.Instructions.Operations.CompareToZero;
 import TP2.SymbolTable.SymbolTable;
+import TP2.TypeLabel;
 import TP2.Utils;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.GenericRet;
@@ -11,19 +16,19 @@ import TP2.exceptions.TypeException;
 public class IfStatement implements StatementInterface
 {
 
-    private ExpressionInterface expression;
+    private ExpressionInterface condition;
     private StatementInterface statement;
 
-    public IfStatement(ExpressionInterface expression, StatementInterface statement)
+    public IfStatement(ExpressionInterface condition, StatementInterface statement)
     {
-        this.expression = expression;
+        this.condition = condition;
         this.statement = statement;
     }
     
     @Override
     public void checkError()
     {
-        this.expression.checkError();
+        this.condition.checkError();
         this.statement.checkError();
     }
 
@@ -33,7 +38,7 @@ public class IfStatement implements StatementInterface
         checkError();
         
         //TODO fix indent
-        return "IF " + expression.pp() +
+        return "IF " + condition.pp() +
                 "\n" +
                 Utils.indent(Block.identLevel) +
                 "THEN" +
@@ -49,7 +54,7 @@ public class IfStatement implements StatementInterface
     public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
-        
-        return null;
+        return StatementUtils.createControl(ControlType.IF, symbolTable, Utils.newLabel(TypeLabel.THEN), Utils.newLabel(TypeLabel.FI), condition, statement);
     }
+
 }
