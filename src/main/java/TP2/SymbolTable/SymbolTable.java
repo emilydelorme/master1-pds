@@ -80,6 +80,10 @@ public class SymbolTable
         return result;
     }
 
+    public boolean isPresent(String ident) {
+        return Objects.isNull(lookup(ident));
+    }
+
     @Override
     public boolean equals(Object obj)
     {
