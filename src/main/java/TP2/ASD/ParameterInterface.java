@@ -5,6 +5,8 @@ import TP2.exceptions.TypeException;
 
 public interface ParameterInterface
 {
+    String getIdent();
+    
     String pp();
 
     GenericRet toIR() throws TypeException;

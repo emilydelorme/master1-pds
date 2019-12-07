@@ -13,25 +13,48 @@ public class Prototype implements UnitInterface
 {
     private TypeInterface type;
     private String ident;
-    private List<ParameterInterface> parametres;
+    private List<ParameterInterface> arguments;
     
-    public Prototype(TypeInterface type, String ident, List<ParameterInterface> parametres)
+    public Prototype(TypeInterface type, String ident, List<ParameterInterface> arguments)
     {
         this.type = type;
         this.ident = ident;
-        this.parametres = parametres;
+        this.arguments = arguments;
+    }
+
+    public TypeInterface getType()
+    {
+        return type;
+    }
+
+    public String getIdent()
+    {
+        return ident;
+    }
+
+    public List<ParameterInterface> getArguments()
+    {
+        return arguments;
+    }
+    
+    @Override
+    public void checkError()
+    {
+        // Only one function prototype allowed, check done in VSLParser.g4 (prototype[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Prototype out])
     }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         StringBuilder strParametres = new StringBuilder();
-
-        int parametersSize = this.parametres.size();
+        
+        int parametersSize = this.arguments.size();
         
         for (int i = 0; i < parametersSize; ++i)
         {
-            strParametres.append(this.parametres.get(i).pp());
+            strParametres.append(this.arguments.get(i).pp());
             
             if (i < parametersSize - 1)
             {
@@ -45,6 +68,8 @@ public class Prototype implements UnitInterface
     @Override
     public GenericRet toIR() throws TypeException
     {
+        checkError();
+        
         return null;
     }
 }

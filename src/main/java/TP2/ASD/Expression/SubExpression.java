@@ -16,16 +16,26 @@ public class SubExpression implements ExpressionInterface
         this.left = left;
         this.right = right;
     }
+    
+    @Override
+    public void checkError()
+    {
+        this.left.checkError();
+        this.right.checkError();
+    }
 
-    // Pretty-printer
     public String pp()
     {
+        checkError();
+        
         return left.pp() + " - " + right.pp();
     }
 
     // IR generation (IR = Représentation intermédiaire)
     public TypeRet toIR() throws TypeException
     {
+        checkError();
+        
         return ExpressionHelper.retExpression(left.toIR(), right.toIR(), Operation.SUB);
     }
 }

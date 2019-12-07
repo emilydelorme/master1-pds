@@ -33,36 +33,42 @@ public class InstructionHandler
         this.appendAll(ir);
     }
 
-    public void appendHeader(Instruction instruction)
+    public InstructionHandler appendHeader(Instruction instruction)
     {
         this.code.add(instruction);
+        return this;
     }
 
-    public void appendCode(Instruction instruction)
+    public InstructionHandler appendCode(Instruction instruction)
     {
         this.code.add(instruction);
+        return this;
     }
 
-    public void appendAll(List<Instruction> header, List<Instruction> code)
+    public InstructionHandler appendAll(List<Instruction> header, List<Instruction> code)
     {
         this.header.addAll(header);
         this.code.addAll(code);
+        return this;
     }
 
-    public void appendCode(List<Instruction> code)
+    public InstructionHandler appendCode(List<Instruction> code)
     {
         this.code.addAll(code);
+        return this;
     }
 
-    public void appendHeader(List<Instruction> header)
+    public InstructionHandler appendHeader(List<Instruction> header)
     {
         this.header.addAll(header);
+        return this;
     }
 
-    public void appendAll(InstructionHandler ir)
+    public InstructionHandler appendAll(InstructionHandler ir)
     {
         this.header.addAll(ir.header);
         this.code.addAll(ir.code);
+        return this;
     }
 
     // Final string generation

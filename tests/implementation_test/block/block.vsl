@@ -1,0 +1,25 @@
+PROTO INT toto(a, t[])
+
+FUNC INT main()
+{
+	INT a, b[5]
+
+	a := 5
+
+	{
+		{
+			INT c
+
+			c := 5
+
+			c := toto(a + 5, b)
+		}
+	}
+
+	RETURN 0
+}
+
+FUNC INT toto(a, t[])
+{
+	RETURN 0
+}

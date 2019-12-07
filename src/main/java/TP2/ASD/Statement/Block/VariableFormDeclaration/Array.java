@@ -1,7 +1,13 @@
 package TP2.ASD.Statement.Block.VariableFormDeclaration;
 
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.Types.Int;
 import TP2.ASD.VariableFormDeclarationInterface;
+import TP2.Llvm.Instructions.alloca.AllocaTab;
+import TP2.Llvm.Types.LlvmInt;
+import TP2.SymbolTable.Symbol;
+import TP2.SymbolTable.SymbolTable;
+import TP2.SymbolTable.VariableSymbol;
 import TP2.exceptions.TypeException;
 
 public class Array implements VariableFormDeclarationInterface
@@ -15,6 +21,12 @@ public class Array implements VariableFormDeclarationInterface
         this.size = size;
     }
 
+    @Override
+    public String getIdent()
+    {
+        return this.ident;
+    }
+
     // Pretty-printer
     @Override
     public String pp()
@@ -23,8 +35,16 @@ public class Array implements VariableFormDeclarationInterface
     }
 
     @Override
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR(SymbolTable symbolTable)
     {
-        return null;
+        GenericRet result = new GenericRet();
+        if (!symbolTable.isPresent(ident)) {
+            symbolTable.add(new VariableSymbol(new Int(), ident, true));
+        }/* else {
+            Throw
+        }*/
+
+        result.getIr().appendCode(new AllocaTab(new LlvmInt(), ident, size));
+        return result;
     }
 }

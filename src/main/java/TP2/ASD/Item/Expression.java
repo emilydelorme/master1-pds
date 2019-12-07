@@ -13,18 +13,26 @@ public class Expression implements ItemInterface
     {
         this.expression = expression;
     }
+    
+    @Override
+    public void checkError()
+    {
+        this.expression.checkError();
+    }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         return this.expression.pp();
     }
 
     @Override
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR()
     {
-        // TODO Auto-generated method stub
+        checkError();
+        
         return null;
     }
-
 }

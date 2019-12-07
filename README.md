@@ -1,10 +1,20 @@
 # Projet PDS ISTIC Année 2019-2020 Compilateur VSL+
 
 <p align="center">
+    <a href="https://sonar.emilydelorme.xyz/dashboard?id=master1-pds"
+    ><img
+      src="https://sonar.emilydelorme.xyz/api/project_badges/measure?project=master1-pds&metric=ncloc"
+      alt="Lines of Code"
+  /></a>
     <a href="https://github.com/emilydelorme/master1-pds/actions"
     ><img
       src="https://github.com/emilydelorme/master1-pds/workflows/Java%20CI/badge.svg"
       alt="GitHub Actions workflow status"
+  /></a>
+    <a href="https://sonar.emilydelorme.xyz/dashboard?id=master1-pds"
+    ><img
+      src="https://sonar.emilydelorme.xyz/api/project_badges/quality_gate?project=master1-pds"
+      alt="Sonar Badge"
   /></a>
  <br><br>
 

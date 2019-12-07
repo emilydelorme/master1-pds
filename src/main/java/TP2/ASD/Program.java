@@ -4,6 +4,7 @@ import java.util.List;
 
 import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.Types.Void;
+import TP2.ASD.Unit.Function;
 import TP2.Llvm.Instruction;
 import TP2.Llvm.InstructionHandler;
 import TP2.Llvm.Instructions.Return;
@@ -13,10 +14,45 @@ import TP2.exceptions.TypeException;
 public class Program
 {
     private List<UnitInterface> unitInterface;
+    private static final String MAIN_FUNCTION_NAME = "main";
 
-    public Program(List<UnitInterface> unitInterface)
+    private Program(List<UnitInterface> unitInterface)
     {
         this.unitInterface = unitInterface;
+    }
+    
+    public static Program create(List<UnitInterface> unitInterface)
+    {
+        Function mainFunction = null;
+        
+        for (UnitInterface unit : unitInterface)
+        {
+            if (unit instanceof Function && unit.getIdent().equals(MAIN_FUNCTION_NAME))
+            {
+                mainFunction = (Function)unit;
+            }
+        }
+        
+        if (mainFunction == null)
+        {
+            System.err.println(String.format("ERROR: [Program] (%s) function not detected", MAIN_FUNCTION_NAME));
+            
+            System.exit(1);
+        }
+        
+        if (!mainFunction.getArguments().isEmpty())
+        {
+            System.err.println(String.format("ERROR: [Program] (%s) function shouldn't have any arguments", MAIN_FUNCTION_NAME));
+            
+            System.exit(1);
+        }
+        
+        for (UnitInterface unit : unitInterface)
+        {
+            unit.checkError();
+        }
+        
+        return new Program(unitInterface);
     }
 
     // Pretty-printer

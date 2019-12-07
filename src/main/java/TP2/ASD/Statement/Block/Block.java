@@ -1,62 +1,95 @@
 package TP2.ASD.Statement.Block;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import TP2.ASD.Ret.GenericRet;
+import TP2.SymbolTable.Symbol;
+import TP2.SymbolTable.SymbolTable;
+import TP2.Utils;
 import TP2.ASD.StatementInterface;
 import TP2.exceptions.TypeException;
 
 public class Block implements StatementInterface
 {
-    private Optional<Declaration> declaration;
+    private List<Declaration> declarations;
     private List<StatementInterface> statements;
+    public static int identLevel = 0;
 
-    public Block(Optional<Declaration> declaration, List<StatementInterface> statements)
+    public Block(List<Declaration> declarations, List<StatementInterface> statements)
     {
-        this.declaration = declaration;
+        this.declarations = declarations;
         this.statements = statements;
     }
     
     public Block(List<StatementInterface> statements)
     {
-        this.declaration = Optional.empty();
+        this.declarations = new ArrayList<>();
         this.statements = statements;
+    }
+    
+    @Override
+    public void checkError()
+    {
+        if (!declarations.isEmpty())
+        {
+            for (Declaration declaration : this.declarations)
+            {
+                declaration.checkError();
+            }
+        }
+        
+        for (StatementInterface statementInterface : this.statements)
+        {
+            statementInterface.checkError();
+        }
     }
 
     @Override
     public String pp()
     {
+        checkError();
+        
         StringBuilder str = new StringBuilder();
-
         int statementSize = this.statements.size();
 
         str.append("{").append("\n");
+        identLevel++;
 
-        //str += "\t";
-        this.declaration.ifPresent(value -> str.append(value.pp()));
-
-        for (int i = 0; i < statementSize; ++i)
+        if (!declarations.isEmpty())
         {
-            //str += "\t";
-            str.append(this.statements.get(i).pp());
-
-            if (i < statementSize - 1)
-            {
-                str.append("\n");
-            }
+            this.declarations.forEach(declaration -> str.append(Utils.indent(identLevel)).append(declaration.pp()));
         }
 
+        IntStream.range(0, statementSize).forEach(i -> {
+            str.append(Utils.indent(identLevel)).append(this.statements.get(i).pp());
+            if (i < statementSize - 1) {
+                str.append("\n");
+            }
+        });
+        
         str.append("\n");
-        str.append("}");
+        identLevel--;
+        str.append(Utils.indent(identLevel)).append("}");
 
         return str.toString();
     }
 
     @Override
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
+        checkError();
 
-        return null;
+        GenericRet result = new GenericRet();
+
+        identLevel++;
+        for (StatementInterface statement : statements) {
+            result.getIr().appendAll(statement.toIR(symbolTable).getIr());
+        }
+        identLevel--;
+
+        return result;
     }
 }
