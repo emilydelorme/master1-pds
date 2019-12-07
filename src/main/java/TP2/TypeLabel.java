@@ -6,5 +6,6 @@ public enum TypeLabel {
     FI,
     WHILE,
     DO,
-    FMT
+    FMT,
+    DONE
 }
