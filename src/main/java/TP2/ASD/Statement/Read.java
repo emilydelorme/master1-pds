@@ -3,7 +3,12 @@ package TP2.ASD.Statement;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.StatementInterface;
 import TP2.ASD.VariableFormInterface;
+import TP2.Llvm.Instruction;
+import TP2.Llvm.Instructions.io.ReadCall;
+import TP2.Llvm.Instructions.io.ReadHeader;
 import TP2.SymbolTable.SymbolTable;
+import TP2.TypeLabel;
+import TP2.Utils;
 import TP2.exceptions.TypeException;
 
 import java.util.List;
@@ -11,17 +16,17 @@ import java.util.stream.IntStream;
 
 public class Read implements StatementInterface
 {
-    private List<VariableFormInterface> variablesForm;
+    private List<VariableFormInterface> variables;
 
-    public Read(List<VariableFormInterface> variablesForm)
+    public Read(List<VariableFormInterface> variables)
     {
-        this.variablesForm = variablesForm;
+        this.variables = variables;
     }
     
     @Override
     public void checkError()
     {
-        for (VariableFormInterface variableFormInterface : this.variablesForm)
+        for (VariableFormInterface variableFormInterface : this.variables)
         {
             variableFormInterface.checkError();
         }
@@ -34,10 +39,10 @@ public class Read implements StatementInterface
         
         StringBuilder str = new StringBuilder("READ ");
         
-        int variablesSize = this.variablesForm.size();
+        int variablesSize = this.variables.size();
 
         IntStream.range(0, variablesSize).forEach(i -> {
-            str.append(this.variablesForm.get(i).pp());
+            str.append(this.variables.get(i).pp());
             if (i < variablesSize - 1) {
                 str.append(", ");
             }
@@ -50,7 +55,16 @@ public class Read implements StatementInterface
     public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
-        
-        return null;
+
+        GenericRet result = new GenericRet();
+
+        for(VariableFormInterface variable : variables) {
+            String readName = Utils.newLabel(TypeLabel.FMT);
+
+            result.getIr().appendHeader(new ReadHeader(readName))
+                  .appendCode(new ReadCall(readName, "%" + variable + "var" + symbolTable.lookup(variable.getIdent())));
+        }
+
+        return result;
     }
 }
