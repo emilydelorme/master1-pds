@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public abstract class Symbol
 {
-    private String ident;
+    private final String ident;
 
     public Symbol(String ident)
     {
@@ -15,34 +15,22 @@ public abstract class Symbol
     {
         return this.ident;
     }
-    
+
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Symbol that = (Symbol) o;
+
+        return Objects.equals(this.ident, that.ident);
+    }
+
     @Override
     public int hashCode()
     {
-        return Objects.hash(this.ident);
+        return Objects.hash(ident);
     }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (!(obj instanceof Symbol))
-        {
-            return false;
-        }
-        
-        final Symbol other = (Symbol) obj;
-
-        return Objects.equals(this.ident, other.ident);
-    }
-
 }
