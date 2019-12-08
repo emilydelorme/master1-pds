@@ -24,6 +24,8 @@ public class Utils
         map.put(TypeLabel.ELSE, 0);
         map.put(TypeLabel.FI, 0);
         map.put(TypeLabel.THEN, 0);
+        map.put(TypeLabel.FMT, 0);
+        map.put(TypeLabel.DONE, 0);
         return map;
     }
 
@@ -56,7 +58,7 @@ public class Utils
             }
             return ++val;
             });
-        return typeLabel.toString() + (typeLabelToInt.get(typeLabel) - 1);
+        return typeLabel.toString().toLowerCase() + (typeLabelToInt.get(typeLabel) - 1);
     }
 
     // transform escaped newlines ('\' 'n') into newline form suitable for LLVM
