@@ -4,20 +4,20 @@ import TP2.Llvm.Instruction;
 import TP2.Llvm.Type;
 
 public class Store implements Instruction {
-    private Type type;
-    private String value;
-    private String pointer;
+    private final Type type;
+    private final String ident;
+    private final String pointer;
 
-    public Store(Type type, String value, String pointer)
+    public Store(Type type, String ident, String pointer)
     {
         this.type = type;
-        this.value = value;
+        this.ident = ident;
         this.pointer = pointer;
     }
 
     @Override
     public String toString()
     {
-        return "store " + type + " " + value + ", " + type + "* " + pointer;
+        return "store " + type + " " + ident + ", " + type + "* " + pointer;
     }
 }

@@ -71,6 +71,10 @@ public class InstructionHandler
         return this;
     }
 
+    public boolean isEmpty() {
+        return this.code.isEmpty() && this.header.isEmpty();
+    }
+
     // Final string generation
     @Override
     public String toString()
