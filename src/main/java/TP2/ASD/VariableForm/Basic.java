@@ -48,6 +48,6 @@ public class Basic implements VariableFormInterface
     {
         checkError();
         
-        return null;
+        return new GenericRet();
     }
 }

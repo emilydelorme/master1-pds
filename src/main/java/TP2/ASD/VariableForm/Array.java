@@ -53,6 +53,6 @@ public class Array implements VariableFormInterface
     {
         checkError();
         
-        return null;
+        return new GenericRet();
     }
 }
