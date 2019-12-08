@@ -2,10 +2,12 @@ package TP2.ASD.Statement.Block;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import TP2.ASD.Ret.GenericRet;
+import TP2.Llvm.InstructionHandler;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.Utils;
@@ -84,11 +86,13 @@ public class Block implements StatementInterface
 
         GenericRet result = new GenericRet();
 
-        identLevel++;
+        for (Declaration declaration : declarations) {
+            result.getIr().appendAll(declaration.toIR(symbolTable).getIr());
+        }
+
         for (StatementInterface statement : statements) {
             result.getIr().appendAll(statement.toIR(symbolTable).getIr());
         }
-        identLevel--;
 
         return result;
     }
