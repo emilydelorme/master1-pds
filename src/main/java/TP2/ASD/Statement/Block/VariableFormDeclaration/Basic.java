@@ -34,13 +34,9 @@ public class Basic implements VariableFormDeclarationInterface
     public GenericRet toIR(SymbolTable symbolTable)
     {
         GenericRet result = new GenericRet();
-        if (!symbolTable.isPresent(ident)) {
-            symbolTable.add(new VariableSymbol(new Int(), ident, false));
-        }/* else {
-            Throw
-        }*/
 
         result.getIr().appendCode(new AllocaVar(new LlvmInt(), ident));
+        
         return result;
     }
 }
