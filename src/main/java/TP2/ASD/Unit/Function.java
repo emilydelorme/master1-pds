@@ -147,7 +147,7 @@ public class Function implements UnitInterface {
 
         for (ParameterInterface parameter : arguments) {
             result.getIr().appendCode(new AllocaVar(new LlvmInt(), "%" + parameter.getIdent() + "var"))
-                .appendCode(new Store(new LlvmInt(), "%" + parameter.getIdent() + "var", "%" + parameter.getIdent()));
+                .appendCode(new Store(new LlvmInt(), parameter.getIdent() + "var", parameter.getIdent()));
         }
 
         result.getIr().appendAll(statement.toIR().getIr());

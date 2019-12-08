@@ -136,7 +136,7 @@ public class Affectation implements StatementInterface {
                     result.getIr().appendAll(leftRet.getIr());
                     result.getIr().appendCode(
                             new LoadTab(resultIdent,
-                                        "%" + leftVar.getIdent(),
+                                        leftVar.getIdent(),
                                         leftRet.getResult(),
                                         variableSymbol.getSize()));
                 }
