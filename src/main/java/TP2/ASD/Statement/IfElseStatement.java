@@ -55,11 +55,11 @@ public class IfElseStatement implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         checkError();
 
-        return StatementUtils.createControl(ControlType.ELSEIF, symbolTable,
+        return StatementUtils.createControl(ControlType.ELSEIF,
                 Utils.newLabel(TypeLabel.THEN), Utils.newLabel(TypeLabel.FI),
                 condition, trueStatement,
                 Utils.newLabel(TypeLabel.ELSE), falseStatement);

@@ -8,9 +8,9 @@ public class LoadTab implements Instruction
     private final String ident;
     private final String tabIdent;
     private final String tabIndex;
-    private final String tabSize;
+    private final int tabSize;
 
-    public LoadTab(String ident, String tabIdent, String tabIndex, String tabSize) {
+    public LoadTab(String ident, String tabIdent, String tabIndex, int tabSize) {
         this.ident = ident;
         this.tabIdent = tabIdent;
         this.tabIndex = tabIndex;

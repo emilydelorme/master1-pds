@@ -10,5 +10,5 @@ public interface UnitInterface extends ErrorHandlerInterface
     
     String pp();
     
-    GenericRet toIR(SymbolTable symbolTable) throws TypeException;
+    GenericRet toIR() throws TypeException;
 }

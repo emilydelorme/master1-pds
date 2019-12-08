@@ -51,10 +51,10 @@ public class IfStatement implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         checkError();
-        return StatementUtils.createControl(ControlType.IF, symbolTable, Utils.newLabel(TypeLabel.THEN), Utils.newLabel(TypeLabel.FI), condition, statement);
+        return StatementUtils.createControl(ControlType.IF, Utils.newLabel(TypeLabel.THEN), Utils.newLabel(TypeLabel.FI), condition, statement);
     }
 
 }

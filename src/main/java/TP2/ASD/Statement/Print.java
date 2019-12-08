@@ -8,12 +8,10 @@ import TP2.ASD.Item.Expression;
 import TP2.ASD.Item.Text;
 import TP2.ASD.ItemInterface;
 import TP2.ASD.Ret.GenericRet;
-import TP2.ASD.Ret.SymbolTableRet;
 import TP2.ASD.StatementInterface;
 import TP2.Llvm.Instruction;
 import TP2.Llvm.Instructions.io.PrintCall;
 import TP2.Llvm.Instructions.io.PrintHeader;
-import TP2.SymbolTable.SymbolTable;
 import TP2.TypeLabel;
 import TP2.Utils;
 import TP2.exceptions.TypeException;
@@ -56,10 +54,11 @@ public class Print implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         checkError();
-        SymbolTableRet result = new SymbolTableRet(symbolTable);
+        
+        GenericRet result = new GenericRet();
         String printIdent = Utils.newLabel(TypeLabel.FMT);
 
         // Text

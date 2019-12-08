@@ -45,12 +45,12 @@ public class Declaration implements ErrorHandlerInterface
         return str.toString();
     }
 
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         GenericRet result = new GenericRet();
 
         variablesForm.stream()
-                .map(var -> var.toIR(symbolTable))
+                .map(var -> var.toIR())
                 .forEach(genericRet -> result.getIr().appendAll(genericRet.getIr()));
         return result;
     }

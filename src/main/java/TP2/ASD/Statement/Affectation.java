@@ -112,7 +112,7 @@ public class Affectation implements StatementInterface {
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException {
+    public GenericRet toIR() throws TypeException {
         checkError();
 
         GenericRet result = new GenericRet();
@@ -123,21 +123,26 @@ public class Affectation implements StatementInterface {
         String leftVarIdent = "";
 
         if (leftVar instanceof Array) {
-            Symbol leftSymbol = symbolTable.lookup(leftVar.getIdent());
-            String resultIdent = Utils.newtmp();
-            GenericRet leftRet = leftVar.toIR();
+            Symbol leftSymbol = this.symbolTable.lookup(leftVar.getIdent());
+            
+            if (leftSymbol instanceof VariableSymbol)
+            {
+                VariableSymbol variableSymbol = (VariableSymbol)leftSymbol;
+                
+                String resultIdent = Utils.newtmp();
+                GenericRet leftRet = leftVar.toIR();
 
-            if (leftRet.getIr().isEmpty()) {
-                result.getIr().appendAll(leftRet.getIr());
-                result.getIr().appendCode(
-                        new LoadTab(resultIdent,
-                                    "%" + leftVar.getIdent(),
-                                    leftRet.getResult(),
-                                    leftSymbol.getIdent()));
+                if (leftRet.getIr().isEmpty()) {
+                    result.getIr().appendAll(leftRet.getIr());
+                    result.getIr().appendCode(
+                            new LoadTab(resultIdent,
+                                        "%" + leftVar.getIdent(),
+                                        leftRet.getResult(),
+                                        variableSymbol.getSize()));
+                }
+
+                leftVarIdent = resultIdent;
             }
-
-            leftVarIdent = resultIdent;
-
         } else {
             leftVarIdent = "%" + leftVar.getIdent(); // Add index
         }

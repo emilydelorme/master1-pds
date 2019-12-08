@@ -72,15 +72,15 @@ public class Program
         if (this.unitInterface.isEmpty())
             throw new EmptyProgram("Programme vide");
 
-        SymbolTable symbolTable = new SymbolTable();
-        TypeRet retExpr = new TypeRet(new Void());
+        TypeRet retExpr = new TypeRet(this.unitInterface.get(0).toIR(), new Void());
+        this.unitInterface.remove(0);
 
         for (UnitInterface unit : this.unitInterface)
         {
             if(unit instanceof Function && Objects.nonNull(retExpr.getIr().getProto(unit.getIdent()))) {
-                retExpr.getIr().replaceProto(unit.getIdent(), unit.toIR(symbolTable).getIr());
+                retExpr.getIr().replaceProto(unit.getIdent(), unit.toIR().getIr());
             } else {
-                retExpr.getIr().appendAll(unit.toIR(symbolTable).getIr());
+                retExpr.getIr().appendAll(unit.toIR().getIr());
             }
         }
 
