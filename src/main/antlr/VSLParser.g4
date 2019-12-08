@@ -22,7 +22,7 @@ program returns [TP2.ASD.Program out]
 	List<TP2.ASD.UnitInterface> units = new ArrayList<>();
 	TP2.SymbolTable.SymbolTable symbolTable = new TP2.SymbolTable.SymbolTable();
 }
-    : (u=unit[symbolTable] { units.add($u.out); } )* EOF { $out = TP2.ASD.Program.create(units); }
+    : (u=unit[symbolTable] { units.add($u.out); } )* EOF { $out = TP2.ASD.Program.create(units, symbolTable); }
     ;
 
 // =====================================================================
