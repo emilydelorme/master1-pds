@@ -1,11 +1,12 @@
 package TP2.Llvm.Instructions.load;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 
 public class LoadVar implements Instruction
 {
-    String ident;
-    String toLoadIdent;
+    private final String ident;
+    private final String toLoadIdent;
 
     public LoadVar(String ident, String toLoadIdent) {
         this.ident = ident;
@@ -13,6 +14,6 @@ public class LoadVar implements Instruction
     }
 
     public String toString() {
-        return ident + " = load i32, i32* " + toLoadIdent + "\n";
+        return LlvmUtils.IDENT + ident + " = load i32, i32* " + toLoadIdent + "\n";
     }
 }

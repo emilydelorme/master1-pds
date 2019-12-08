@@ -383,7 +383,7 @@ basicFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable sym
 
 arrayFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable symbolTableBlock] returns [TP2.ASD.Statement.Block.VariableFormDeclaration.Array out]
 	: IDENT CL INTEGER CR {
-		if (!$symbolTableBlock.add(new TP2.SymbolTable.VariableSymbol($type, $IDENT.text, true)))
+		if (!$symbolTableBlock.add(new TP2.SymbolTable.VariableSymbol($type, $IDENT.text, true, $INTEGER.int)))
 		{
 			System.err.println(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
         

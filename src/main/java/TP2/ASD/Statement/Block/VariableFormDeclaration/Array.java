@@ -38,13 +38,9 @@ public class Array implements VariableFormDeclarationInterface
     public GenericRet toIR(SymbolTable symbolTable)
     {
         GenericRet result = new GenericRet();
-        if (!symbolTable.isPresent(ident)) {
-            symbolTable.add(new VariableSymbol(new Int(), ident, true));
-        }/* else {
-            Throw
-        }*/
 
         result.getIr().appendCode(new AllocaTab(new LlvmInt(), ident, size));
+        
         return result;
     }
 }

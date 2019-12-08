@@ -7,6 +7,7 @@ import TP2.ASD.UnitInterface;
 import java.util.List;
 
 import TP2.ASD.TypeInterface;
+import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.TypeException;
 
 public class Prototype implements UnitInterface
@@ -66,10 +67,13 @@ public class Prototype implements UnitInterface
     }
 
     @Override
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
-        
-        return null;
+        GenericRet result = new GenericRet();
+
+        //result.getIr().appendCode();
+
+        return new GenericRet();
     }
 }

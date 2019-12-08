@@ -35,12 +35,13 @@ public class StatementUtils
         final GenericRet conditionRet = condition.toIR();
         String cond = Utils.newtmp();
 
+
         result.getIr().appendAll(conditionRet.getIr())
             .appendCode(new CompareToZero(cond, conditionRet.getResult()))
             .appendCode(new Br(cond,
-                ControlType.WHILE == controlType ? altIdent :startIdent,
+                ControlType.WHILE == controlType ? altIdent : startIdent,
                 ControlType.ELSEIF == controlType ? altIdent : endIdent))
-            .appendCode(new Label(startIdent))
+            .appendCode(new Label(ControlType.WHILE == controlType ? altIdent : startIdent))
             .appendAll(statement.toIR(symbolTable).getIr())
             .appendCode(new Br(ControlType.WHILE == controlType ? startIdent : endIdent));
 

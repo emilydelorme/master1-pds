@@ -8,6 +8,7 @@ public class VariableSymbol extends Symbol
     private TypeInterface type;
     //private byte state;
     private boolean isArray;
+    private int size;
     
     //public static final byte STATE_DECLARATION =    1;
     //public static final byte STATE_PARAMETER =      2;
@@ -20,6 +21,15 @@ public class VariableSymbol extends Symbol
         this.type = type;
         this.isArray = isArray;
     }
+    
+    public VariableSymbol(TypeInterface type, String ident, boolean isArray, int size)
+    {
+        super(ident);
+
+        this.type = type;
+        this.isArray = isArray;
+        this.size = size;
+    }
 
     public TypeInterface getType()
     {
@@ -29,6 +39,11 @@ public class VariableSymbol extends Symbol
     public boolean isArray()
     {
         return isArray;
+    }
+
+    public int getSize()
+    {
+        return this.size;
     }
 
     @Override
@@ -57,6 +72,11 @@ public class VariableSymbol extends Symbol
         final VariableSymbol other = (VariableSymbol) obj;
 
         if (this.isArray != other.isArray)
+        {
+            return false;
+        }
+        
+        if (this.isArray && other.isArray && this.size != other.size)
         {
             return false;
         }

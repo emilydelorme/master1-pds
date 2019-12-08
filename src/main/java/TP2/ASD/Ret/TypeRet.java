@@ -20,6 +20,11 @@ public class TypeRet extends GenericRet
         this.type = type;
     }
 
+    public TypeRet(TypeInterface type) {
+        super();
+        this.type = type;
+    }
+
     public TypeInterface getType()
     {
         return type;

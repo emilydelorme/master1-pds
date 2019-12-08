@@ -2,6 +2,7 @@ package TP2.ASD.Statement;
 
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.VariableForm.Array;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
@@ -56,7 +57,12 @@ public class Return implements StatementInterface
     public GenericRet toIR(SymbolTable symbolTable) throws TypeException
     {
         checkError();
-        
-        return null;
+
+        GenericRet result = new GenericRet();
+
+        TypeRet typeRet = expression.toIR();
+        result.getIr().appendCode(new TP2.Llvm.Instructions.Return(typeRet.getType().toLlvmType(), typeRet.getResult()));
+
+        return result;
     }
 }

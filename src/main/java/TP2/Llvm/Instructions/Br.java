@@ -1,27 +1,32 @@
 package TP2.Llvm.Instructions;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
+
+import java.util.Objects;
 
 public class Br implements Instruction
 {
-    String condition;
-    String mainLabel;
-    String AltLabel;
+    private final String mainLabel;
+    private final String condition;
+    private final String altLabel;
 
-    public Br(String condition, String mainLabel, String AltLabel) {
+    public Br(String condition, String mainLabel, String altLabel) {
         this.condition = condition;
         this.mainLabel = mainLabel;
-        this.AltLabel = AltLabel;
+        this.altLabel = altLabel;
     }
 
     public Br(String mainLabel)
     {
         this.mainLabel = mainLabel;
+        condition = null;
+        altLabel = null;
     }
 
     public String toString() {
-        return condition != null ?
-                "br i1 " + condition + ", label %" + mainLabel + ", label %" + AltLabel + "\n" :
-                "br label %" + mainLabel + "\n";
+        return Objects.isNull(condition)?
+               LlvmUtils.IDENT +"br label %" + mainLabel + "\n\n" :
+               LlvmUtils.IDENT + "br i1 " + condition + ", label %" + mainLabel + ", label %" + altLabel + "\n\n";
     }
 }
