@@ -61,7 +61,7 @@ public class Read implements StatementInterface
             String readName = Utils.newLabel(TypeLabel.FMT);
 
             result.getIr().appendHeader(new ReadHeader(readName))
-                  .appendCode(new ReadCall(readName, "%" + variable.getIdent() + "var"));
+                  .appendCode(new ReadCall(readName, variable.getIdent()));
         }
 
         return result;

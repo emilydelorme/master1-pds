@@ -41,7 +41,7 @@ public class Utils
     public static String newtmp()
     {
         tmp++;
-        return "%tmp" + tmp;
+        return "tmp" + tmp;
     }
 
     // generate a new unique label starting with str

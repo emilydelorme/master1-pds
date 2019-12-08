@@ -66,7 +66,10 @@ public class Print implements StatementInterface
         result.getIr().appendHeader(printHeader);
 
         // Expressions
-        result.getIr().appendCode(getCode(printIdent, printHeader));
+        final GenericRet code = getCode(printIdent, printHeader);
+
+        result.setResult(code.getResult());
+        result.getIr().appendAll(code.getIr());
 
         return result;
     }
@@ -82,7 +85,7 @@ public class Print implements StatementInterface
         return new PrintHeader(printIdent, text);
     }
 
-    private Instruction getCode(String printIdent, PrintHeader printHeader) {
+    private GenericRet getCode(String printIdent, PrintHeader printHeader) {
         List<String> vars = new ArrayList<>();
         GenericRet result = new GenericRet();
 
@@ -94,7 +97,8 @@ public class Print implements StatementInterface
                     result.getIr().appendAll(ret.getIr());
                 });
 
-        return new PrintCall(printIdent, printHeader.getLenght(), vars);
+        result.getIr().appendCode(new PrintCall(printIdent, printHeader.getLenght(), vars));
+        return result;
     }
 
 }

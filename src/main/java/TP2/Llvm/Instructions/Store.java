@@ -19,6 +19,6 @@ public class Store implements Instruction {
     @Override
     public String toString()
     {
-        return LlvmUtils.IDENT + "store " + type + " " + ident + ", " + type + "* " + pointer + "\n";
+        return LlvmUtils.IDENT + "store " + type + " %" + ident + ", " + type + "* %" + pointer + "\n";
     }
 }

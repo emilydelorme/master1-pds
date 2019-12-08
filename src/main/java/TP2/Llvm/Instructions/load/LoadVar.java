@@ -14,6 +14,6 @@ public class LoadVar implements Instruction
     }
 
     public String toString() {
-        return LlvmUtils.IDENT + ident + " = load i32, i32* %" + toLoadIdent + "\n";
+        return LlvmUtils.IDENT + "%" + ident + " = load i32, i32* %" + toLoadIdent + "\n";
     }
 }
