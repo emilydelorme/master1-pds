@@ -17,14 +17,16 @@ import TP2.exceptions.TypeException;
 public class Program
 {
     private List<UnitInterface> unitInterface;
+    private SymbolTable symbolTable;
     private static final String MAIN_FUNCTION_NAME = "main";
 
-    private Program(List<UnitInterface> unitInterface)
+    private Program(List<UnitInterface> unitInterface, SymbolTable symbolTable)
     {
         this.unitInterface = unitInterface;
+        this.symbolTable = symbolTable;
     }
     
-    public static Program create(List<UnitInterface> unitInterface)
+    public static Program create(List<UnitInterface> unitInterface, SymbolTable symbolTable)
     {
         Function mainFunction = null;
         
@@ -55,7 +57,7 @@ public class Program
             unit.checkError();
         }
         
-        return new Program(unitInterface);
+        return new Program(unitInterface, symbolTable);
     }
 
     // Pretty-printer

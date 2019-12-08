@@ -11,7 +11,6 @@ import TP2.exceptions.TypeException;
 
 public class IfElseStatement implements StatementInterface
 {
-
     private ExpressionInterface condition;
     private StatementInterface trueStatement;
     private StatementInterface falseStatement;
