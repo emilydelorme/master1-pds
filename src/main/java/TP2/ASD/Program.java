@@ -1,6 +1,7 @@
 package TP2.ASD;
 
 import java.util.List;
+import java.util.Objects;
 
 import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.Types.Void;
@@ -8,6 +9,8 @@ import TP2.ASD.Unit.Function;
 import TP2.Llvm.Instruction;
 import TP2.Llvm.InstructionHandler;
 import TP2.Llvm.Instructions.Return;
+import TP2.SymbolTable.Symbol;
+import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
 
@@ -70,17 +73,23 @@ public class Program
         if (this.unitInterface.isEmpty())
             throw new EmptyProgram("Programme vide");
 
-        TypeRet retExpr = new TypeRet(this.unitInterface.get(0).toIR(), new Void());
+        SymbolTable symbolTable = new SymbolTable();
+
+        TypeRet retExpr = new TypeRet(this.unitInterface.get(0).toIR(symbolTable), new Void());
         this.unitInterface.remove(0);
 
         for (UnitInterface unit : this.unitInterface)
         {
-            retExpr.getIr().appendAll(unit.toIR().getIr());
+            if(unit instanceof Function && Objects.nonNull(retExpr.getIr().getProto(unit.getIdent()))) {
+                retExpr.getIr().replaceProto(unit.getIdent(), unit.toIR(symbolTable).getIr());
+            } else {
+                retExpr.getIr().appendAll(unit.toIR(symbolTable).getIr());
+            }
         }
 
         // add a return instruction
-        Instruction ret = new Return(retExpr.getType().toLlvmType(), retExpr.getResult());
-        retExpr.getIr().appendCode(ret);
+        //Instruction ret = new Return(retExpr.getType().toLlvmType(), retExpr.getResult());
+        //retExpr.getIr().appendCode(ret);
 
         return retExpr.getIr();
     }
