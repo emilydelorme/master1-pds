@@ -3,6 +3,7 @@ package TP2.ASD.Item;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.ItemInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.Ret.TypeRet;
 import TP2.exceptions.TypeException;
 
 public class Expression implements ItemInterface
@@ -32,7 +33,17 @@ public class Expression implements ItemInterface
     public GenericRet toIR()
     {
         checkError();
-        
-        return null;
+
+        GenericRet result = new GenericRet();
+
+        try {
+            final TypeRet expressionRet = expression.toIR();
+            result.setResult(expressionRet.getResult());
+            result.getIr().appendAll(expressionRet.getIr());
+        } catch (TypeException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }
