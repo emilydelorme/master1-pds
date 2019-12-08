@@ -5,6 +5,7 @@ import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.SymbolTable.VariableSymbol;
 import TP2.ASD.VariableFormInterface;
+import TP2.ASD.Expression.IntegerExpression;
 import TP2.ASD.ExpressionInterface;
 import TP2.exceptions.TypeException;
 
@@ -34,7 +35,20 @@ public class Array implements VariableFormInterface
         
         if (!(symbol instanceof VariableSymbol))
         {
-            exitWithMessage(String.format("[Variable] (%s) unknown variable", this.ident));
+            exitWithMessage(String.format("[Variable array] (%s) unknown variable", this.ident));
+        }
+        
+        if (this.expression instanceof IntegerExpression)
+        {
+            IntegerExpression integerExpression = (IntegerExpression)this.expression;
+            VariableSymbol variableSymbol = (VariableSymbol)symbol;
+            
+            int integerValue = integerExpression.getValue();
+            
+            if (integerValue > variableSymbol.getSize() - 1)
+            {
+                exitWithMessage(String.format("[Variable array] (%s) index out of bounds %d", this.ident, integerValue));
+            }
         }
 
         this.expression.checkError();

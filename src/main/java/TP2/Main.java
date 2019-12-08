@@ -62,8 +62,13 @@ public class Main
             {
                 InstructionHandler ir = ast.toIR();
 
-                Files.createDirectories(Paths.get("build/llvm/"));
-                writeToFile("build/llvm/" + args[1], ir.toString());
+                // Save LLVM IR in a file
+                if (args.length >= 2)
+                {
+                    Files.createDirectories(Paths.get("build/llvm/"));
+                    writeToFile("build/llvm/" + args[1], ir.toString());
+                }
+                
                 // Output LLVM IR
                 System.out.println(ir);
             } catch (TypeException | EmptyProgram e)
