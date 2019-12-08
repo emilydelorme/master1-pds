@@ -3,7 +3,6 @@ package TP2.ASD.Statement;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.StatementInterface;
 import TP2.ASD.VariableFormInterface;
-import TP2.Llvm.Instruction;
 import TP2.Llvm.Instructions.io.ReadCall;
 import TP2.Llvm.Instructions.io.ReadHeader;
 import TP2.SymbolTable.SymbolTable;
@@ -62,7 +61,7 @@ public class Read implements StatementInterface
             String readName = Utils.newLabel(TypeLabel.FMT);
 
             result.getIr().appendHeader(new ReadHeader(readName))
-                  .appendCode(new ReadCall(readName, "%" + variable + "var" + symbolTable.lookup(variable.getIdent())));
+                  .appendCode(new ReadCall(readName, "%" + variable.getIdent() + "var" + symbolTable.lookup(variable.getIdent())));
         }
 
         return result;
