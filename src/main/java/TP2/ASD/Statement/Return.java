@@ -61,6 +61,7 @@ public class Return implements StatementInterface
         GenericRet result = new GenericRet();
 
         TypeRet typeRet = expression.toIR();
+        result.getIr().appendAll(typeRet.getIr());
         result.getIr().appendCode(new TP2.Llvm.Instructions.Return(typeRet.getType().toLlvmType(), typeRet.getResult()));
 
         return result;

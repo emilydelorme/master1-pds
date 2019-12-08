@@ -26,19 +26,19 @@ class ExpressionHelper
         {
             throw new TypeException("type mismatch: have " + leftRet.getType() + " and " + rightRet.getType());
         }
+        TypeRet result = new TypeRet(leftRet.getType());
 
-        // We base our build on the left generated IR:
-        // append right code
-        leftRet.getIr().appendAll(rightRet.getIr());
+        result.getIr().appendAll(leftRet.getIr())
+              .appendAll(rightRet.getIr());
 
         // allocate a new identifier for the result
-        String result = Utils.newtmp();
+        String resultIdent = Utils.newtmp();
 
         // new sub instruction result = left - right
-        Instruction operationInstruction = new GenericOperation(operation, leftRet.getResult(), rightRet.getResult(), result);
+        Instruction operationInstruction = new GenericOperation(operation, leftRet.getResult(), rightRet.getResult(), resultIdent);
 
         // append this instruction
-        leftRet.getIr().appendCode(operationInstruction);
-        return new TypeRet(leftRet.getIr(), result, leftRet.getType());
+        result.getIr().appendCode(operationInstruction);
+        return result;
     }
 }

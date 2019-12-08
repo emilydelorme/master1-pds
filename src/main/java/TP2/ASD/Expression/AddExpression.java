@@ -51,7 +51,6 @@ public class AddExpression implements ExpressionInterface
     public TypeRet toIR() throws TypeException
     {
         checkError();
-        
         return ExpressionHelper.retExpression(left.toIR(), right.toIR(), Operation.ADD);
     }
 }

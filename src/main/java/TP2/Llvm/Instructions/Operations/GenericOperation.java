@@ -18,6 +18,6 @@ public class GenericOperation implements Instruction {
 
     @Override
     public String toString() {
-        return LlvmUtils.IDENT + lvalue + " = add " + operation.toString().toLowerCase() + " " + left + ", " + right + "\n";
+        return LlvmUtils.IDENT + lvalue + " = "+ operation.toString().toLowerCase() + " " + left + ", " + right + "\n";
     }
 }
