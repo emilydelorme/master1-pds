@@ -1,21 +1,17 @@
 package TP2.ASD.Statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import TP2.ASD.Expression.VariableExpression;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.Ret.TypeRet;
+import TP2.ASD.StatementInterface;
 import TP2.ASD.Types.Void;
 import TP2.Llvm.Instructions.functions.CallFunction;
-import TP2.SymbolTable.FunctionSymbol;
-import TP2.SymbolTable.PrototypeSymbol;
-import TP2.SymbolTable.Symbol;
-import TP2.SymbolTable.SymbolTable;
-import TP2.SymbolTable.VariableSymbol;
-import TP2.ASD.StatementInterface;
-import TP2.ASD.Expression.VariableExpression;
+import TP2.SymbolTable.*;
 import TP2.exceptions.TypeException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FunctionCall implements StatementInterface, ExpressionInterface
 {

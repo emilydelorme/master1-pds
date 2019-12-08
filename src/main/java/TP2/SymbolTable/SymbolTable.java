@@ -1,9 +1,8 @@
 package TP2.SymbolTable;
 
 import java.util.HashMap;
-import java.util.Objects;
-
 import java.util.Map;
+import java.util.Objects;
 
 public class SymbolTable
 {

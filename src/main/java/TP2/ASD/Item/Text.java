@@ -2,8 +2,6 @@ package TP2.ASD.Item;
 
 import TP2.ASD.ItemInterface;
 import TP2.ASD.Ret.GenericRet;
-import TP2.Llvm.InstructionHandler;
-import TP2.exceptions.TypeException;
 
 public class Text implements ItemInterface
 {

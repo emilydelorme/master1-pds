@@ -1,9 +1,9 @@
 package TP2.SymbolTable;
 
+import TP2.ASD.TypeInterface;
+
 import java.util.List;
 import java.util.Objects;
-
-import TP2.ASD.TypeInterface;
 
 public class PrototypeSymbol extends Symbol
 {

@@ -1,13 +1,11 @@
 package TP2.ASD.Statement;
 
 import TP2.ASD.ExpressionInterface;
-import TP2.ASD.Item.Expression;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.StatementInterface;
 import TP2.Llvm.Instructions.Br;
 import TP2.Llvm.Instructions.Label;
 import TP2.Llvm.Instructions.Operations.CompareToZero;
-import TP2.SymbolTable.SymbolTable;
 import TP2.Utils;
 import TP2.exceptions.TypeException;
 

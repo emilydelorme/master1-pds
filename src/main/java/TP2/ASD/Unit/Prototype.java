@@ -2,14 +2,12 @@ package TP2.ASD.Unit;
 
 import TP2.ASD.ParameterInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.TypeInterface;
 import TP2.ASD.UnitInterface;
+import TP2.Llvm.Instructions.functions.ProtoFunction;
+import TP2.exceptions.TypeException;
 
 import java.util.List;
-
-import TP2.ASD.TypeInterface;
-import TP2.Llvm.Instructions.functions.ProtoFunction;
-import TP2.SymbolTable.SymbolTable;
-import TP2.exceptions.TypeException;
 
 public class Prototype implements UnitInterface
 {

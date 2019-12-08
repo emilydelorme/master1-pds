@@ -1,7 +1,8 @@
 package TP2.SymbolTable;
 
-import java.util.Objects;
 import TP2.ASD.TypeInterface;
+
+import java.util.Objects;
 
 public class VariableSymbol extends Symbol
 {

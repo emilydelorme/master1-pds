@@ -1,14 +1,13 @@
 package TP2.ASD.Statement.Block;
 
-import java.util.List;
-import java.util.stream.IntStream;
-
-import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.ErrorHandlerInterface;
+import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.TypeInterface;
 import TP2.ASD.VariableFormDeclarationInterface;
-import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.TypeException;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class Declaration implements ErrorHandlerInterface
 {

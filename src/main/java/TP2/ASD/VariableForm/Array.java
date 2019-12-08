@@ -1,12 +1,12 @@
 package TP2.ASD.VariableForm;
 
+import TP2.ASD.Expression.IntegerExpression;
+import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.VariableFormInterface;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.SymbolTable.VariableSymbol;
-import TP2.ASD.VariableFormInterface;
-import TP2.ASD.Expression.IntegerExpression;
-import TP2.ASD.ExpressionInterface;
 import TP2.exceptions.TypeException;
 
 public class Array implements VariableFormInterface

@@ -1,26 +1,25 @@
 package TP2.ASD.Unit;
 
+import TP2.ASD.Parameter.Array;
 import TP2.ASD.ParameterInterface;
 import TP2.ASD.Ret.GenericRet;
-import TP2.ASD.Types.Int;
-import TP2.Llvm.Instructions.Return;
+import TP2.ASD.StatementInterface;
+import TP2.ASD.TypeInterface;
+import TP2.ASD.UnitInterface;
 import TP2.Llvm.Instructions.Store;
 import TP2.Llvm.Instructions.alloca.AllocaVar;
 import TP2.Llvm.Instructions.functions.CloseFunction;
 import TP2.Llvm.Instructions.functions.DefineFunction;
 import TP2.Llvm.Types.LlvmInt;
-import TP2.SymbolTable.*;
-import TP2.ASD.UnitInterface;
-import TP2.ASD.Parameter.Array;
+import TP2.SymbolTable.FunctionSymbol;
+import TP2.SymbolTable.PrototypeSymbol;
+import TP2.SymbolTable.Symbol;
+import TP2.SymbolTable.SymbolTable;
+import TP2.exceptions.TypeException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import TP2.ASD.StatementInterface;
-import TP2.ASD.TypeInterface;
-import TP2.exceptions.TypeException;
 
 public class Function implements UnitInterface {
     private TypeInterface type;

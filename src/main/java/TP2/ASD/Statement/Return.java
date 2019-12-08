@@ -1,14 +1,13 @@
 package TP2.ASD.Statement;
 
+import TP2.ASD.Expression.VariableExpression;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.Ret.TypeRet;
-import TP2.ASD.VariableForm.Array;
+import TP2.ASD.StatementInterface;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.SymbolTable.VariableSymbol;
-import TP2.ASD.StatementInterface;
-import TP2.ASD.Expression.VariableExpression;
 import TP2.exceptions.TypeException;
 
 public class Return implements StatementInterface
