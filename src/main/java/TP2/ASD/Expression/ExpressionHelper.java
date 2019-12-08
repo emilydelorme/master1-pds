@@ -33,7 +33,7 @@ class ExpressionHelper
 
         // allocate a new identifier for the result
         String resultIdent = Utils.newtmp();
-
+        result.setResult(resultIdent);
         // new sub instruction result = left - right
         Instruction operationInstruction = new GenericOperation(operation, leftRet.getResult(), rightRet.getResult(), resultIdent);
 
