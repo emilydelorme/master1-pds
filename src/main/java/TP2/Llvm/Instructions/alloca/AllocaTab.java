@@ -1,6 +1,7 @@
 package TP2.Llvm.Instructions.alloca;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 import TP2.Llvm.Type;
 
 public class AllocaTab implements Instruction {
@@ -16,6 +17,6 @@ public class AllocaTab implements Instruction {
 
     @Override
     public String toString() {
-        return ident + " = alloca [" + size + " x " + type + "]";
+        return LlvmUtils.IDENT + "%" + ident + " = alloca [" + size + " x " + type + "]" + "\n";
     }
 }

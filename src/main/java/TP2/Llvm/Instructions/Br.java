@@ -1,6 +1,7 @@
 package TP2.Llvm.Instructions;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ public class Br implements Instruction
 
     public String toString() {
         return Objects.isNull(condition)?
-               "br label %" + mainLabel + "\n" :
-               "br i1 " + condition + ", label %" + mainLabel + ", label %" + altLabel + "\n";
+               LlvmUtils.IDENT +"br label %" + mainLabel + "\n\n" :
+               LlvmUtils.IDENT + "br i1 " + condition + ", label %" + mainLabel + ", label %" + altLabel + "\n\n";
     }
 }

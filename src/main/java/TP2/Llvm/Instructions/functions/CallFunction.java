@@ -1,6 +1,7 @@
 package TP2.Llvm.Instructions.functions;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 import TP2.Llvm.Type;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class CallFunction implements Instruction {
 
     @Override
     public String toString() {
-        StringBuilder res = new StringBuilder("call void  @" + funcName + "(");
+        StringBuilder res = new StringBuilder(LlvmUtils.IDENT + "call void  @" + funcName + "(");
         IntStream.range(0, variables.size()).forEach(i -> {
             res.append(type).append(" ").append(variables.get(i));
             if (i < variables.size() - 1) {

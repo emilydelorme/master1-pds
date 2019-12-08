@@ -2,6 +2,7 @@ package TP2.Llvm.Instructions.alloca;
 
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 import TP2.Llvm.Type;
 
 public class AllocaVar implements Instruction {
@@ -15,6 +16,6 @@ public class AllocaVar implements Instruction {
 
     @Override
     public String toString() {
-        return value + " = alloca " + type;
+        return LlvmUtils.IDENT + "%" + value + " = alloca " + type + "\n";
     }
 }

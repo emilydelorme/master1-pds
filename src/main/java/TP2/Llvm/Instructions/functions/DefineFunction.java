@@ -4,8 +4,6 @@ import TP2.Llvm.Instruction;
 import TP2.Llvm.Type;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class DefineFunction implements Instruction {
 
@@ -27,6 +25,6 @@ public class DefineFunction implements Instruction {
                 res.append(", " + "i32 %").append(parameters.get(i));
             }
         }
-        return  res + "){\n";
+        return  res + ") {\n";
     }
 }

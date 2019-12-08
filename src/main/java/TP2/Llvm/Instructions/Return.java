@@ -1,6 +1,7 @@
 package TP2.Llvm.Instructions;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 import TP2.Llvm.Type;
 
 public class Return implements Instruction {
@@ -16,6 +17,6 @@ public class Return implements Instruction {
     @Override
     public String toString()
     {
-        return "ret " + type + " " + value + "\n";
+        return LlvmUtils.IDENT + "ret " + type + " " + value + "\n";
     }
 }

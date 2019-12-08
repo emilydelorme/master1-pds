@@ -1,6 +1,7 @@
 package TP2.Llvm.Instructions.Operations;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 
 public class CompareToZero implements Instruction {
     private final String ident;
@@ -12,7 +13,7 @@ public class CompareToZero implements Instruction {
     }
 
     public String toString() {
-        return ident + " = icmp ne i32 " + valueToCompare + ", 0\n";
+        return LlvmUtils.IDENT + ident + " = icmp ne i32 " + valueToCompare + ", 0\n";
     }
 }
 

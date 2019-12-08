@@ -1,6 +1,7 @@
 package TP2.Llvm.Instructions;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 import TP2.Llvm.Type;
 
 public class Store implements Instruction {
@@ -18,6 +19,6 @@ public class Store implements Instruction {
     @Override
     public String toString()
     {
-        return "store " + type + " " + ident + ", " + type + "* " + pointer;
+        return LlvmUtils.IDENT + "store " + type + " " + ident + ", " + type + "* " + pointer;
     }
 }

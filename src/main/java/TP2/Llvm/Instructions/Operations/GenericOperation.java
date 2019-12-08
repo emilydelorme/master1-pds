@@ -1,6 +1,7 @@
 package TP2.Llvm.Instructions.Operations;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 
 public class GenericOperation implements Instruction {
     private final Operation operation;
@@ -17,6 +18,6 @@ public class GenericOperation implements Instruction {
 
     @Override
     public String toString() {
-        return lvalue + " = add " + operation.toString().toLowerCase() + " " + left + ", " + right + "\n";
+        return LlvmUtils.IDENT + lvalue + " = add " + operation.toString().toLowerCase() + " " + left + ", " + right + "\n";
     }
 }

@@ -1,6 +1,7 @@
 package TP2.Llvm.Instructions.io;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 import TP2.Utils;
 
 public class ReadCall implements Instruction
@@ -15,9 +16,9 @@ public class ReadCall implements Instruction
 
     public String toString() {
         Utils.LLVMStringConstant modifiedString = Utils.stringTransform("%d");
-        return "call i32 (i8* , ...) @scanf(i8* getelementptr inbounds ([" + modifiedString.getLength()
-                + " x i8], [" + modifiedString.getLength() + " x i8]* @." + readIdent + " , i64 0 , i64 0), i32* " + nomVar
-                + ")\n";
+        return LlvmUtils.IDENT + "call i32 (i8* , ...) @scanf(i8* getelementptr inbounds ([" + modifiedString.getLength()
+               + " x i8], [" + modifiedString.getLength() + " x i8]* @." + readIdent + " , i64 0 , i64 0), i32* " + nomVar
+               + ")\n";
     }
 
 }

@@ -1,6 +1,7 @@
 package TP2.Llvm.Instructions.load;
 
 import TP2.Llvm.Instruction;
+import TP2.Llvm.LlvmUtils;
 
 public class LoadTab implements Instruction
 {
@@ -17,7 +18,7 @@ public class LoadTab implements Instruction
     }
 
     public String toString() {
-        return ident + " = getelementptr [" + tabSize + " x i32], [" + tabSize + " x i32]* " + tabIdent
-                + ", i64 0, i32 " + tabIndex + "\n";
+        return LlvmUtils.IDENT + ident + " = getelementptr [" + tabSize + " x i32], [" + tabSize + " x i32]* " + tabIdent
+               + ", i64 0, i32 " + tabIndex + "\n";
     }
 }
