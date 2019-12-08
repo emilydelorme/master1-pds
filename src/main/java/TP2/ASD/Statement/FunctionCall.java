@@ -8,7 +8,6 @@ import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.Types.Void;
 import TP2.Llvm.Instructions.functions.CallFunction;
-import TP2.Llvm.Types.LlvmVoid;
 import TP2.SymbolTable.FunctionSymbol;
 import TP2.SymbolTable.PrototypeSymbol;
 import TP2.SymbolTable.Symbol;
@@ -170,11 +169,5 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
         result.getIr().appendCode(new CallFunction(result.getType().toLlvmType(), functionIdent, variables));
 
         return result;
-    }
-
-    @Override
-    public TypeRet toIR(SymbolTable symbolTable) throws TypeException
-    {
-       return this.toIR();
     }
 }
