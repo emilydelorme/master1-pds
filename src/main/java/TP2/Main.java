@@ -1,6 +1,10 @@
 package TP2;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.antlr.v4.runtime.CharStream;
@@ -58,6 +62,8 @@ public class Main
             {
                 InstructionHandler ir = ast.toIR();
 
+                Files.createDirectories(Paths.get("build/llvm/"));
+                writeToFile("build/llvm/" + args[1], ir.toString());
                 // Output LLVM IR
                 System.out.println(ir);
             } catch (TypeException | EmptyProgram e)
@@ -67,6 +73,15 @@ public class Main
             }
         } catch (IOException e)
         {
+            e.printStackTrace();
+        }
+    }
+
+    private static void writeToFile(String path, String content) {
+
+        try(FileOutputStream outputStream =  new FileOutputStream(path)) {
+            outputStream.write(content.getBytes());
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
