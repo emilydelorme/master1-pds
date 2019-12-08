@@ -4,8 +4,8 @@ import TP2.Llvm.Instruction;
 
 public class LoadVar implements Instruction
 {
-    String ident;
-    String toLoadIdent;
+    private final String ident;
+    private final String toLoadIdent;
 
     public LoadVar(String ident, String toLoadIdent) {
         this.ident = ident;

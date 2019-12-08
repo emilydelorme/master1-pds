@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 public class PrintCall implements Instruction
 {
-    String printIdent;
-    int textSize;
-    List<String> variables;
+    private final String printIdent;
+    private final int textSize;
+    private final List<String> variables;
 
     public PrintCall(String printIdent, int textSize, List<String> variables) {
         this.printIdent = printIdent;

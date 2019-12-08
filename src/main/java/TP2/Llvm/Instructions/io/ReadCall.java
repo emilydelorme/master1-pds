@@ -5,8 +5,8 @@ import TP2.Utils;
 
 public class ReadCall implements Instruction
 {
-    String readIdent;
-    String nomVar;
+    private final String readIdent;
+    private final String nomVar;
 
     public ReadCall(String readIdent, String nomVar) {
         this.readIdent = readIdent;

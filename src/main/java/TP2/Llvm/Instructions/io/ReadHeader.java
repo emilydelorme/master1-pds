@@ -5,7 +5,7 @@ import TP2.Utils;
 
 public class ReadHeader implements Instruction
 {
-    String readIdent;
+    private final String readIdent;
 
     public ReadHeader(String readIdent)
     {

@@ -5,8 +5,8 @@ import TP2.Utils;
 
 public class PrintHeader implements Instruction
 {
-    String printIdent;
-    Utils.LLVMStringConstant text;
+    private final String printIdent;
+    private final Utils.LLVMStringConstant text;
 
     public PrintHeader(String printIdent, Utils.LLVMStringConstant text)
     {

@@ -4,13 +4,13 @@ import TP2.Llvm.Instruction;
 
 public class Label implements Instruction
 {
-    String label;
+    private final String llvmLabel;
 
-    public Label(String label) {
-        this.label = label;
+    public Label(String llvmLabel) {
+        this.llvmLabel = llvmLabel;
     }
 
     public String toString() {
-        return label + ":\n";
+        return llvmLabel + ":\n";
     }
 }

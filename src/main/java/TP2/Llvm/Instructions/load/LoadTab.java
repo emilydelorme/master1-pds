@@ -4,10 +4,10 @@ import TP2.Llvm.Instruction;
 
 public class LoadTab implements Instruction
 {
-    String ident;
-    String tabIdent;
-    String tabIndex;
-    String tabSize;
+    private final String ident;
+    private final String tabIdent;
+    private final String tabIndex;
+    private final String tabSize;
 
     public LoadTab(String ident, String tabIdent, String tabIndex, String tabSize) {
         this.ident = ident;
