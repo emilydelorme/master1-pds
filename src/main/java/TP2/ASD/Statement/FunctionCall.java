@@ -155,12 +155,6 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
     @Override
     public TypeRet toIR() throws TypeException
     {
-        return null;
-    }
-
-    @Override
-    public TypeRet toIR(SymbolTable symbolTable) throws TypeException
-    {
         checkError();
 
         TypeRet result = new TypeRet(new Void());
@@ -174,7 +168,13 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
         }
 
         result.getIr().appendCode(new CallFunction(result.getType().toLlvmType(), functionIdent, variables));
-        
+
         return result;
+    }
+
+    @Override
+    public TypeRet toIR(SymbolTable symbolTable) throws TypeException
+    {
+       return this.toIR();
     }
 }

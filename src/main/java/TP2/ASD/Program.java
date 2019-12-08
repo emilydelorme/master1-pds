@@ -6,10 +6,7 @@ import java.util.Objects;
 import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.Types.Void;
 import TP2.ASD.Unit.Function;
-import TP2.Llvm.Instruction;
 import TP2.Llvm.InstructionHandler;
-import TP2.Llvm.Instructions.Return;
-import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
@@ -74,9 +71,7 @@ public class Program
             throw new EmptyProgram("Programme vide");
 
         SymbolTable symbolTable = new SymbolTable();
-
-        TypeRet retExpr = new TypeRet(this.unitInterface.get(0).toIR(symbolTable), new Void());
-        this.unitInterface.remove(0);
+        TypeRet retExpr = new TypeRet(new Void());
 
         for (UnitInterface unit : this.unitInterface)
         {

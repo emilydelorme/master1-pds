@@ -7,6 +7,7 @@ import TP2.ASD.UnitInterface;
 import java.util.List;
 
 import TP2.ASD.TypeInterface;
+import TP2.Llvm.Instructions.functions.ProtoFunction;
 import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.TypeException;
 
@@ -72,8 +73,8 @@ public class Prototype implements UnitInterface
         checkError();
         GenericRet result = new GenericRet();
 
-        //result.getIr().appendCode();
+        result.getIr().appendCode(new ProtoFunction(this.ident));
 
-        return new GenericRet();
+        return result;
     }
 }
