@@ -82,7 +82,7 @@ public class Affectation implements StatementInterface {
         if (this.expression instanceof FunctionCall) {
             FunctionCall functionCall = (FunctionCall) this.expression;
 
-            Symbol symbol = this.symbolTable.lookup(functionCall.getFuncIdent());
+            Symbol symbol = this.symbolTable.lookup(functionCall.getFunctionIdent());
 
             if (symbol instanceof FunctionSymbol) {
                 FunctionSymbol functionSymbol = (FunctionSymbol) symbol;

@@ -10,6 +10,7 @@ import TP2.ASD.UnitInterface;
 import TP2.ASD.Parameter.Array;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import TP2.ASD.StatementInterface;
 import TP2.ASD.TypeInterface;
@@ -126,21 +127,17 @@ public class Function implements UnitInterface
     {
         checkError();
         
-        StringBuilder strParametres = new StringBuilder();
-
+        StringBuilder strParameters = new StringBuilder();
         int parametersSize = this.arguments.size();
-        
-        for (int i = 0; i < parametersSize; ++i)
-        {
-            strParametres.append(this.arguments.get(i).pp());
-            
-            if (i < parametersSize - 1)
-            {
-                strParametres.append(", ");
-            }
-        }
 
-        return "FUNC" + " " + this.type.pp() + " " + this.ident + "(" + strParametres + ")" + "\n" + this.statement.pp();
+        IntStream.range(0, parametersSize).forEach(i -> {
+            strParameters.append(this.arguments.get(i).pp());
+            if (i < parametersSize - 1) {
+                strParameters.append(", ");
+            }
+        });
+
+        return "FUNC" + " " + this.type.pp() + " " + this.ident + "(" + strParameters + ")" + "\n" + this.statement.pp();
     }
 
     @Override
