@@ -1,5 +1,7 @@
 package TP2.Llvm;
 
+import TP2.Llvm.Instructions.functions.ProtoFunction;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class InstructionHandler
 
     public InstructionHandler appendHeader(Instruction instruction)
     {
-        this.code.add(instruction);
+        this.header.add(instruction);
         return this;
     }
 
@@ -71,6 +73,28 @@ public class InstructionHandler
         return this;
     }
 
+    public Instruction getProto(String ident) {
+        for(Instruction instruction : code) {
+            if(instruction instanceof ProtoFunction) {
+                ProtoFunction proto = (ProtoFunction) instruction;
+                if(proto.getIdent().equals(ident)) {
+                    return proto;
+                }
+            }
+        }
+        return null;
+    }
+
+    public InstructionHandler replaceProto(String ident, InstructionHandler ir) {
+        Instruction protoInstruction = getProto(ident);
+
+        int startIndex = this.code.indexOf(protoInstruction);
+        this.code.addAll(startIndex,ir.code);
+        this.code.remove(protoInstruction);
+
+        return this;
+    }
+
     public boolean isEmpty() {
         return this.code.isEmpty() && this.header.isEmpty();
     }
@@ -80,7 +104,16 @@ public class InstructionHandler
     public String toString()
     {
         StringBuilder r = new StringBuilder();
+        r.append(LlvmUtils.globalInit())
+         .append("\n");
+
+        if(!header.isEmpty())
+            r.append("; Headers\n");
         header.forEach(r::append);
+        if(!header.isEmpty())
+            r.append("\n\n");
+
+        r.append("; Code\n");
         code.forEach(r::append);
         return r.toString();
     }
