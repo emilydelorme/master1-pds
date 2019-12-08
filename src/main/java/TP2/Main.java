@@ -43,9 +43,15 @@ public class Main
             Program ast = parser.program().out;
 
             // Pretty-print the program (to debug parsing, if you implemented it!)
-            System.err.println(ast.pp());
-            
-            System.out.println("");
+            System.out.println("========================================"
+                               + "\n              PRETTY CODE"
+                               + "\n========================================");
+
+            System.out.println(ast.pp());
+
+            System.out.println("========================================"
+                              + "\n               LLVM CODE"
+                              + "\n========================================");
 
             // Compute LLVM IR from the ast
             try
