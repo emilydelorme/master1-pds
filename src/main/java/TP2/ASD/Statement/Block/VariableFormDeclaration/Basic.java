@@ -31,7 +31,7 @@ public class Basic implements VariableFormDeclarationInterface
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable)
+    public GenericRet toIR()
     {
         GenericRet result = new GenericRet();
 

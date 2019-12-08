@@ -10,5 +10,5 @@ public interface VariableFormDeclarationInterface
     
     String pp();
 
-    GenericRet toIR(SymbolTable symbolTable);
+    GenericRet toIR();
 }

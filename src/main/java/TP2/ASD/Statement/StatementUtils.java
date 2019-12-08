@@ -18,12 +18,12 @@ public class StatementUtils
     {
     }
 
-    static public GenericRet createControl(ControlType controlType, SymbolTable symbolTable, String startIdent, String endIdent, ExpressionInterface condition, StatementInterface statement) throws TypeException
+    static public GenericRet createControl(ControlType controlType, String startIdent, String endIdent, ExpressionInterface condition, StatementInterface statement) throws TypeException
     {
-        return createControl(controlType, symbolTable, startIdent, endIdent, condition, statement, null, null);
+        return createControl(controlType, startIdent, endIdent, condition, statement, null, null);
     }
 
-    static public GenericRet createControl(ControlType controlType, SymbolTable symbolTable, String startIdent, String endIdent, ExpressionInterface condition, StatementInterface statement, String altIdent, StatementInterface altStatement) throws TypeException
+    static public GenericRet createControl(ControlType controlType, String startIdent, String endIdent, ExpressionInterface condition, StatementInterface statement, String altIdent, StatementInterface altStatement) throws TypeException
     {
         GenericRet result = new GenericRet();
 
@@ -42,12 +42,12 @@ public class StatementUtils
                 ControlType.WHILE == controlType ? altIdent : startIdent,
                 ControlType.ELSEIF == controlType ? altIdent : endIdent))
             .appendCode(new Label(ControlType.WHILE == controlType ? altIdent : startIdent))
-            .appendAll(statement.toIR(symbolTable).getIr())
+            .appendAll(statement.toIR().getIr())
             .appendCode(new Br(ControlType.WHILE == controlType ? startIdent : endIdent));
 
         if (ControlType.ELSEIF == controlType) {
             result.getIr().appendCode(new Label(altIdent))
-                .appendAll(altStatement.toIR(symbolTable).getIr())
+                .appendAll(altStatement.toIR().getIr())
                 .appendCode(new Br(endIdent));
         }
 

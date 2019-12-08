@@ -54,7 +54,7 @@ public class Return implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         checkError();
 

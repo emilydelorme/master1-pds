@@ -46,9 +46,9 @@ public class WhileStatement implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         checkError();
-        return StatementUtils.createControl(ControlType.WHILE, symbolTable, Utils.newLabel(TypeLabel.WHILE), Utils.newLabel(TypeLabel.DONE), condition, statement, Utils.newLabel(TypeLabel.DO), null);
+        return StatementUtils.createControl(ControlType.WHILE, Utils.newLabel(TypeLabel.WHILE), Utils.newLabel(TypeLabel.DONE), condition, statement, Utils.newLabel(TypeLabel.DO), null);
     }
 }

@@ -80,18 +80,18 @@ public class Block implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         checkError();
 
         GenericRet result = new GenericRet();
 
         for (Declaration declaration : declarations) {
-            result.getIr().appendAll(declaration.toIR(symbolTable).getIr());
+            result.getIr().appendAll(declaration.toIR().getIr());
         }
 
         for (StatementInterface statement : statements) {
-            result.getIr().appendAll(statement.toIR(symbolTable).getIr());
+            result.getIr().appendAll(statement.toIR().getIr());
         }
 
         return result;

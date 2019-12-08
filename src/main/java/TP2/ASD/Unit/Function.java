@@ -137,7 +137,7 @@ public class Function implements UnitInterface {
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException {
+    public GenericRet toIR() throws TypeException {
         checkError();
 
         GenericRet result = new GenericRet();
@@ -150,7 +150,7 @@ public class Function implements UnitInterface {
                 .appendCode(new Store(new LlvmInt(), "%" + parameter.getIdent() + "var", "%" + parameter.getIdent()));
         }
 
-        result.getIr().appendAll(statement.toIR(symbolTable).getIr());
+        result.getIr().appendAll(statement.toIR().getIr());
 
         result.getIr().appendCode(new CloseFunction());
         return result;

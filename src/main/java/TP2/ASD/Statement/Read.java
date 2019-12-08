@@ -51,7 +51,7 @@ public class Read implements StatementInterface
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         checkError();
 
@@ -61,7 +61,7 @@ public class Read implements StatementInterface
             String readName = Utils.newLabel(TypeLabel.FMT);
 
             result.getIr().appendHeader(new ReadHeader(readName))
-                  .appendCode(new ReadCall(readName, "%" + variable.getIdent() + "var" + symbolTable.lookup(variable.getIdent())));
+                  .appendCode(new ReadCall(readName, "%" + variable.getIdent() + "var"));
         }
 
         return result;

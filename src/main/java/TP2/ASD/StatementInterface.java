@@ -8,5 +8,5 @@ import TP2.exceptions.TypeException;
 public interface StatementInterface extends ErrorHandlerInterface
 {
     String pp();
-    GenericRet toIR(SymbolTable symbolTable) throws TypeException;
+    GenericRet toIR() throws TypeException;
 }

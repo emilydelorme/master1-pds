@@ -68,9 +68,10 @@ public class Prototype implements UnitInterface
     }
 
     @Override
-    public GenericRet toIR(SymbolTable symbolTable) throws TypeException
+    public GenericRet toIR() throws TypeException
     {
         checkError();
+        
         GenericRet result = new GenericRet();
 
         result.getIr().appendCode(new ProtoFunction(this.ident));
