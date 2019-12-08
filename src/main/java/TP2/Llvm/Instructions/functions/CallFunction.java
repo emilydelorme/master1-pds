@@ -23,7 +23,7 @@ public class CallFunction implements Instruction {
     public String toString() {
         StringBuilder res = new StringBuilder(LlvmUtils.IDENT + "call void  @" + funcName + "(");
         IntStream.range(0, variables.size()).forEach(i -> {
-            res.append(type).append(" ").append(variables.get(i));
+            res.append("i32 ").append(variables.get(i));
             if (i < variables.size() - 1) {
                 res.append(", ");
             }
