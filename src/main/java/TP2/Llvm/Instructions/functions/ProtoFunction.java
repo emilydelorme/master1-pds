@@ -16,6 +16,6 @@ public class ProtoFunction implements Instruction {
 
     @Override
     public String toString() {
-        return "";
+        return ";PROTO " + ident + " - Function not implemented\n";
     }
 }

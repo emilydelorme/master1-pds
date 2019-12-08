@@ -4,11 +4,8 @@ import TP2.Llvm.Instruction;
 
 public class CloseFunction implements Instruction {
 
-    public CloseFunction() {
-    }
-
     @Override
     public String toString() {
-        return "}\n";
+        return "}\n\n";
     }
 }

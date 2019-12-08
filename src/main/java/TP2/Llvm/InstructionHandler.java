@@ -85,14 +85,13 @@ public class InstructionHandler
         return null;
     }
 
-    public InstructionHandler replaceProto(String ident, InstructionHandler ir) {
+    public void replaceProto(String ident, InstructionHandler ir) {
         Instruction protoInstruction = getProto(ident);
 
         int startIndex = this.code.indexOf(protoInstruction);
         this.code.addAll(startIndex,ir.code);
         this.code.remove(protoInstruction);
 
-        return this;
     }
 
     public boolean isEmpty() {
