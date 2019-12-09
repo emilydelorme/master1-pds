@@ -206,6 +206,7 @@
 package TP2;
 
 import TP2.ASD.Program;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
 import org.antlr.v4.runtime.CharStreams;
@@ -223,7 +224,7 @@ public class TestUtils {
 
     private TestUtils() {}
 
-    public static boolean testFolder(String path) throws EmptyProgram, TypeException, IOException {
+    public static boolean testFolder(String path) throws EmptyProgram, TypeException, IOException, ASDException {
         File dir = new File(path);
         File[] files = dir.listFiles((dir1, name) -> name.endsWith(".vsl"));
         Files.createDirectories(Paths.get("build/llvm/test"));
@@ -248,6 +249,11 @@ public class TestUtils {
         // Parse
         Program ast = parser.program().out;
 
+        if (ast == null)
+        {
+            return false;
+        }
+        
         Logger.debug(ast.pp());
 
         String ir = ast.toIR().toString();
