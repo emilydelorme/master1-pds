@@ -2,6 +2,7 @@ package TP2.ASD.VariableForm;
 
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.VariableFormInterface;
 import TP2.Llvm.Instructions.load.LoadVar;
 import TP2.SymbolTable.Symbol;
@@ -62,13 +63,12 @@ public class Array implements VariableFormInterface
         checkError();
         GenericRet result = new GenericRet();
 
-        result.getIr().appendAll(expression.toIR().getIr());
+        final TypeRet typeRet = expression.toIR();
+        result.getIr().appendAll(typeRet.getIr());
+        result.setResult(typeRet.getResult());
 
-        String tmpIdent = Utils.newtmp();
         this.llvmIdent = ((VariableSymbol) symbolTable.lookup(this.ident)).getLlvmIdent();
 
-        result.getIr().appendCode(new LoadVar(tmpIdent, this.llvmIdent));
-        result.setResult(tmpIdent);
         return result;
     }
 }

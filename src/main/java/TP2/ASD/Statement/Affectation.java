@@ -123,26 +123,24 @@ public class Affectation implements StatementInterface {
         String leftVarIdent = "";
 
         if (leftVar instanceof Array) {
-            Symbol leftSymbol = this.symbolTable.lookup(leftVar.getIdent());
+            VariableSymbol variableSymbol = (VariableSymbol) this.symbolTable.lookup(leftVar.getIdent());
 
-            if (leftSymbol instanceof VariableSymbol) {
-                VariableSymbol variableSymbol = (VariableSymbol) leftSymbol;
+            String resultIdent = Utils.newtmp();
+            GenericRet leftRet = leftVar.toIR();
 
-                String resultIdent = Utils.newtmp();
-                GenericRet leftRet = leftVar.toIR();
+            result.getIr().appendAll(leftRet.getIr());
 
-                result.getIr().appendAll(leftRet.getIr());
-                result.getIr().appendCode(
-                        new LoadTab(resultIdent,
-                                    leftVar.getLlvmIdent(),
-                                    leftRet.getResult(),
-                                    variableSymbol.getSize()));
+            result.getIr().appendCode(
+                    new LoadTab(resultIdent,
+                                leftVar.getLlvmIdent(),
+                                leftRet.getResult(),
+                                variableSymbol.getSize()));
 
-                leftVarIdent = resultIdent;
-            }
+            leftVarIdent = resultIdent;
         } else {
             leftVarIdent = ((VariableSymbol) this.symbolTable.lookup(leftVar.getIdent())).getLlvmIdent(); // Add index
         }
+
         result.setResult(leftVarIdent);
         result.getIr().appendCode(new Store(new LlvmInt(), rightResult.getResult(), leftVarIdent));
 
