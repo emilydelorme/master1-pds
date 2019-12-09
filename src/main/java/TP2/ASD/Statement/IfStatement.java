@@ -35,13 +35,13 @@ public class IfStatement implements StatementInterface
         //TODO fix indent
         return "IF " + condition.pp() +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 "THEN" +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 statement.pp() +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 "FI";
     }
 

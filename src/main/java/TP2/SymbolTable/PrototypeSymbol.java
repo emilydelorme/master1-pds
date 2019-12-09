@@ -41,40 +41,20 @@ public class PrototypeSymbol extends Symbol
     }
 
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(Object o)
     {
-        if (this == obj)
-        {
-            return true;
-        }
+        if (this == o) return true;
+        if (!(o instanceof PrototypeSymbol)) return false;
+        if (!super.equals(o)) return false;
+        PrototypeSymbol that = (PrototypeSymbol) o;
+        return isDefined() == that.isDefined() &&
+                Objects.equals(getReturnType(), that.getReturnType()) &&
+                Objects.equals(getArguments(), that.getArguments());
+    }
 
-        if (obj == null)
-        {
-            return false;
-        }
-        
-        if (!super.equals(obj))
-        {
-            return false;
-        }
-
-        if (!(obj instanceof FunctionSymbol))
-        {
-            return false;
-        }
-        
-        final PrototypeSymbol other = (PrototypeSymbol) obj;
-
-        if (this.defined != other.defined)
-        {
-            return false;
-        }
-
-        if (!Objects.equals(this.returnType, other.returnType))
-        {
-            return false;
-        }
-
-        return Objects.equals(this.arguments, other.arguments);
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(super.hashCode(), getReturnType(), getArguments(), isDefined());
     }
 }
