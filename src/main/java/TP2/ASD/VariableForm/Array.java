@@ -62,8 +62,11 @@ public class Array implements VariableFormInterface
         checkError();
         GenericRet result = new GenericRet();
 
+        result.getIr().appendAll(expression.toIR().getIr());
+
         String tmpIdent = Utils.newtmp();
-        result.getIr().appendCode(new LoadVar(tmpIdent, this.ident));
+
+        result.getIr().appendCode(new LoadVar(tmpIdent, ((VariableSymbol) symbolTable.lookup(this.ident)).getLlvmIdent()));
         result.setResult(tmpIdent);
         return result;
     }

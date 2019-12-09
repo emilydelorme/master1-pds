@@ -22,4 +22,10 @@ public class TestLevels
         Assertions.assertTrue(TestUtils.testFolder("tests/testlevel2"));
     }
 
+    @Test
+    public void testLevel3() throws EmptyProgram, TypeException, IOException
+    {
+        Assertions.assertTrue(TestUtils.testFolder("tests/testlevel3"));
+    }
+
 }

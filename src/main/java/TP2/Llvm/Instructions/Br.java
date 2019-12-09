@@ -26,7 +26,7 @@ public class Br implements Instruction
 
     public String toString() {
         return Objects.isNull(condition)?
-               LlvmUtils.IDENT +"br label %" + mainLabel + "\n\n" :
-               LlvmUtils.IDENT + "br i1 %" + condition + ", label %" + mainLabel + ", label %" + altLabel + "\n\n";
+               LlvmUtils.IDENT +"br label " + mainLabel + "\n\n" :
+               LlvmUtils.IDENT + "br i1 " + condition + ", label " + mainLabel + ", label " + altLabel + "\n\n";
     }
 }

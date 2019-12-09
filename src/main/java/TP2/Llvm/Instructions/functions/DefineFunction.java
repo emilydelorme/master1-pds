@@ -22,7 +22,7 @@ public class DefineFunction implements Instruction {
         if(!parameters.isEmpty()) {
             res.append("i32 %").append(parameters.get(0));
             for (int i = 1; i < parameters.size(); i++) {
-                res.append(", " + "i32 %").append(parameters.get(i));
+                res.append(", " + "i32 ").append(parameters.get(i));
             }
         }
         return  res + ") {\n";

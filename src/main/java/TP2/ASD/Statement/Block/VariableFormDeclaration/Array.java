@@ -39,7 +39,7 @@ public class Array implements VariableFormDeclarationInterface
     {
         GenericRet result = new GenericRet();
 
-        String llvmIdent = this.ident + "_" + StatementUtils.getCurrentFunction() + "_" + StatementUtils.getCurrentBlockLevel();
+        String llvmIdent = "%" + this.ident + "_" + StatementUtils.getCurrentFunction() + "_" + StatementUtils.getCurrentBlockLevel();
 
         ((VariableSymbol) symbolTable.lookup(this.ident)).setLlvmIdent(llvmIdent);
         result.getIr().appendCode(new AllocaTab(new LlvmInt(), llvmIdent, size));

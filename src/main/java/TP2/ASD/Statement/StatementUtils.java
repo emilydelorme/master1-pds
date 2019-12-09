@@ -45,7 +45,7 @@ public class StatementUtils
         GenericRet result = new GenericRet();
 
         if(ControlType.WHILE == controlType) {
-            result.getIr().appendCode(new Br(startIdent))
+            result.getIr().appendCode(new Br("%" + startIdent))
                 .appendCode(new Label(startIdent));
         }
 
@@ -56,16 +56,16 @@ public class StatementUtils
         result.getIr().appendAll(conditionRet.getIr())
             .appendCode(new CompareToZero(cond, conditionRet.getResult()))
             .appendCode(new Br(cond,
-                ControlType.WHILE == controlType ? altIdent : startIdent,
-                ControlType.ELSEIF == controlType ? altIdent : endIdent))
+                ControlType.WHILE == controlType ? "%" + altIdent : "%" + startIdent,
+                ControlType.ELSEIF == controlType ? "%" + altIdent : "%" + endIdent))
             .appendCode(new Label(ControlType.WHILE == controlType ? altIdent : startIdent))
             .appendAll(statement.toIR().getIr())
-            .appendCode(new Br(ControlType.WHILE == controlType ? startIdent : endIdent));
+            .appendCode(new Br(ControlType.WHILE == controlType ? "%" + startIdent : "%" + endIdent));
 
         if (ControlType.ELSEIF == controlType) {
             result.getIr().appendCode(new Label(altIdent))
                 .appendAll(altStatement.toIR().getIr())
-                .appendCode(new Br(endIdent));
+                .appendCode(new Br("%" + endIdent));
         }
 
         result.getIr().appendCode(new Label(endIdent));

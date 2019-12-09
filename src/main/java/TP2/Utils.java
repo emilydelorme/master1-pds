@@ -54,7 +54,7 @@ public class Utils {
         }
         tmpFunctionLevel.put(StatementUtils.getCurrentFunction(),
                              tmpFunctionLevel.get(StatementUtils.getCurrentFunction()) + 1);
-        return "tmp" + tmpFunctionLevel.get(StatementUtils.getCurrentFunction()) + "_" + StatementUtils.getCurrentFunction();
+        return "%tmp" + tmpFunctionLevel.get(StatementUtils.getCurrentFunction()) + "_" + StatementUtils.getCurrentFunction();
     }
 
     // generate a new unique label starting with str
