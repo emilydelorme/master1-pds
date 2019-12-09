@@ -13,6 +13,7 @@ import TP2.exceptions.TypeException;
 public class Array implements VariableFormInterface
 {
     private String ident;
+    private String llvmIdent;
     private ExpressionInterface expression;
     private SymbolTable symbolTable;
 
@@ -28,7 +29,12 @@ public class Array implements VariableFormInterface
     {
         return this.ident;
     }
-    
+
+    @Override
+    public String getLlvmIdent() {
+        return this.llvmIdent;
+    }
+
     @Override
     public void checkError()
     {

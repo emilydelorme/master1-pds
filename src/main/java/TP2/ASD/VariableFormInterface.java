@@ -6,7 +6,9 @@ import TP2.exceptions.TypeException;
 public interface VariableFormInterface extends ErrorHandlerInterface
 {
     String getIdent();
-    
+
+    String getLlvmIdent();
+
     String pp();
 
     GenericRet toIR() throws TypeException;

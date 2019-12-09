@@ -10,6 +10,7 @@ import TP2.exceptions.TypeException;
 public class Basic implements VariableFormInterface
 {
     private String ident;
+    private String llvmIdent;
     private SymbolTable symbolTable;
 
     public Basic(String ident, SymbolTable symbolTable)
@@ -23,7 +24,12 @@ public class Basic implements VariableFormInterface
     {
         return this.ident;
     }
-    
+
+    @Override
+    public String getLlvmIdent() {
+        return this.llvmIdent;
+    }
+
     @Override
     public void checkError()
     {
@@ -47,6 +53,8 @@ public class Basic implements VariableFormInterface
     public GenericRet toIR() throws TypeException
     {
         checkError();
+
+        this.llvmIdent = ((VariableSymbol) this.symbolTable.lookup(this.ident)).getLlvmIdent();
         
         return new GenericRet();
     }

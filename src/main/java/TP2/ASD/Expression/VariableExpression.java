@@ -66,11 +66,11 @@ public class VariableExpression implements ExpressionInterface, ErrorHandlerInte
 
             String tmpIdent = Utils.newtmp();
             if (expression instanceof Basic) {
-                result.getIr().appendCode(new LoadVar(tmpIdent, expression.getIdent()));
+                result.getIr().appendCode(new LoadVar(tmpIdent, ((VariableSymbol) symbolTable.lookup(expression.getIdent())).getLlvmIdent()));
                 result.setResult(tmpIdent);
             } else {
                 result.getIr().appendAll(expressionRet.getIr())
-                        .appendCode(new LoadTab(tmpIdent, expression.getIdent(),
+                        .appendCode(new LoadTab(tmpIdent, ((VariableSymbol) symbolTable.lookup(expression.getIdent())).getLlvmIdent(),
                                 expressionRet.getResult(), ((VariableSymbol) symbolTable.lookup(expression.getIdent())).getSize()));
                 String resultVal = Utils.newtmp();
                 result.getIr().appendCode(new LoadVar(resultVal, tmpIdent));
