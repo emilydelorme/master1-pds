@@ -141,7 +141,7 @@ public class Function implements UnitInterface {
     public GenericRet toIR() throws TypeException {
         checkError();
 
-        StatementUtils.currentFunction = this.ident;
+        StatementUtils.setCurrentFunction(this.ident);
 
         GenericRet result = new GenericRet();
 
@@ -150,7 +150,7 @@ public class Function implements UnitInterface {
 
         for (ParameterInterface parameter : arguments) {
 
-            String parameterNewIdent = parameter.getIdent() + "_" + ident + "_" + StatementUtils.currentBlockLevel;
+            String parameterNewIdent = parameter.getIdent() + "_" + ident + "_" + StatementUtils.getCurrentBlockLevel();
             ((VariableSymbol) symbolTable.lookup(parameter.getIdent())).setLlvmIdent(parameterNewIdent);
 
             result.getIr().appendCode(new AllocaVar(new LlvmInt(), parameterNewIdent))

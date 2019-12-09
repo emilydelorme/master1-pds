@@ -12,19 +12,35 @@ import TP2.exceptions.TypeException;
 public class StatementUtils
 {
 
-    public static int currentBlockLevel = 0;
-    public static String currentFunction = "";
+    private static int currentBlockLevel = 0;
+    private static String currentFunction = "";
 
     private StatementUtils()
     {
     }
 
-    static public GenericRet createControl(ControlType controlType, String startIdent, String endIdent, ExpressionInterface condition, StatementInterface statement) throws TypeException
+    public static int getCurrentBlockLevel() {
+        return currentBlockLevel;
+    }
+
+    public static void setCurrentBlockLevel(int currentBlockLevel) {
+        StatementUtils.currentBlockLevel = currentBlockLevel;
+    }
+
+    public static String getCurrentFunction() {
+        return currentFunction;
+    }
+
+    public static void setCurrentFunction(String currentFunction) {
+        StatementUtils.currentFunction = currentFunction;
+    }
+
+    public static GenericRet createControl(ControlType controlType, String startIdent, String endIdent, ExpressionInterface condition, StatementInterface statement) throws TypeException
     {
         return createControl(controlType, startIdent, endIdent, condition, statement, null, null);
     }
 
-    static public GenericRet createControl(ControlType controlType, String startIdent, String endIdent, ExpressionInterface condition, StatementInterface statement, String altIdent, StatementInterface altStatement) throws TypeException
+    public static GenericRet createControl(ControlType controlType, String startIdent, String endIdent, ExpressionInterface condition, StatementInterface statement, String altIdent, StatementInterface altStatement) throws TypeException
     {
         GenericRet result = new GenericRet();
 

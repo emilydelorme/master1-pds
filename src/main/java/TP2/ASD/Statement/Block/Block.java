@@ -79,7 +79,8 @@ public class Block implements StatementInterface
     public GenericRet toIR() throws TypeException
     {
         checkError();
-        StatementUtils.currentBlockLevel++;
+        StatementUtils.setCurrentBlockLevel(StatementUtils.getCurrentBlockLevel() + 1);
+        
         GenericRet result = new GenericRet();
 
         for (Declaration declaration : declarations) {
@@ -89,7 +90,8 @@ public class Block implements StatementInterface
         for (StatementInterface statement : statements) {
             result.getIr().appendAll(statement.toIR().getIr());
         }
-        StatementUtils.currentBlockLevel--;
+
+        StatementUtils.setCurrentBlockLevel(StatementUtils.getCurrentBlockLevel() - 1);
 
         return result;
     }

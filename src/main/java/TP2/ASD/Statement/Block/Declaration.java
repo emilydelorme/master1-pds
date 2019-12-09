@@ -30,11 +30,11 @@ public class Declaration implements ErrorHandlerInterface
         StringBuilder str = new StringBuilder();
 
         str.append(this.type.pp()).append(" ");
-        int identsSize = this.variablesForm.size();
+        int identSize = this.variablesForm.size();
 
-        IntStream.range(0, identsSize).forEach(i -> {
+        IntStream.range(0, identSize).forEach(i -> {
             str.append(this.variablesForm.get(i).pp());
-            if (i < identsSize - 1) {
+            if (i < identSize - 1) {
                 str.append(", ");
             }
         });
