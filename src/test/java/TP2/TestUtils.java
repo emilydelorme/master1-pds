@@ -24,6 +24,7 @@ public class TestUtils {
         Files.createDirectories(Paths.get("build/llvm/test"));
 
         for (File vslfile : Objects.requireNonNull(files)) {
+            Logger.info("Compiling " + vslfile.getPath());
             boolean result = testFile(vslfile.getPath());
             if (!result)
                 return false;
@@ -42,10 +43,10 @@ public class TestUtils {
         // Parse
         Program ast = parser.program().out;
 
-        Logger.info(ast.pp());
+        Logger.debug(ast.pp());
 
         String ir = ast.toIR().toString();
-        Logger.info(ir);
+        Logger.debug(ir);
         String llvmFilePath = "build/llvm/test/" + Paths.get(path).getFileName().toString().substring(0,
                                                                                                       Paths.get(path).getFileName().toString().length() - 3) + "ll";
         writeFile(llvmFilePath, ir);
