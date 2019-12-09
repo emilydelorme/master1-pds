@@ -20,7 +20,7 @@ public class DefineFunction implements Instruction {
     public String toString() {
         StringBuilder res = new StringBuilder("define " + type.toString() + " @" + ident + "(");
         if(!parameters.isEmpty()) {
-            res.append("i32 %").append(parameters.get(0));
+            res.append("i32 ").append(parameters.get(0));
             for (int i = 1; i < parameters.size(); i++) {
                 res.append(", " + "i32 ").append(parameters.get(i));
             }

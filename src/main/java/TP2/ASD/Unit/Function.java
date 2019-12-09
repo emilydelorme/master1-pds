@@ -146,7 +146,9 @@ public class Function implements UnitInterface {
         GenericRet result = new GenericRet();
 
         result.getIr().appendCode(new DefineFunction(this.type.toLlvmType(), ident,
-                                                     arguments.stream().map(ParameterInterface::getIdent).collect(Collectors.toList())));
+                                                     arguments.stream()
+                                                              .map(parameter -> "%" + parameter.getIdent())
+                                                              .collect(Collectors.toList())));
 
         for (ParameterInterface parameter : arguments) {
 
@@ -154,7 +156,7 @@ public class Function implements UnitInterface {
             ((VariableSymbol) symbolTable.lookup(parameter.getIdent())).setLlvmIdent(parameterNewIdent);
 
             result.getIr().appendCode(new AllocaVar(new LlvmInt(), parameterNewIdent))
-                .appendCode(new Store(new LlvmInt(), parameter.getIdent(), parameterNewIdent));
+                .appendCode(new Store(new LlvmInt(), "%"+parameter.getIdent(), parameterNewIdent));
         }
 
         result.getIr().appendAll(statement.toIR().getIr());
