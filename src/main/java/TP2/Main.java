@@ -83,7 +83,7 @@ public class Main
         try(FileOutputStream outputStream =  new FileOutputStream(path)) {
             outputStream.write(content.getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
     }
 }
