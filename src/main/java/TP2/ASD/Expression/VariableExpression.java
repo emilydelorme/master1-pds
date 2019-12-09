@@ -218,6 +218,7 @@ import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.SymbolTable.VariableSymbol;
 import TP2.Utils;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 import org.tinylog.Logger;
 
@@ -231,12 +232,12 @@ public class VariableExpression implements ExpressionInterface, ErrorHandlerInte
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         String variableIdent = this.expression.getIdent();
         Symbol symbol = this.symbolTable.lookup(variableIdent);
 
         if (!(symbol instanceof VariableSymbol)) {
-            exitWithMessage(String.format("[Variable] (%s) unknown variable", variableIdent));
+            throwASDException(String.format("[Variable] (%s) unknown variable", variableIdent));
         }
     }
 
@@ -245,14 +246,10 @@ public class VariableExpression implements ExpressionInterface, ErrorHandlerInte
     }
 
     public String pp() {
-        checkError();
-
         return this.expression.pp();
     }
 
-    public TypeRet toIR() {
-        checkError();
-
+    public TypeRet toIR(){
         TypeRet result = new TypeRet(new Int());
 
         try {

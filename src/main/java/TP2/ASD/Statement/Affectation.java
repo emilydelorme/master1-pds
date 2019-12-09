@@ -216,6 +216,7 @@ import TP2.Llvm.Instructions.load.LoadTab;
 import TP2.Llvm.Types.LlvmInt;
 import TP2.SymbolTable.*;
 import TP2.Utils;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 public class Affectation implements StatementInterface {
@@ -230,7 +231,7 @@ public class Affectation implements StatementInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         this.leftVar.checkError();
         this.expression.checkError();
 
@@ -239,7 +240,7 @@ public class Affectation implements StatementInterface {
         checkFunctionCall();
     }
 
-    private void checkFunctionCall() {
+    private void checkFunctionCall() throws ASDException {
         if (this.expression instanceof FunctionCall) {
             FunctionCall functionCall = (FunctionCall) this.expression;
 
@@ -249,7 +250,7 @@ public class Affectation implements StatementInterface {
                 FunctionSymbol functionSymbol = (FunctionSymbol) symbol;
 
                 if (functionSymbol.getReturnType().equals(new Void())) {
-                    exitWithMessage(String.format("[Affectation] (%s) can't call a [%s] function",
+                    throwASDException(String.format("[Affectation] (%s) can't call a [%s] function",
                                                   functionSymbol.getIdent(), functionSymbol.getReturnType().getType()));
                 }
             }
@@ -258,7 +259,7 @@ public class Affectation implements StatementInterface {
                 PrototypeSymbol prototypeSymbol = (PrototypeSymbol) symbol;
 
                 if (prototypeSymbol.getReturnType().equals(new Void())) {
-                    exitWithMessage(String.format("[Affectation] (%s) can't call a [%s] function",
+                    throwASDException(String.format("[Affectation] (%s) can't call a [%s] function",
                                                   prototypeSymbol.getIdent(),
                                                   prototypeSymbol.getReturnType().getType()));
                 }
@@ -266,7 +267,7 @@ public class Affectation implements StatementInterface {
         }
     }
 
-    private void checkVariable() {
+    private void checkVariable() throws ASDException {
         if (this.leftVar instanceof Array) {
             Symbol symbol = this.symbolTable.lookup(this.leftVar.getIdent());
 
@@ -274,14 +275,14 @@ public class Affectation implements StatementInterface {
                 VariableSymbol variableSymbol = (VariableSymbol) symbol;
 
                 if (!variableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Affectation] (%s) needs to be a normal variable",
+                    throwASDException(String.format("[Affectation] (%s) needs to be a normal variable",
                                                   variableSymbol.getIdent()));
                 }
             }
         }
     }
 
-    private void checkCallArray() {
+    private void checkCallArray() throws ASDException {
         if (!(this.leftVar instanceof Array)) {
             Symbol symbol = this.symbolTable.lookup(this.leftVar.getIdent());
 
@@ -289,7 +290,7 @@ public class Affectation implements StatementInterface {
                 VariableSymbol variableSymbol = (VariableSymbol) symbol;
 
                 if (variableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Affectation] (%s) needs to be called as an array",
+                    throwASDException(String.format("[Affectation] (%s) needs to be called as an array",
                                                   variableSymbol.getIdent()));
                 }
             }
@@ -298,15 +299,11 @@ public class Affectation implements StatementInterface {
 
     @Override
     public String pp() {
-        checkError();
-
         return this.leftVar.pp() + " := " + this.expression.pp();
     }
 
     @Override
     public GenericRet toIR() throws TypeException {
-        checkError();
-
         GenericRet result = new GenericRet();
 
         GenericRet rightResult = expression.toIR();

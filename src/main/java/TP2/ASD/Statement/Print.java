@@ -214,6 +214,7 @@ import TP2.Llvm.Instructions.io.PrintCall;
 import TP2.Llvm.Instructions.io.PrintHeader;
 import TP2.TypeLabel;
 import TP2.Utils;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 import java.util.ArrayList;
@@ -228,7 +229,7 @@ public class Print implements StatementInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         for (ItemInterface itemInterface : this.items) {
             itemInterface.checkError();
         }
@@ -236,7 +237,6 @@ public class Print implements StatementInterface {
 
     @Override
     public String pp() {
-        checkError();
         StringBuilder str = new StringBuilder("PRINT ");
 
         IntStream.range(0, this.items.size()).forEach(i -> {
@@ -255,8 +255,6 @@ public class Print implements StatementInterface {
 
     @Override
     public GenericRet toIR() throws TypeException {
-        checkError();
-
         GenericRet result = new GenericRet();
         String printIdent = Utils.newLabel(TypeLabel.FMT);
 

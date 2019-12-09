@@ -203,14 +203,13 @@
  *
  */
 
-package TP2.ASD;
+package TP2.exceptions;
 
-import TP2.exceptions.ASDException;
+public class ASDException extends Exception {
+    private static final long serialVersionUID = -7451571610776556514L;
 
-public interface ErrorHandlerInterface {
-    default void throwASDException(String message) throws ASDException {
-        throw new ASDException(message);
+    public ASDException(String message) {
+        super(message);
     }
 
-    void checkError() throws ASDException;
 }

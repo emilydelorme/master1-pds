@@ -210,6 +210,7 @@ import TP2.ASD.Types.Void;
 import TP2.ASD.Unit.Function;
 import TP2.Llvm.InstructionHandler;
 import TP2.SymbolTable.SymbolTable;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
 import org.tinylog.Logger;
@@ -227,7 +228,7 @@ public class Program {
         this.symbolTable = symbolTable;
     }
 
-    public static Program create(List<UnitInterface> unitInterface, SymbolTable symbolTable) {
+    public static Program create(List<UnitInterface> unitInterface, SymbolTable symbolTable) throws ASDException {
         Function mainFunction = null;
 
         for (UnitInterface unit : unitInterface) {
@@ -237,14 +238,12 @@ public class Program {
         }
 
         if (mainFunction == null) {
-            Logger.error(String.format("ERROR: [Program] (%s) function not detected", MAIN_FUNCTION_NAME));
-            System.exit(1);
+            throw new ASDException(String.format("ERROR: [Program] (%s) function not detected", MAIN_FUNCTION_NAME));
         }
 
         if (!mainFunction.getArguments().isEmpty()) {
-            Logger.error(String.format("ERROR: [Program] (%s) function shouldn't have any arguments",
-                                             MAIN_FUNCTION_NAME));
-            System.exit(1);
+            throw new ASDException(String.format("ERROR: [Program] (%s) function shouldn't have any arguments",
+                    MAIN_FUNCTION_NAME));
         }
 
         for (UnitInterface unit : unitInterface) {
@@ -262,7 +261,6 @@ public class Program {
                             .orElse("");
     }
 
-    // IR generation
     public InstructionHandler toIR() throws TypeException, EmptyProgram {
         if (this.unitInterface.isEmpty())
             throw new EmptyProgram("Empty Program");

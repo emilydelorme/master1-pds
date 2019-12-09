@@ -212,6 +212,7 @@ import TP2.Llvm.Instructions.io.ReadCall;
 import TP2.Llvm.Instructions.io.ReadHeader;
 import TP2.TypeLabel;
 import TP2.Utils;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 import java.util.List;
@@ -225,7 +226,7 @@ public class Read implements StatementInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         for (VariableFormInterface variableFormInterface : this.variables) {
             variableFormInterface.checkError();
         }
@@ -233,8 +234,6 @@ public class Read implements StatementInterface {
 
     @Override
     public String pp() {
-        checkError();
-
         StringBuilder str = new StringBuilder("READ ");
 
         int variablesSize = this.variables.size();
@@ -251,8 +250,6 @@ public class Read implements StatementInterface {
 
     @Override
     public GenericRet toIR() throws TypeException {
-        checkError();
-
         GenericRet result = new GenericRet();
 
         for (VariableFormInterface variable : variables) {

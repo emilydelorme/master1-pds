@@ -229,6 +229,8 @@ dependencies {
     implementation group: 'org.tinylog', name: 'tinylog-api', version: '2.0.1'
     // https://mvnrepository.com/artifact/org.tinylog/tinylog-imp
     implementation group: 'org.tinylog', name: 'tinylog-impl', version: '2.0.1'
+    // https://mvnrepository.com/artifact/commons-cli/commons-cli
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
 }
 

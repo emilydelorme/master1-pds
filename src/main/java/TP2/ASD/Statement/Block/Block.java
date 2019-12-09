@@ -209,6 +209,7 @@ import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.Statement.StatementUtils;
 import TP2.ASD.StatementInterface;
 import TP2.Utils;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 import java.util.ArrayList;
@@ -247,7 +248,7 @@ public class Block implements StatementInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         if (!declarations.isEmpty()) {
             for (Declaration declaration : this.declarations) {
                 declaration.checkError();
@@ -261,8 +262,6 @@ public class Block implements StatementInterface {
 
     @Override
     public String pp() {
-        checkError();
-
         StringBuilder str = new StringBuilder();
         int statementSize = this.statements.size();
 
@@ -289,7 +288,6 @@ public class Block implements StatementInterface {
 
     @Override
     public GenericRet toIR() throws TypeException {
-        checkError();
         StatementUtils.setCurrentBlockLevel(StatementUtils.getCurrentBlockLevel() + 1);
 
         GenericRet result = new GenericRet();

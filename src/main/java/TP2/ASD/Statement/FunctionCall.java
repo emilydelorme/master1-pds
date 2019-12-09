@@ -215,6 +215,7 @@ import TP2.Llvm.Instructions.functions.CallFunction;
 import TP2.Llvm.Types.LlvmInt;
 import TP2.SymbolTable.*;
 import TP2.Utils;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 import java.util.ArrayList;
@@ -236,11 +237,11 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         Symbol symbol = this.symbolTable.lookup(this.functionIdent);
 
         if (!(symbol instanceof PrototypeSymbol) && !(symbol instanceof FunctionSymbol)) {
-            exitWithMessage(String.format("[Function call] (%s) unknown function name", this.functionIdent));
+            throwASDException(String.format("[Function call] (%s) unknown function name", this.functionIdent));
         }
 
         if (symbol instanceof PrototypeSymbol) {
@@ -252,9 +253,9 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
         }
     }
 
-    private void checkFunction(FunctionSymbol functionSymbol) {
+    private void checkFunction(FunctionSymbol functionSymbol) throws ASDException {
         if (functionSymbol.getArguments().size() != this.expressions.size()) {
-            exitWithMessage(String.format("[Function call] (%s) mismatch parameters number", this.functionIdent));
+            throwASDException(String.format("[Function call] (%s) mismatch parameters number", this.functionIdent));
         }
 
         for (int i = 0; i < functionSymbol.getArguments().size(); ++i) {
@@ -266,30 +267,30 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
                         (VariableSymbol) this.symbolTable.lookup(((VariableExpression) this.expressions.get(i)).getExpression().getIdent());
 
                 if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array",
+                    throwASDException(String.format("[Function call] (%s) parameter (%s) needs to be an array",
                                                   this.functionIdent,
                                                   functionCallParameterVariableSymbol.getIdent()));
                 }
 
                 if (!prototypeVariableSymbol.isArray() && functionCallParameterVariableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be a normal " +
+                    throwASDException(String.format("[Function call] (%s) parameter (%s) needs to be a normal " +
                                                   "variable", this.functionIdent,
                                                   functionCallParameterVariableSymbol.getIdent()));
                 }
             } else if (prototypeVariableSymbol.isArray()) {
-                exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array",
+                throwASDException(String.format("[Function call] (%s) parameter (%s) needs to be an array",
                                               this.functionIdent, currentCallParameter.pp()));
             }
         }
     }
 
-    private void checkProto(PrototypeSymbol prototypeSymbol) {
+    private void checkProto(PrototypeSymbol prototypeSymbol) throws ASDException {
         if (!prototypeSymbol.isDefined()) {
-            exitWithMessage(String.format("[Function call] (%s) function not defined", this.functionIdent));
+            throwASDException(String.format("[Function call] (%s) function not defined", this.functionIdent));
         }
 
         if (prototypeSymbol.getArguments().size() != this.expressions.size()) {
-            exitWithMessage(String.format("[Function call] (%s) mismatch parameters number", this.functionIdent));
+            throwASDException(String.format("[Function call] (%s) mismatch parameters number", this.functionIdent));
         }
 
         for (int i = 0; i < prototypeSymbol.getArguments().size(); ++i) {
@@ -301,12 +302,12 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
                         (VariableSymbol) this.symbolTable.lookup(((VariableExpression) this.expressions.get(i)).getExpression().getIdent());
 
                 if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray()) {
-                    exitWithMessage(String.format(StatementUtils.FUNCTIONCALL_PARAMS_NEED_TO_BE_ARRAY,
+                    throwASDException(String.format(StatementUtils.FUNCTIONCALL_PARAMS_NEED_TO_BE_ARRAY,
                                                   this.functionIdent,
                                                   functionCallParameterVariableSymbol.getIdent()));
                 }
             } else if (prototypeVariableSymbol.isArray()) {
-                exitWithMessage(String.format(StatementUtils.FUNCTIONCALL_PARAMS_NEED_TO_BE_ARRAY,
+                throwASDException(String.format(StatementUtils.FUNCTIONCALL_PARAMS_NEED_TO_BE_ARRAY,
                                               this.functionIdent, currentCallParameter.pp()));
             }
         }
@@ -314,8 +315,6 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
 
     @Override
     public String pp() {
-        checkError();
-
         StringBuilder str = new StringBuilder(this.functionIdent);
 
         str.append("(");
@@ -337,8 +336,6 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
 
     @Override
     public TypeRet toIR() throws TypeException {
-        checkError();
-
         TypeRet result = new TypeRet(new Void());
 
         setType(result);

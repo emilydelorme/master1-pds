@@ -213,6 +213,7 @@ import TP2.ASD.StatementInterface;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.SymbolTable.VariableSymbol;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 public class Return implements StatementInterface {
@@ -225,7 +226,7 @@ public class Return implements StatementInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         if (this.expression instanceof VariableExpression) {
             VariableExpression variableExpression = (VariableExpression) this.expression;
 
@@ -235,7 +236,7 @@ public class Return implements StatementInterface {
                 VariableSymbol variableSymbol = (VariableSymbol) symbol;
 
                 if (variableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Return] (%s) needs to be a normal variable",
+                    throwASDException(String.format("[Return] (%s) needs to be a normal variable",
                                                   variableExpression.getExpression().getIdent()));
                 }
             }
@@ -246,15 +247,11 @@ public class Return implements StatementInterface {
 
     @Override
     public String pp() {
-        checkError();
-
         return "RETURN" + " " + this.expression.pp();
     }
 
     @Override
     public GenericRet toIR() throws TypeException {
-        checkError();
-
         GenericRet result = new GenericRet();
 
         TypeRet typeRet = expression.toIR();

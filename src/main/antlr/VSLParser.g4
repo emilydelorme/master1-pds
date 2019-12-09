@@ -10,7 +10,7 @@ options {
 
   import java.util.stream.Collectors;
   import java.util.Arrays;
-  import java.util.Optional;
+  import org.tinylog.Logger;
 }
 
 // =====================================================================
@@ -22,7 +22,16 @@ program returns [TP2.ASD.Program out]
 	List<TP2.ASD.UnitInterface> units = new ArrayList<>();
 	TP2.SymbolTable.SymbolTable symbolTable = new TP2.SymbolTable.SymbolTable();
 }
-    : (u=unit[symbolTable] { units.add($u.out); } )* EOF { $out = TP2.ASD.Program.create(units, symbolTable); }
+    : (u=unit[symbolTable] { units.add($u.out); } )* EOF 
+    {
+    	try {
+    		$out = TP2.ASD.Program.create(units, symbolTable);
+    	} catch (TP2.exceptions.ASDException e) {
+            Logger.error(e.getMessage());
+            Logger.error("Unable to generate the AST");
+            //System.exit(1);
+        }
+    }
     ;
 
 // =====================================================================
@@ -43,9 +52,9 @@ prototype[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Prototy
 	: PROTO t=functionType IDENT LP p=parameters[arguments, symbolTableWithArgs] RP {
 		if (!$symbolTable.add(new TP2.SymbolTable.PrototypeSymbol($t.out, $IDENT.text, arguments, false)))
 		{
-			System.err.println(String.format("ERROR: [Function prototype] (%s) already exists", $IDENT.text));
-        
-        	System.exit(1);
+			Logger.error(String.format("ERROR: [Function prototype] (%s) already exists", $IDENT.text));
+        	Logger.error("Unable to generate the AST");
+        	//System.exit(1);
 		}
 		
 		$out = new TP2.ASD.Unit.Prototype($t.out, $IDENT.text, $p.out);
@@ -61,9 +70,9 @@ function[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Function
 	: FUNC t=functionType IDENT LP p=parameters[arguments, symbolTableWithArgs] RP s=statement[symbolTableWithArgs] {
 		if (!$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments)))
 		{
-			System.err.println(String.format("ERROR: [Function definition] (%s) already defined", $IDENT.text));
-        
-        	System.exit(1);
+			Logger.error(String.format("ERROR: [Function definition] (%s) already defined", $IDENT.text));
+        	Logger.error("Unable to generate the AST");
+        	//System.exit(1);
 		}
 
 		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out, symbolTableWithArgs);
@@ -71,9 +80,9 @@ function[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Function
 	| FUNC t=functionType IDENT LP p=parameters[arguments, symbolTableWithArgs] RP b=block[symbolTableWithArgs] {
 		if (!$symbolTable.add(new TP2.SymbolTable.FunctionSymbol($t.out, $IDENT.text, arguments)))
 		{
-			System.err.println(String.format("ERROR: [Function definition] (%s) already defined", $IDENT.text));
-        
-        	System.exit(1);
+			Logger.error(String.format("ERROR: [Function definition] (%s) already defined", $IDENT.text));
+        	Logger.error("Unable to generate the AST");
+        	//System.exit(1);
 		}
 		
 		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out, symbolTableWithArgs);
@@ -102,9 +111,9 @@ parameterBasic[List<TP2.SymbolTable.VariableSymbol> arguments, TP2.SymbolTable.S
 		//TODO: Change if we add types
 		if (!$symbolTableWithArgs.add(new TP2.SymbolTable.VariableSymbol(new TP2.ASD.Types.Int(), $IDENT.text, false)))
 		{
-			System.err.println(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
-        
-        	System.exit(1);
+			Logger.error(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
+        	Logger.error("Unable to generate the AST");
+        	//System.exit(1);
 		}
 		
 		$arguments.add(new TP2.SymbolTable.VariableSymbol(new TP2.ASD.Types.Int(), $IDENT.text, false));
@@ -116,9 +125,9 @@ parameterArray[List<TP2.SymbolTable.VariableSymbol> arguments, TP2.SymbolTable.S
 	: IDENT CL CR {
 		if (!$symbolTableWithArgs.add(new TP2.SymbolTable.VariableSymbol(new TP2.ASD.Types.Int(), $IDENT.text, true)))
 		{
-			System.err.println(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
-        
-        	System.exit(1);
+			Logger.error(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
+        	Logger.error("Unable to generate the AST");
+        	//System.exit(1);
 		}
 		
 		$arguments.add(new TP2.SymbolTable.VariableSymbol(new TP2.ASD.Types.Int(), $IDENT.text, true));
@@ -329,9 +338,9 @@ basicForm[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns
 			
 			if (variableSymbol.isArray())
             {
-            	System.err.println(String.format("[Affectation] (%s) needs to be called as an array", $IDENT.text));
-        
-        		System.exit(1);
+            	Logger.error(String.format("[Affectation] (%s) needs to be called as an array", $IDENT.text));
+        		Logger.error("Unable to generate the AST");
+        		//System.exit(1);
             }
 		}
 		
@@ -349,9 +358,9 @@ arrayForm[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns
 			
 			if (!variableSymbol.isArray())
             {
-            	System.err.println(String.format("[Affectation] (%s) needs to be a normal variable", $IDENT.text));
-        
-        		System.exit(1);
+            	Logger.error(String.format("[Affectation] (%s) needs to be a normal variable", $IDENT.text));
+        		Logger.error("Unable to generate the AST");
+        		//System.exit(1);
             }
 		}*/
 		
@@ -372,9 +381,9 @@ basicFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable sym
 	: IDENT {
 		if (!$symbolTableBlock.add(new TP2.SymbolTable.VariableSymbol($type, $IDENT.text, false)))
 		{
-			System.err.println(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
-        
-        	System.exit(1);
+			Logger.error(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
+        	Logger.error("Unable to generate the AST");
+        	//System.exit(1);
 		}
 
 		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Basic($IDENT.text, $symbolTableBlock);
@@ -385,9 +394,9 @@ arrayFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable sym
 	: IDENT CL INTEGER CR {
 		if (!$symbolTableBlock.add(new TP2.SymbolTable.VariableSymbol($type, $IDENT.text, true, $INTEGER.int)))
 		{
-			System.err.println(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
-        
-        	System.exit(1);
+			Logger.error(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
+        	Logger.error("Unable to generate the AST");
+        	//System.exit(1);
 		}
 
 		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Array($IDENT.text, $INTEGER.int, $symbolTableBlock);

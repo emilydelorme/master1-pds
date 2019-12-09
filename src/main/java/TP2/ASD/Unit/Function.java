@@ -220,6 +220,7 @@ import TP2.Llvm.Instructions.functions.DefineFunction;
 import TP2.Llvm.Types.LlvmInt;
 import TP2.Llvm.Types.LlvmVoid;
 import TP2.SymbolTable.*;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 import java.util.List;
@@ -259,7 +260,7 @@ public class Function implements UnitInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         Symbol symbol = this.symbolTable.lookup(this.ident);
 
         if (!this.ident.equals("main")) {
@@ -276,7 +277,7 @@ public class Function implements UnitInterface {
 
                 checkArguments(argsSize, functionSymbol.getArguments());
             } else {
-                exitWithMessage(String.format("[Function definition] (%s) unknown function definition",
+                throwASDException(String.format("[Function definition] (%s) unknown function definition",
                                               this.ident));
             }
         }
@@ -284,26 +285,26 @@ public class Function implements UnitInterface {
         this.statement.checkError();
     }
 
-    private int checkGenericFP(TypeInterface returnType, List<VariableSymbol> arguments) {
+    private int checkGenericFP(TypeInterface returnType, List<VariableSymbol> arguments) throws ASDException {
         if (!returnType.equals(this.type)) {
-            exitWithMessage(String.format("[Function definition] (%s) mismatch return type with the function " +
+            throwASDException(String.format("[Function definition] (%s) mismatch return type with the function " +
                                           "prototype", this.ident));
         }
 
         int argsSize = this.arguments.size();
 
         if (argsSize != arguments.size()) {
-            exitWithMessage(String.format("[Function definition] (%s) mismatch arguments number with the " +
+            throwASDException(String.format("[Function definition] (%s) mismatch arguments number with the " +
                                           "function prototype", this.ident));
         }
         return argsSize;
     }
 
-    private void checkArguments(int argsSize, List<VariableSymbol> arguments) {
+    private void checkArguments(int argsSize, List<VariableSymbol> arguments) throws ASDException {
         for (int i = 0; i < argsSize; ++i) {
             if (this.arguments.get(i) instanceof Array && !arguments.get(i).isArray() ||
                 !(this.arguments.get(i) instanceof Array) && arguments.get(i).isArray()) {
-                exitWithMessage(String.format("[Function definition] (%s) (%s) mismatch argument form with " +
+                throwASDException(String.format("[Function definition] (%s) (%s) mismatch argument form with " +
                                               "the function prototype", this.arguments.get(i).getIdent(),
                                               arguments.get(i).getIdent()));
             }
@@ -312,8 +313,6 @@ public class Function implements UnitInterface {
 
     @Override
     public String pp() {
-        checkError();
-
         StringBuilder strParameters = new StringBuilder();
         int parametersSize = this.arguments.size();
 
@@ -329,8 +328,6 @@ public class Function implements UnitInterface {
 
     @Override
     public GenericRet toIR() throws TypeException {
-        checkError();
-
         StatementUtils.setCurrentFunction(this.ident);
 
         GenericRet result = new GenericRet();

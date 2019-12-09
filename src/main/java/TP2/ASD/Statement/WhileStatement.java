@@ -211,6 +211,7 @@ import TP2.ASD.Statement.Block.Block;
 import TP2.ASD.StatementInterface;
 import TP2.TypeLabel;
 import TP2.Utils;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 public class WhileStatement implements StatementInterface {
@@ -224,15 +225,13 @@ public class WhileStatement implements StatementInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         this.condition.checkError();
         this.statement.checkError();
     }
 
     @Override
     public String pp() {
-        checkError();
-
         return "WHILE " + condition.pp() +
                "\n" +
                Utils.indent(Block.getIdentLevel()) +
@@ -247,7 +246,6 @@ public class WhileStatement implements StatementInterface {
 
     @Override
     public GenericRet toIR() throws TypeException {
-        checkError();
         return StatementUtils.createControl(ControlType.WHILE, Utils.newLabel(TypeLabel.WHILE),
                                             Utils.newLabel(TypeLabel.DONE), condition, statement,
                                             Utils.newLabel(TypeLabel.DO), null);
