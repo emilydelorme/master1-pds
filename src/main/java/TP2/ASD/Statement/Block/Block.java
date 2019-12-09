@@ -13,7 +13,7 @@ public class Block implements StatementInterface
 {
     private List<Declaration> declarations;
     private List<StatementInterface> statements;
-    public static int identLevel = 0;
+    private static int identLevel = 0;
 
     public Block(List<Declaration> declarations, List<StatementInterface> statements)
     {
@@ -44,6 +44,26 @@ public class Block implements StatementInterface
         }
     }
 
+    public static int getIdentLevel()
+    {
+        return identLevel;
+    }
+
+    public static void setIdentLevel(int identLevel)
+    {
+        Block.identLevel = identLevel;
+    }
+
+    public static void identLevelPlus()
+    {
+        identLevel++;
+    }
+
+    public static void identLevelSub()
+    {
+        identLevel--;
+    }
+
     @Override
     public String pp()
     {
@@ -53,7 +73,7 @@ public class Block implements StatementInterface
         int statementSize = this.statements.size();
 
         str.append("{").append("\n");
-        identLevel++;
+        Block.identLevelPlus();
 
         if (!declarations.isEmpty())
         {
@@ -68,7 +88,7 @@ public class Block implements StatementInterface
         });
         
         str.append("\n");
-        identLevel--;
+        Block.identLevelSub();
         str.append(Utils.indent(identLevel)).append("}");
 
         return str.toString();
