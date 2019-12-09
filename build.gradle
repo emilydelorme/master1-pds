@@ -1,10 +1,11 @@
 plugins {
-  id 'java'
-  id 'antlr'
-  id 'eclipse'
-  id 'idea'
-  id 'application'
-  id "org.sonarqube" version "2.7"
+    id 'java'
+    id 'antlr'
+    id 'eclipse'
+    id 'idea'
+    id 'application'
+    id 'jacoco'
+    id "org.sonarqube" version "2.7"
 }
 
 sonarqube {
@@ -14,16 +15,16 @@ sonarqube {
 }
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  antlr('org.antlr:antlr4:4.7.2')
-  // https://mvnrepository.com/artifact/org.tinylog/tinylog-api
-  implementation group: 'org.tinylog', name: 'tinylog-api', version: '2.0.1'
-  // https://mvnrepository.com/artifact/org.tinylog/tinylog-imp
-  implementation group: 'org.tinylog', name: 'tinylog-impl', version: '2.0.1'
-  testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+    antlr('org.antlr:antlr4:4.7.2')
+    // https://mvnrepository.com/artifact/org.tinylog/tinylog-api
+    implementation group: 'org.tinylog', name: 'tinylog-api', version: '2.0.1'
+    // https://mvnrepository.com/artifact/org.tinylog/tinylog-imp
+    implementation group: 'org.tinylog', name: 'tinylog-impl', version: '2.0.1'
+    testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
 }
 
 test {
@@ -31,25 +32,25 @@ test {
 }
 
 generateGrammarSource {
-  arguments += ['-no-visitor', '-no-listener']
-  outputDirectory = new File(buildDir.toString() + "/generated-src/antlr/main/TP2/")
+    arguments += ['-no-visitor', '-no-listener']
+    outputDirectory = new File(buildDir.toString() + "/generated-src/antlr/main/TP2/")
 }
 
 jar {
-  manifest {
-    attributes (
-      'Main-Class': 'TP2.Main',
-      'Class-Path': configurations.runtimeClasspath.files.join(' ')
-    )
-  }
+    manifest {
+        attributes(
+                'Main-Class': 'TP2.Main',
+                'Class-Path': configurations.runtimeClasspath.files.join(' ')
+        )
+    }
 }
 
-apply plugin  : 'java'
+apply plugin: 'java'
 
 ext {
-  javaMainClass = "TP2.Main"
+    javaMainClass = "TP2.Main"
 }
 
 application {
-  mainClassName = javaMainClass
+    mainClassName = javaMainClass
 }
