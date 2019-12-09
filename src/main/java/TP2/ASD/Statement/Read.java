@@ -62,6 +62,8 @@ public class Read implements StatementInterface
 
             result.getIr().appendAll(variable.toIR().getIr());
 
+            result.setResult(variable.getLlvmIdent());
+
             result.getIr().appendHeader(new ReadHeader(readName))
                   .appendCode(new ReadCall(readName, variable.getLlvmIdent()));
         }
