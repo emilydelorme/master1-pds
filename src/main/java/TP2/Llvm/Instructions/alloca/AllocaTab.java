@@ -17,6 +17,6 @@ public class AllocaTab implements Instruction {
 
     @Override
     public String toString() {
-        return LlvmUtils.IDENT + ident + " = alloca [" + size + " x " + type + "]" + "\n";
+        return LlvmUtils.IDENT + "%" + ident + " = alloca [" + size + " x " + type + "]" + "\n";
     }
 }
