@@ -208,49 +208,70 @@ package TP2;
 import TP2.ASD.Program;
 import TP2.Llvm.InstructionHandler;
 import TP2.exceptions.EmptyProgram;
+import TP2.exceptions.NoVslFileException;
 import TP2.exceptions.TypeException;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.apache.commons.cli.*;
 import org.tinylog.Logger;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class Main {
+
+    private static final String OUTPUT_PATH = "build/llvm/output/";
+
     public static void main(String[] args) {
 
+        Options options = new Options();
+        options.addOption("f", true, "File to compile");
+        options.addOption("d", true, "Directory to compile");
+        options.addOption("o", false, "Compile output  to build/llvm/output");
+        CommandLineParser cmdParser = new DefaultParser();
         try {
-            // Set input
-            final CharStream input;
+            CommandLine cmd = cmdParser.parse(options, args);
 
-            if (args.length == 0) {
-                // From standard input
-                input = CharStreams.fromStream(System.in);
+            if(!cmd.hasOption("o"))
+                Logger.warn("You didn't set output, no file will be written");
+
+            if(cmd.hasOption("d")) {
+                File dir = new File(cmd.getOptionValue("d"));
+                File[] files = dir.listFiles((dir1, name) -> name.endsWith(".vsl"));
+
+                if(files == null || files.length == 0)
+                    throw new NoVslFileException("No vsl files found. Ensure than extension is .vsl");
+
+                for (File vslfile : files) {
+                    Logger.info("Compiling " + vslfile.getPath());
+                    compileFile(cmd, vslfile.getPath(), vslfile.getName().substring(0, vslfile.getName().length() - 4));
+                }
+
+            } else if(cmd.hasOption("f")) {
+                File outputFile = new File(cmd.getOptionValue("f"));
+                compileFile(cmd, cmd.getOptionValue("f"), outputFile.getName().substring(0, outputFile.getName().length() - 4));
             } else {
-                // From file set in first argument
-                input = CharStreams.fromPath(Paths.get(args[0]));
+                Logger.error("No file to compile.\n Use java -jar TP2 -f <file.vsl> or java -jar TP2 -d <directoryPath>");
             }
-
-            // Instantiate Lexer
-            final VSLLexer lexer = new VSLLexer(input);
-            final CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-            // Instantiate Parser
-            final VSLParser parser = new VSLParser(tokens);
-
-            // Parse
-            final Program ast = parser.program().out;
-            compileProgram(args, ast);
-
-        } catch (IOException e) {
+        } catch (ParseException | IOException | NoVslFileException e) {
             Logger.error(e.getMessage());
         }
     }
 
-    private static void compileProgram(String[] args, Program ast) throws IOException {
+    private static void compileFile(CommandLine cmd, String filePath, String outputPath) throws IOException {
+        final VSLParser parser = new VSLParser(
+                new CommonTokenStream(
+                        new VSLLexer(CharStreams.fromPath(Paths.get(filePath)))));
+        final Program ast = parser.program().out;
+        compileProgram(cmd, ast, outputPath);
+    }
+
+    private static void compileProgram(CommandLine cmd, Program ast, String outputPath) throws IOException {
         // Compute LLVM IR from the ast
         try {
             // Pretty-print the program (to debug parsing, if you implemented it!)
@@ -261,9 +282,9 @@ public class Main {
             final InstructionHandler ir = ast.toIR();
 
             // Save LLVM IR in a file
-            if (args.length >= 2) {
-                Files.createDirectories(Paths.get("build/llvm/"));
-                writeToFile("build/llvm/" + args[1], ir.toString());
+            if (cmd.hasOption("o")) {
+                Files.createDirectories(Paths.get(OUTPUT_PATH));
+                writeToFile(OUTPUT_PATH + outputPath+ ".ll", ir.toString());
             }
 
             // Output LLVM IR
