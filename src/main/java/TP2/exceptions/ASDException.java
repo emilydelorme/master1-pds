@@ -203,17 +203,13 @@
  *
  */
 
-package TP2.ASD;
+package TP2.exceptions;
 
-import org.tinylog.Logger;
+public class ASDException extends Exception {
+    private static final long serialVersionUID = -7451571610776556514L;
 
-import TP2.exceptions.ASDException;
-
-public interface ErrorHandlerInterface {
-    default void exitWithMessage(String message) throws ASDException {
-        Logger.error(message);
-        throw new ASDException(message);
+    public ASDException(String message) {
+        super(message);
     }
 
-    void checkError() throws ASDException;
 }

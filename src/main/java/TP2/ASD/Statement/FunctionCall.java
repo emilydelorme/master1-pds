@@ -215,6 +215,7 @@ import TP2.Llvm.Instructions.functions.CallFunction;
 import TP2.Llvm.Types.LlvmInt;
 import TP2.SymbolTable.*;
 import TP2.Utils;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 import java.util.ArrayList;
@@ -236,7 +237,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         Symbol symbol = this.symbolTable.lookup(this.functionIdent);
 
         if (!(symbol instanceof PrototypeSymbol) && !(symbol instanceof FunctionSymbol)) {
@@ -252,7 +253,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
         }
     }
 
-    private void checkFunction(FunctionSymbol functionSymbol) {
+    private void checkFunction(FunctionSymbol functionSymbol) throws ASDException {
         if (functionSymbol.getArguments().size() != this.expressions.size()) {
             exitWithMessage(String.format("[Function call] (%s) mismatch parameters number", this.functionIdent));
         }
@@ -283,7 +284,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
         }
     }
 
-    private void checkProto(PrototypeSymbol prototypeSymbol) {
+    private void checkProto(PrototypeSymbol prototypeSymbol) throws ASDException {
         if (!prototypeSymbol.isDefined()) {
             exitWithMessage(String.format("[Function call] (%s) function not defined", this.functionIdent));
         }
@@ -314,8 +315,6 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
 
     @Override
     public String pp() {
-        checkError();
-
         StringBuilder str = new StringBuilder(this.functionIdent);
 
         str.append("(");
@@ -337,8 +336,6 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
 
     @Override
     public TypeRet toIR() throws TypeException {
-        checkError();
-
         TypeRet result = new TypeRet(new Void());
 
         setType(result);

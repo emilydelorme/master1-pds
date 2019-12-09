@@ -209,6 +209,7 @@ import TP2.ASD.ExpressionInterface;
 import TP2.ASD.ItemInterface;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.Ret.TypeRet;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 import org.tinylog.Logger;
 
@@ -220,21 +221,17 @@ public class Expression implements ItemInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         this.expessionValue.checkError();
     }
 
     @Override
     public String pp() {
-        checkError();
-
         return this.expessionValue.pp();
     }
 
     @Override
     public GenericRet toIR() {
-        checkError();
-
         GenericRet result = new GenericRet();
 
         try {

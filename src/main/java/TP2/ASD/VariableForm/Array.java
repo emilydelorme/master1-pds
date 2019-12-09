@@ -212,6 +212,7 @@ import TP2.ASD.VariableFormInterface;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.SymbolTable.VariableSymbol;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 public class Array implements VariableFormInterface {
@@ -237,7 +238,7 @@ public class Array implements VariableFormInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         Symbol symbol = this.symbolTable.lookup(this.ident);
 
         if (!(symbol instanceof VariableSymbol)) {
@@ -249,14 +250,11 @@ public class Array implements VariableFormInterface {
 
     @Override
     public String pp() {
-        checkError();
-
         return this.ident + "[" + this.expression.pp() + "]";
     }
 
     @Override
     public GenericRet toIR() throws TypeException {
-        checkError();
         GenericRet result = new GenericRet();
 
         final TypeRet typeRet = expression.toIR();

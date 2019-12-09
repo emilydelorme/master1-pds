@@ -211,6 +211,7 @@ import TP2.ASD.Statement.Block.Block;
 import TP2.ASD.StatementInterface;
 import TP2.TypeLabel;
 import TP2.Utils;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 public class IfElseStatement implements StatementInterface {
@@ -226,7 +227,7 @@ public class IfElseStatement implements StatementInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         this.condition.checkError();
         this.trueStatement.checkError();
         this.falseStatement.checkError();
@@ -234,8 +235,6 @@ public class IfElseStatement implements StatementInterface {
 
     @Override
     public String pp() {
-        checkError();
-
         return "IF " + condition.pp() +
                "\n" +
                Utils.indent(Block.getIdentLevel()) +
@@ -256,8 +255,6 @@ public class IfElseStatement implements StatementInterface {
 
     @Override
     public GenericRet toIR() throws TypeException {
-        checkError();
-
         return StatementUtils.createControl(ControlType.ELSEIF,
                                             Utils.newLabel(TypeLabel.THEN), Utils.newLabel(TypeLabel.FI),
                                             condition, trueStatement,

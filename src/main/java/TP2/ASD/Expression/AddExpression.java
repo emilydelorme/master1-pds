@@ -208,6 +208,7 @@ package TP2.ASD.Expression;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.TypeRet;
 import TP2.Llvm.Instructions.Operations.Operation;
+import TP2.exceptions.ASDException;
 import TP2.exceptions.TypeException;
 
 // Concrete class for Expression: add case
@@ -223,14 +224,12 @@ public class AddExpression implements ExpressionInterface {
     }
 
     @Override
-    public void checkError() {
+    public void checkError() throws ASDException {
         this.left.checkError();
         this.right.checkError();
     }
 
     public String pp() {
-        checkError();
-
         String str = "";
 
         if (this.parenthesis) {
@@ -248,7 +247,6 @@ public class AddExpression implements ExpressionInterface {
 
     // IR generation (IR = Représentation intermédiaire)
     public TypeRet toIR() throws TypeException {
-        checkError();
         return ExpressionHelper.retExpression(left.toIR(), right.toIR(), Operation.ADD);
     }
 }

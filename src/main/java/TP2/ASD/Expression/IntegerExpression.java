@@ -224,14 +224,10 @@ public class IntegerExpression implements ExpressionInterface {
     }
 
     public String pp() {
-        checkError();
-
         return "" + this.value;
     }
 
     public TypeRet toIR() {
-        checkError();
-
         // Here we simply return an empty IR
         // the `result' of this expression is the integer itself (as string)
         return new TypeRet(new InstructionHandler(), "" + value, new Int());

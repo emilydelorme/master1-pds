@@ -10,7 +10,7 @@ options {
 
   import java.util.stream.Collectors;
   import java.util.Arrays;
-  import java.util.Optional;
+  import org.tinylog.Logger;
 }
 
 // =====================================================================
@@ -22,7 +22,14 @@ program returns [TP2.ASD.Program out]
 	List<TP2.ASD.UnitInterface> units = new ArrayList<>();
 	TP2.SymbolTable.SymbolTable symbolTable = new TP2.SymbolTable.SymbolTable();
 }
-    : (u=unit[symbolTable] { units.add($u.out); } )* EOF { $out = TP2.ASD.Program.create(units, symbolTable); }
+    : (u=unit[symbolTable] { units.add($u.out); } )* EOF 
+    {
+    	try {
+    		$out = TP2.ASD.Program.create(units, symbolTable);
+    	} catch (TP2.exceptions.ASDException e) {
+            Logger.error(e.getMessage());
+        }
+    }
     ;
 
 // =====================================================================

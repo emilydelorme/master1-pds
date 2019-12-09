@@ -222,14 +222,11 @@ public class Text implements ItemInterface {
 
     @Override
     public String pp() {
-        checkError();
         return this.value;
     }
 
     @Override
     public GenericRet toIR() {
-        checkError();
-
         if (value != null) {
             value = value.replaceAll("\n", "\0A");
         }
