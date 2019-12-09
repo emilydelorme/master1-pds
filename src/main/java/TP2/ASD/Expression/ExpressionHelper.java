@@ -33,11 +33,10 @@ class ExpressionHelper {
         String resultIdent = Utils.newtmp();
         result.setResult(resultIdent);
         // new sub instruction result = left - right
-
-        String leftRetResult = isNumeric(leftRet.getResult()) ? leftRet.getResult() : "i32 " + leftRet.getResult();
-        String rightRetResult = isNumeric(rightRet.getResult()) ? rightRet.getResult() : "i32 " + rightRet.getResult();
-
-        result.getIr().appendCode(new GenericOperation(operation, leftRetResult, rightRetResult, resultIdent));
+        result.getIr().appendCode(new GenericOperation(operation,
+                                                       isNumeric(leftRet.getResult()) ? leftRet.getResult() : "i32 " + leftRet.getResult(),
+                                                       isNumeric(rightRet.getResult()) ? rightRet.getResult() : "i32 " + rightRet.getResult(),
+                                                       resultIdent));
         return result;
     }
 
