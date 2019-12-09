@@ -277,7 +277,11 @@ public class Main {
                 new CommonTokenStream(
                         new VSLLexer(CharStreams.fromPath(Paths.get(filePath)))));
         final Program ast = parser.program().out;
-        compileProgram(cmd, ast, outputPath);
+        
+        if (ast != null)
+        {
+            compileProgram(cmd, ast, outputPath);
+        }
     }
 
     /**
