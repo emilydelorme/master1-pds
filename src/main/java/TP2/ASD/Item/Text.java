@@ -29,6 +29,10 @@ public class Text implements ItemInterface
     public GenericRet toIR()
     {
         checkError();
+
+        if(value != null)
+            value = value.replaceAll("\n", "\0A");
+
         return new GenericRet(value != null ? value : "%d");
     }
 }
