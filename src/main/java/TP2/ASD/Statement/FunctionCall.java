@@ -142,11 +142,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
 
         TypeRet result = new TypeRet(new Void());
 
-        if (symbolTable.lookup(this.functionIdent) instanceof FunctionSymbol){
-            result.setType(((FunctionSymbol) symbolTable.lookup(this.functionIdent)).getReturnType());
-        } else {
-            result.setType(((PrototypeSymbol) symbolTable.lookup(this.functionIdent)).getReturnType());
-        }
+        setType(result);
 
         List<String> variables = new ArrayList<>();
 
@@ -156,6 +152,31 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
             result.getIr().appendAll(expressionRet.getIr());
         }
 
+        addCallFunction(result, variables);
+
+        return result;
+    }
+
+    /**
+     * Set the function type
+     *
+     * @param result Function type
+     */
+    private void setType(TypeRet result) {
+        if (symbolTable.lookup(this.functionIdent) instanceof FunctionSymbol){
+            result.setType(((FunctionSymbol) symbolTable.lookup(this.functionIdent)).getReturnType());
+        } else {
+            result.setType(((PrototypeSymbol) symbolTable.lookup(this.functionIdent)).getReturnType());
+        }
+    }
+
+    /**
+     * Add Call function instruction
+     *
+     * @param result GenericIR où ajouter l'instruction
+     * @param variables
+     */
+    private void addCallFunction(TypeRet result, List<String> variables) {
         if(result.getType().toLlvmType() instanceof LlvmInt) {
             String saveIdent = Utils.newtmp();
             result.setResult(saveIdent);
@@ -163,7 +184,5 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
         } else {
             result.getIr().appendCode(new CallFunction(result.getType().toLlvmType(), functionIdent, variables));
         }
-
-        return result;
     }
 }
