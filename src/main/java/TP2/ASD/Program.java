@@ -261,7 +261,6 @@ public class Program {
                             .orElse("");
     }
 
-    // IR generation
     public InstructionHandler toIR() throws TypeException, EmptyProgram {
         if (this.unitInterface.isEmpty())
             throw new EmptyProgram("Empty Program");

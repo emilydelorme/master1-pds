@@ -232,7 +232,7 @@ public class Main {
         Options options = new Options();
         options.addOption("f", true, "File to compile");
         options.addOption("d", true, "Directory to compile");
-        options.addOption("o", false, "Compile output  to build/llvm/output");
+        options.addOption("o", false, "Compile output to build/llvm/output");
         CommandLineParser cmdParser = new DefaultParser();
         try {
             CommandLine cmd = cmdParser.parse(options, args);
@@ -247,9 +247,9 @@ public class Main {
                 if(files == null || files.length == 0)
                     throw new NoVslFileException("No vsl files found. Ensure than extension is .vsl");
 
-                for (File vslfile : files) {
-                    Logger.info("Compiling " + vslfile.getPath());
-                    compileFile(cmd, vslfile.getPath(), vslfile.getName().substring(0, vslfile.getName().length() - 4));
+                for (File file : files) {
+                    Logger.info("Compiling " + file.getPath());
+                    compileFile(cmd, file.getPath(), file.getName().substring(0, file.getName().length() - 4));
                 }
 
             } else if(cmd.hasOption("f")) {
@@ -263,6 +263,15 @@ public class Main {
         }
     }
 
+    /**
+     * Compiling a vsl file to llvm files
+     *
+     * @param cmd command utility
+     * @param filePath vsl file path
+     * @param outputPath ll file path
+     *
+     * @throws IOException IO related issues
+     */
     private static void compileFile(CommandLine cmd, String filePath, String outputPath) throws IOException {
         final VSLParser parser = new VSLParser(
                 new CommonTokenStream(
@@ -271,6 +280,15 @@ public class Main {
         compileProgram(cmd, ast, outputPath);
     }
 
+    /**
+     * Compiling to IR code and save it if "-o" option is set
+     *
+     * @param cmd command utility
+     * @param ast generated ast
+     * @param outputPath file output path
+     *
+     * @throws IOException
+     */
     private static void compileProgram(CommandLine cmd, Program ast, String outputPath) throws IOException {
         // Compute LLVM IR from the ast
         try {
@@ -297,6 +315,12 @@ public class Main {
         }
     }
 
+    /**
+     * Copy string in specified path
+     *
+     * @param path output path
+     * @param content content to write
+     */
     private static void writeToFile(String path, String content) {
 
         try (FileOutputStream outputStream = new FileOutputStream(path)) {
