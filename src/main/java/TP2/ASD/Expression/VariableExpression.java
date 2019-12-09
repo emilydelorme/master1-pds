@@ -63,9 +63,9 @@ public class VariableExpression implements ExpressionInterface, ErrorHandlerInte
                 result.getIr().appendCode(new LoadVar(tmpIdent, expression.getIdent()));
                 result.setResult(tmpIdent);
             } else {
-                System.out.println(expression);
                 result.getIr().appendAll(expressionRet.getIr())
-                        .appendCode(new LoadTab(tmpIdent, expression.getIdent(), expressionRet.getResult(), symbolTable.size()));
+                        .appendCode(new LoadTab(tmpIdent, expression.getIdent(),
+                                expressionRet.getResult(), ((VariableSymbol) symbolTable.lookup(expression.getIdent())).getSize()));
                 String resultVal = Utils.newtmp();
                 result.getIr().appendCode(new LoadVar(resultVal, tmpIdent));
                 result.setResult(resultVal);
