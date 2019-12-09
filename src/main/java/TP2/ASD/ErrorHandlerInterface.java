@@ -205,13 +205,10 @@
 
 package TP2.ASD;
 
-import org.tinylog.Logger;
-
 import TP2.exceptions.ASDException;
 
 public interface ErrorHandlerInterface {
-    default void exitWithMessage(String message) throws ASDException {
-        Logger.error(message);
+    default void throwASDException(String message) throws ASDException {
         throw new ASDException(message);
     }
 

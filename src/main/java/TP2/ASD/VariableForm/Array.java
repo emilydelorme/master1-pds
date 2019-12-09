@@ -242,7 +242,7 @@ public class Array implements VariableFormInterface {
         Symbol symbol = this.symbolTable.lookup(this.ident);
 
         if (!(symbol instanceof VariableSymbol)) {
-            exitWithMessage(String.format("[Variable] (%s) unknown variable", this.ident));
+            throwASDException(String.format("[Variable] (%s) unknown variable", this.ident));
         }
 
         this.expression.checkError();

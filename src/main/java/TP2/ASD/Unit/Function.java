@@ -277,7 +277,7 @@ public class Function implements UnitInterface {
 
                 checkArguments(argsSize, functionSymbol.getArguments());
             } else {
-                exitWithMessage(String.format("[Function definition] (%s) unknown function definition",
+                throwASDException(String.format("[Function definition] (%s) unknown function definition",
                                               this.ident));
             }
         }
@@ -287,14 +287,14 @@ public class Function implements UnitInterface {
 
     private int checkGenericFP(TypeInterface returnType, List<VariableSymbol> arguments) throws ASDException {
         if (!returnType.equals(this.type)) {
-            exitWithMessage(String.format("[Function definition] (%s) mismatch return type with the function " +
+            throwASDException(String.format("[Function definition] (%s) mismatch return type with the function " +
                                           "prototype", this.ident));
         }
 
         int argsSize = this.arguments.size();
 
         if (argsSize != arguments.size()) {
-            exitWithMessage(String.format("[Function definition] (%s) mismatch arguments number with the " +
+            throwASDException(String.format("[Function definition] (%s) mismatch arguments number with the " +
                                           "function prototype", this.ident));
         }
         return argsSize;
@@ -304,7 +304,7 @@ public class Function implements UnitInterface {
         for (int i = 0; i < argsSize; ++i) {
             if (this.arguments.get(i) instanceof Array && !arguments.get(i).isArray() ||
                 !(this.arguments.get(i) instanceof Array) && arguments.get(i).isArray()) {
-                exitWithMessage(String.format("[Function definition] (%s) (%s) mismatch argument form with " +
+                throwASDException(String.format("[Function definition] (%s) (%s) mismatch argument form with " +
                                               "the function prototype", this.arguments.get(i).getIdent(),
                                               arguments.get(i).getIdent()));
             }

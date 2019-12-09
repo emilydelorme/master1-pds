@@ -236,7 +236,7 @@ public class Return implements StatementInterface {
                 VariableSymbol variableSymbol = (VariableSymbol) symbol;
 
                 if (variableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Return] (%s) needs to be a normal variable",
+                    throwASDException(String.format("[Return] (%s) needs to be a normal variable",
                                                   variableExpression.getExpression().getIdent()));
                 }
             }

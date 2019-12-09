@@ -250,7 +250,7 @@ public class Affectation implements StatementInterface {
                 FunctionSymbol functionSymbol = (FunctionSymbol) symbol;
 
                 if (functionSymbol.getReturnType().equals(new Void())) {
-                    exitWithMessage(String.format("[Affectation] (%s) can't call a [%s] function",
+                    throwASDException(String.format("[Affectation] (%s) can't call a [%s] function",
                                                   functionSymbol.getIdent(), functionSymbol.getReturnType().getType()));
                 }
             }
@@ -259,7 +259,7 @@ public class Affectation implements StatementInterface {
                 PrototypeSymbol prototypeSymbol = (PrototypeSymbol) symbol;
 
                 if (prototypeSymbol.getReturnType().equals(new Void())) {
-                    exitWithMessage(String.format("[Affectation] (%s) can't call a [%s] function",
+                    throwASDException(String.format("[Affectation] (%s) can't call a [%s] function",
                                                   prototypeSymbol.getIdent(),
                                                   prototypeSymbol.getReturnType().getType()));
                 }
@@ -275,7 +275,7 @@ public class Affectation implements StatementInterface {
                 VariableSymbol variableSymbol = (VariableSymbol) symbol;
 
                 if (!variableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Affectation] (%s) needs to be a normal variable",
+                    throwASDException(String.format("[Affectation] (%s) needs to be a normal variable",
                                                   variableSymbol.getIdent()));
                 }
             }
@@ -290,7 +290,7 @@ public class Affectation implements StatementInterface {
                 VariableSymbol variableSymbol = (VariableSymbol) symbol;
 
                 if (variableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Affectation] (%s) needs to be called as an array",
+                    throwASDException(String.format("[Affectation] (%s) needs to be called as an array",
                                                   variableSymbol.getIdent()));
                 }
             }

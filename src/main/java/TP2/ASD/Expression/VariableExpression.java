@@ -237,7 +237,7 @@ public class VariableExpression implements ExpressionInterface, ErrorHandlerInte
         Symbol symbol = this.symbolTable.lookup(variableIdent);
 
         if (!(symbol instanceof VariableSymbol)) {
-            exitWithMessage(String.format("[Variable] (%s) unknown variable", variableIdent));
+            throwASDException(String.format("[Variable] (%s) unknown variable", variableIdent));
         }
     }
 
