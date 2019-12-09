@@ -36,4 +36,9 @@ public class Int implements TypeInterface
     {
         return Objects.hash();
     }
+
+    @Override
+    public String toString() {
+        return "int";
+    }
 }

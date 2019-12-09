@@ -77,4 +77,14 @@ public class VariableSymbol extends Symbol
     {
         return Objects.hash(this.getIdent(), isArray, size, type);
     }
+
+    @Override
+    public String toString() {
+        return "VariableSymbol{" +
+               "type=" + type +
+               ", isArray=" + isArray +
+               ", size=" + size +
+               ", llvmIdent='" + llvmIdent + '\'' +
+               "}\n";
+    }
 }
