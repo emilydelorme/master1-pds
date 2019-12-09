@@ -41,6 +41,7 @@ public class TestUtils {
         // Parse
         Program ast = parser.program().out;
 
+        Logger.info(ast.pp());
         Logger.info(ast.toIR());
 
         return true;

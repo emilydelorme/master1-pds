@@ -15,4 +15,11 @@ public class TestLevels
     {
         Assertions.assertTrue(TestUtils.testFolder("tests/testlevel1"));
     }
+
+    @Test
+    public void testLevel2() throws EmptyProgram, TypeException, IOException
+    {
+        Assertions.assertTrue(TestUtils.testFolder("tests/testlevel2"));
+    }
+
 }
