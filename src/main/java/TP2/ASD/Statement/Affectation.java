@@ -147,7 +147,7 @@ public class Affectation implements StatementInterface {
             leftVarIdent = ((VariableSymbol) this.symbolTable.lookup(leftVar.getIdent())).getLlvmIdent(); // Add index
         }
         result.setResult(leftVarIdent);
-        result.getIr().appendCode(new Store(new LlvmInt(), leftVarIdent, rightResult.getResult()));
+        result.getIr().appendCode(new Store(new LlvmInt(),rightResult.getResult(), leftVarIdent));
 
         return result;
     }
