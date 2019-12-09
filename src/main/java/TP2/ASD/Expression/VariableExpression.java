@@ -2,14 +2,13 @@ package TP2.ASD.Expression;
 
 import TP2.ASD.ErrorHandlerInterface;
 import TP2.ASD.ExpressionInterface;
-import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.Types.Int;
+import TP2.ASD.VariableFormInterface;
 import TP2.Llvm.Instructions.load.LoadVar;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.SymbolTable.VariableSymbol;
-import TP2.ASD.VariableFormInterface;
 import TP2.Utils;
 
 public class VariableExpression implements ExpressionInterface, ErrorHandlerInterface {

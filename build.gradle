@@ -4,6 +4,13 @@ plugins {
   id 'eclipse'
   id 'idea'
   id 'application'
+  id "org.sonarqube" version "2.7"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "master1-pds"
+    }
 }
 
 repositories {

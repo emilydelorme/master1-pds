@@ -1,18 +1,13 @@
 package TP2.ASD.Statement.Block;
 
+import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.StatementInterface;
+import TP2.Utils;
+import TP2.exceptions.TypeException;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.IntStream;
-
-import TP2.ASD.Ret.GenericRet;
-import TP2.Llvm.InstructionHandler;
-import TP2.SymbolTable.Symbol;
-import TP2.SymbolTable.SymbolTable;
-import TP2.Utils;
-import TP2.ASD.StatementInterface;
-import TP2.exceptions.TypeException;
 
 public class Block implements StatementInterface
 {

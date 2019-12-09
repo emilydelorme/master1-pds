@@ -5,6 +5,7 @@ import TP2.ASD.StatementInterface;
 import TP2.ASD.VariableFormInterface;
 import TP2.Llvm.Instructions.io.ReadCall;
 import TP2.Llvm.Instructions.io.ReadHeader;
+import TP2.SymbolTable.SymbolTable;
 import TP2.TypeLabel;
 import TP2.Utils;
 import TP2.exceptions.TypeException;

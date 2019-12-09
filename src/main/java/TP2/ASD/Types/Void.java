@@ -1,10 +1,10 @@
 package TP2.ASD.Types;
 
-import java.util.Objects;
-
 import TP2.ASD.TypeInterface;
 import TP2.Llvm.Type;
 import TP2.Llvm.Types.LlvmVoid;
+
+import java.util.Objects;
 
 public class Void implements TypeInterface
 {

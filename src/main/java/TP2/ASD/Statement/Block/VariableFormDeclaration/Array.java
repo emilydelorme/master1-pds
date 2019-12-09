@@ -1,14 +1,9 @@
 package TP2.ASD.Statement.Block.VariableFormDeclaration;
 
 import TP2.ASD.Ret.GenericRet;
-import TP2.ASD.Types.Int;
 import TP2.ASD.VariableFormDeclarationInterface;
 import TP2.Llvm.Instructions.alloca.AllocaTab;
 import TP2.Llvm.Types.LlvmInt;
-import TP2.SymbolTable.Symbol;
-import TP2.SymbolTable.SymbolTable;
-import TP2.SymbolTable.VariableSymbol;
-import TP2.exceptions.TypeException;
 
 public class Array implements VariableFormDeclarationInterface
 {

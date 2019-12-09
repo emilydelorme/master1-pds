@@ -3,8 +3,8 @@ package TP2;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils
 {

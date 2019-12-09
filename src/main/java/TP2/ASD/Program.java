@@ -1,8 +1,5 @@
 package TP2.ASD;
 
-import java.util.List;
-import java.util.Objects;
-
 import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.Types.Void;
 import TP2.ASD.Unit.Function;
@@ -10,6 +7,9 @@ import TP2.Llvm.InstructionHandler;
 import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
+
+import java.util.List;
+import java.util.Objects;
 
 public class Program
 {

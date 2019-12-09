@@ -1,20 +1,19 @@
 package TP2.ASD.Statement;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
-
 import TP2.ASD.Item.Expression;
 import TP2.ASD.Item.Text;
 import TP2.ASD.ItemInterface;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.StatementInterface;
-import TP2.Llvm.Instruction;
 import TP2.Llvm.Instructions.io.PrintCall;
 import TP2.Llvm.Instructions.io.PrintHeader;
 import TP2.TypeLabel;
 import TP2.Utils;
 import TP2.exceptions.TypeException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class Print implements StatementInterface
 {

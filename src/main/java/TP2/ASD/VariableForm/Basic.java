@@ -1,10 +1,10 @@
 package TP2.ASD.VariableForm;
 
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.VariableFormInterface;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.SymbolTable.VariableSymbol;
-import TP2.ASD.VariableFormInterface;
 import TP2.exceptions.TypeException;
 
 public class Basic implements VariableFormInterface
