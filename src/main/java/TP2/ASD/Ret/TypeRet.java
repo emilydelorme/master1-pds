@@ -34,4 +34,13 @@ public class TypeRet extends GenericRet
     {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "TypeRet{" +
+               "ir=" + this.getIr() +
+               ", result='" + this.getResult() + '\'' +
+               "type=" + type +
+               '}';
+    }
 }
