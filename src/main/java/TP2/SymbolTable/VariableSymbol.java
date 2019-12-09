@@ -9,7 +9,8 @@ public class VariableSymbol extends Symbol
     //private byte state;
     private boolean isArray;
     private int size;
-    
+    private String llvmIdent;
+
     //public static final byte STATE_DECLARATION =    1;
     //public static final byte STATE_PARAMETER =      2;
     //public static final byte STATE_USAGE =          3;
@@ -44,6 +45,14 @@ public class VariableSymbol extends Symbol
     public int getSize()
     {
         return this.size;
+    }
+
+    public String getLlvmIdent() {
+        return llvmIdent;
+    }
+
+    public void setLlvmIdent(String llvmIdent) {
+        this.llvmIdent = llvmIdent;
     }
 
     @Override

@@ -46,7 +46,7 @@ public class VariableExpression implements ExpressionInterface, ErrorHandlerInte
 
         TypeRet result = new TypeRet(new Int());
         String tmpIdent = Utils.newtmp();
-        result.getIr().appendCode(new LoadVar(tmpIdent, variableForm.getIdent()));
+        result.getIr().appendCode(new LoadVar(tmpIdent, ((VariableSymbol) symbolTable.lookup(variableForm.getIdent())).getLlvmIdent()));
         result.setResult(tmpIdent);
 
         return result;

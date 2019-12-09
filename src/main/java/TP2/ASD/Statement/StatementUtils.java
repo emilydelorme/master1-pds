@@ -14,6 +14,8 @@ import TP2.exceptions.TypeException;
 public class StatementUtils
 {
 
+    public static int currentBlockLevel = 0;
+
     private StatementUtils()
     {
     }

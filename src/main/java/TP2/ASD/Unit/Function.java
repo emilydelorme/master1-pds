@@ -1,7 +1,9 @@
 package TP2.ASD.Unit;
 
+import TP2.ASD.Parameter.Basic;
 import TP2.ASD.ParameterInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.Statement.StatementUtils;
 import TP2.ASD.Types.Int;
 import TP2.Llvm.Instructions.Return;
 import TP2.Llvm.Instructions.Store;
@@ -146,8 +148,12 @@ public class Function implements UnitInterface {
                                                      arguments.stream().map(ParameterInterface::getIdent).collect(Collectors.toList())));
 
         for (ParameterInterface parameter : arguments) {
-            result.getIr().appendCode(new AllocaVar(new LlvmInt(), "%" + parameter.getIdent() + "var"))
-                .appendCode(new Store(new LlvmInt(), parameter.getIdent() + "var", parameter.getIdent()));
+
+            String parameterNewIdent = parameter.getIdent() + "_" + ident + "_" + StatementUtils.currentBlockLevel;
+            ((VariableSymbol) symbolTable.lookup(parameter.getIdent())).setLlvmIdent(parameterNewIdent);
+
+            result.getIr().appendCode(new AllocaVar(new LlvmInt(), parameterNewIdent))
+                .appendCode(new Store(new LlvmInt(), parameter.getIdent(), parameterNewIdent));
         }
 
         result.getIr().appendAll(statement.toIR().getIr());
