@@ -38,7 +38,7 @@ public class CallFunction implements Instruction {
         }
         res.append("call ")
            .append(type)
-           .append(" @ ")
+           .append(" @")
            .append(funcName)
            .append("(");
 
