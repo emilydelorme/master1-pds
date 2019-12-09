@@ -37,19 +37,19 @@ public class IfElseStatement implements StatementInterface
         //TODO fix indent
         return "IF " + condition.pp() +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 "THEN" +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 trueStatement.pp() +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 "ELSE" +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 falseStatement.pp() +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 "FI";
     }
 

@@ -59,40 +59,22 @@ public class VariableSymbol extends Symbol
     }
 
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(Object o)
     {
-        if (this == obj)
-        {
-            return true;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        if (obj == null)
-        {
-            return false;
-        }
-        
-        if (!super.equals(obj))
-        {
-            return false;
-        }
+        VariableSymbol that = (VariableSymbol) o;
 
-        if (!(obj instanceof VariableSymbol))
-        {
-            return false;
-        }
-        
-        final VariableSymbol other = (VariableSymbol) obj;
+        return Objects.equals(this.getIdent(), that.getIdent()) &&
+                Objects.equals(this.isArray, that.isArray) &&
+                Objects.equals(this.size, that.size) &&
+                Objects.equals(this.type, that.type);
+    }
 
-        if (this.isArray != other.isArray)
-        {
-            return false;
-        }
-        
-        if (this.isArray && other.isArray && this.size != other.size)
-        {
-            return false;
-        }
-
-        return Objects.equals(this.type, other.type);
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.getIdent(), isArray, size, type);
     }
 }

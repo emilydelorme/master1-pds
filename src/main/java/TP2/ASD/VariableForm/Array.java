@@ -1,12 +1,13 @@
 package TP2.ASD.VariableForm;
 
-import TP2.ASD.Expression.IntegerExpression;
 import TP2.ASD.ExpressionInterface;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.VariableFormInterface;
+import TP2.Llvm.Instructions.load.LoadVar;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.SymbolTable.VariableSymbol;
+import TP2.Utils;
 import TP2.exceptions.TypeException;
 
 public class Array implements VariableFormInterface
@@ -53,7 +54,11 @@ public class Array implements VariableFormInterface
     public GenericRet toIR() throws TypeException
     {
         checkError();
-        
-        return new GenericRet();
+        GenericRet result = new GenericRet();
+
+        String tmpIdent = Utils.newtmp();
+        result.getIr().appendCode(new LoadVar(tmpIdent, this.ident));
+        result.setResult(tmpIdent);
+        return result;
     }
 }

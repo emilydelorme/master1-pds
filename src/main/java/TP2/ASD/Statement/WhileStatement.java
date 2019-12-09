@@ -34,13 +34,13 @@ public class WhileStatement implements StatementInterface
         
         return "WHILE " + condition.pp() +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 "DO" +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 statement.pp() +
                 "\n" +
-                Utils.indent(Block.identLevel) +
+                Utils.indent(Block.getIdentLevel()) +
                 "DONE";
     }
 

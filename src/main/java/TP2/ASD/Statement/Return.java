@@ -28,7 +28,7 @@ public class Return implements StatementInterface
         {
             VariableExpression variableExpression = (VariableExpression)this.expression;
             
-            Symbol symbol = this.symbolTable.lookup(variableExpression.getVariableForm().getIdent());
+            Symbol symbol = this.symbolTable.lookup(variableExpression.getExpression().getIdent());
             
             if (symbol instanceof VariableSymbol)
             {
@@ -36,7 +36,7 @@ public class Return implements StatementInterface
                 
                 if (variableSymbol.isArray())
                 {
-                    exitWithMessage(String.format("[Return] (%s) needs to be a normal variable", variableExpression.getVariableForm().getIdent()));
+                    exitWithMessage(String.format("[Return] (%s) needs to be a normal variable", variableExpression.getExpression().getIdent()));
                 }
             }
         }

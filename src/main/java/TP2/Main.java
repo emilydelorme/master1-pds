@@ -7,6 +7,7 @@ import TP2.exceptions.TypeException;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.tinylog.Logger;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -44,15 +45,11 @@ public class Main
             Program ast = parser.program().out;
 
             // Pretty-print the program (to debug parsing, if you implemented it!)
-            System.out.println("========================================"
-                               + "\n              PRETTY CODE"
-                               + "\n========================================");
 
-            System.out.println(ast.pp());
-
-            System.out.println("========================================"
-                              + "\n               LLVM CODE"
-                              + "\n========================================");
+            Logger.info("========================================"
+                    + "\n              PRETTY CODE"
+                    + "\n========================================\n"
+                    + ast.pp());
 
             // Compute LLVM IR from the ast
             try
@@ -67,15 +64,17 @@ public class Main
                 }
                 
                 // Output LLVM IR
-                System.out.println(ir);
+                Logger.info("========================================"
+                        + "\n               LLVM CODE"
+                        + "\n========================================\n"
+                        + ir);
             } catch (TypeException | EmptyProgram e)
             {
-                e.printStackTrace(); // Useful for developping, not for the ``end users''!
-                System.err.println(e.getMessage());
+                Logger.error(e.getMessage());
             }
         } catch (IOException e)
         {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
     }
 
@@ -84,7 +83,7 @@ public class Main
         try(FileOutputStream outputStream =  new FileOutputStream(path)) {
             outputStream.write(content.getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
     }
 }

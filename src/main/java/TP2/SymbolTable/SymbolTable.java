@@ -83,31 +83,23 @@ public class SymbolTable
         return Objects.isNull(lookup(ident));
     }
 
+    public int size() {
+        return table.size();
+    }
+
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(Object o)
     {
-        if (this == obj)
-        {
-            return true;
-        }
+        if (this == o) return true;
+        if (!(o instanceof SymbolTable)) return false;
+        SymbolTable that = (SymbolTable) o;
+        return Objects.equals(table, that.table) &&
+                Objects.equals(parent, that.parent);
+    }
 
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (!(obj instanceof SymbolTable))
-        {
-            return false;
-        }
-        
-        final SymbolTable other = (SymbolTable) obj;
-
-        if (!Objects.equals(this.table, other.table))
-        {
-            return false;
-        }
-
-        return Objects.equals(this.parent, other.parent);
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(table, parent);
     }
 }
