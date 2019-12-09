@@ -65,8 +65,9 @@ public class Array implements VariableFormInterface
         result.getIr().appendAll(expression.toIR().getIr());
 
         String tmpIdent = Utils.newtmp();
+        this.llvmIdent = ((VariableSymbol) symbolTable.lookup(this.ident)).getLlvmIdent();
 
-        result.getIr().appendCode(new LoadVar(tmpIdent, ((VariableSymbol) symbolTable.lookup(this.ident)).getLlvmIdent()));
+        result.getIr().appendCode(new LoadVar(tmpIdent, this.llvmIdent));
         result.setResult(tmpIdent);
         return result;
     }
