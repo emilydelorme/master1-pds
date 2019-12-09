@@ -48,13 +48,8 @@ public class Main
 
             Logger.info("========================================"
                     + "\n              PRETTY CODE"
-                    + "\n========================================");
-
-            Logger.info(ast.pp());
-
-            Logger.info("========================================"
-                              + "\n               LLVM CODE"
-                              + "\n========================================");
+                    + "\n========================================"
+                    + ast.pp());
 
             // Compute LLVM IR from the ast
             try
@@ -69,7 +64,10 @@ public class Main
                 }
                 
                 // Output LLVM IR
-                Logger.info(ir);
+                Logger.info("========================================"
+                        + "\n               LLVM CODE"
+                        + "\n========================================"
+                        + ir);
             } catch (TypeException | EmptyProgram e)
             {
                 Logger.error(e.getMessage());
