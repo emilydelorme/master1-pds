@@ -74,14 +74,17 @@ public class Print implements StatementInterface
     }
 
     private PrintHeader getHeader(String printIdent) {
-        Utils.LLVMStringConstant text = Utils.stringTransform(
-                items.stream()
-                        .filter(item -> item instanceof TP2.ASD.Item.Text)
-                        .map(ItemInterface::toIR)
-                        .map(GenericRet::getResult)
-                        .reduce((result1, result2) -> result1 + "" + result2).orElse(""));
+        StringBuilder header = new StringBuilder();
 
-        return new PrintHeader(printIdent, text);
+        for (ItemInterface item : items) {
+            GenericRet ret = item.toIR();
+            if(item instanceof Expression) {
+                header.append("%d");
+            } else {
+                header.append(ret.getResult());
+            }
+        }
+        return new PrintHeader(printIdent, Utils.stringTransform(header.toString()));
     }
 
     private GenericRet getCode(String printIdent, PrintHeader printHeader) {
