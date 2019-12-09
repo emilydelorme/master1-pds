@@ -7,7 +7,9 @@ import TP2.ASD.Ret.TypeRet;
 import TP2.ASD.StatementInterface;
 import TP2.ASD.Types.Void;
 import TP2.Llvm.Instructions.functions.CallFunction;
+import TP2.Llvm.Types.LlvmInt;
 import TP2.SymbolTable.*;
+import TP2.Utils;
 import TP2.exceptions.TypeException;
 
 import java.util.ArrayList;
@@ -153,7 +155,14 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
             variables.add(expressionRet.getResult());
             result.getIr().appendAll(expressionRet.getIr());
         }
-        result.getIr().appendCode(new CallFunction(result.getType().toLlvmType(), functionIdent, variables));
+
+        if(result.getType().toLlvmType() instanceof LlvmInt) {
+            String saveIdent = Utils.newtmp();
+            result.setResult(saveIdent);
+            result.getIr().appendCode(new CallFunction(result.getType().toLlvmType(), functionIdent, variables, saveIdent));
+        } else {
+            result.getIr().appendCode(new CallFunction(result.getType().toLlvmType(), functionIdent, variables));
+        }
 
         return result;
     }
