@@ -7,11 +7,13 @@ import TP2.ASD.Statement.StatementUtils;
 import TP2.ASD.StatementInterface;
 import TP2.ASD.TypeInterface;
 import TP2.ASD.UnitInterface;
+import TP2.Llvm.Instructions.Return;
 import TP2.Llvm.Instructions.Store;
 import TP2.Llvm.Instructions.alloca.AllocaVar;
 import TP2.Llvm.Instructions.functions.CloseFunction;
 import TP2.Llvm.Instructions.functions.DefineFunction;
 import TP2.Llvm.Types.LlvmInt;
+import TP2.Llvm.Types.LlvmVoid;
 import TP2.SymbolTable.FunctionSymbol;
 import TP2.SymbolTable.PrototypeSymbol;
 import TP2.SymbolTable.VariableSymbol;
@@ -160,6 +162,12 @@ public class Function implements UnitInterface {
         }
 
         result.getIr().appendAll(statement.toIR().getIr());
+
+        if(type.toLlvmType() instanceof LlvmInt) {
+            result.getIr().appendCode(new Return(new LlvmInt()));
+        } else {
+            result.getIr().appendCode(new Return(new LlvmVoid()));
+        }
 
         result.getIr().appendCode(new CloseFunction());
         return result;
