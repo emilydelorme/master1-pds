@@ -4,7 +4,6 @@ import TP2.ASD.ErrorHandlerInterface;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.TypeInterface;
 import TP2.ASD.VariableFormDeclarationInterface;
-import TP2.exceptions.TypeException;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -44,12 +43,12 @@ public class Declaration implements ErrorHandlerInterface
         return str.toString();
     }
 
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR()
     {
         GenericRet result = new GenericRet();
 
         variablesForm.stream()
-                .map(var -> var.toIR())
+                .map(VariableFormDeclarationInterface::toIR)
                 .forEach(genericRet -> result.getIr().appendAll(genericRet.getIr()));
         return result;
     }

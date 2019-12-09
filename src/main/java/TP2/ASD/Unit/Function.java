@@ -141,6 +141,8 @@ public class Function implements UnitInterface {
     public GenericRet toIR() throws TypeException {
         checkError();
 
+        StatementUtils.currentFunction = this.ident;
+
         GenericRet result = new GenericRet();
 
         result.getIr().appendCode(new DefineFunction(this.type.toLlvmType(), ident,

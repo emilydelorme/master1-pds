@@ -1,6 +1,7 @@
 package TP2.ASD.Statement.Block;
 
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.Statement.StatementUtils;
 import TP2.ASD.StatementInterface;
 import TP2.Utils;
 import TP2.exceptions.TypeException;
@@ -78,7 +79,7 @@ public class Block implements StatementInterface
     public GenericRet toIR() throws TypeException
     {
         checkError();
-
+        StatementUtils.currentBlockLevel++;
         GenericRet result = new GenericRet();
 
         for (Declaration declaration : declarations) {
@@ -88,6 +89,7 @@ public class Block implements StatementInterface
         for (StatementInterface statement : statements) {
             result.getIr().appendAll(statement.toIR().getIr());
         }
+        StatementUtils.currentBlockLevel--;
 
         return result;
     }

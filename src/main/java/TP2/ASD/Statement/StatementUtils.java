@@ -13,6 +13,7 @@ public class StatementUtils
 {
 
     public static int currentBlockLevel = 0;
+    public static String currentFunction = "";
 
     private StatementUtils()
     {
