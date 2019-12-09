@@ -29,7 +29,7 @@ program returns [TP2.ASD.Program out]
     	} catch (TP2.exceptions.ASDException e) {
             Logger.error(e.getMessage());
             Logger.error("Unable to generate the AST");
-            System.exit(1);
+            //System.exit(1);
         }
     }
     ;
@@ -54,7 +54,7 @@ prototype[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Prototy
 		{
 			Logger.error(String.format("ERROR: [Function prototype] (%s) already exists", $IDENT.text));
         	Logger.error("Unable to generate the AST");
-        	System.exit(1);
+        	//System.exit(1);
 		}
 		
 		$out = new TP2.ASD.Unit.Prototype($t.out, $IDENT.text, $p.out);
@@ -72,7 +72,7 @@ function[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Function
 		{
 			Logger.error(String.format("ERROR: [Function definition] (%s) already defined", $IDENT.text));
         	Logger.error("Unable to generate the AST");
-        	System.exit(1);
+        	//System.exit(1);
 		}
 
 		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $s.out, symbolTableWithArgs);
@@ -82,7 +82,7 @@ function[TP2.SymbolTable.SymbolTable symbolTable] returns [TP2.ASD.Unit.Function
 		{
 			Logger.error(String.format("ERROR: [Function definition] (%s) already defined", $IDENT.text));
         	Logger.error("Unable to generate the AST");
-        	System.exit(1);
+        	//System.exit(1);
 		}
 		
 		$out = new TP2.ASD.Unit.Function($t.out, $IDENT.text, $p.out, $b.out, symbolTableWithArgs);
@@ -113,7 +113,7 @@ parameterBasic[List<TP2.SymbolTable.VariableSymbol> arguments, TP2.SymbolTable.S
 		{
 			Logger.error(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
         	Logger.error("Unable to generate the AST");
-        	System.exit(1);
+        	//System.exit(1);
 		}
 		
 		$arguments.add(new TP2.SymbolTable.VariableSymbol(new TP2.ASD.Types.Int(), $IDENT.text, false));
@@ -127,7 +127,7 @@ parameterArray[List<TP2.SymbolTable.VariableSymbol> arguments, TP2.SymbolTable.S
 		{
 			Logger.error(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
         	Logger.error("Unable to generate the AST");
-        	System.exit(1);
+        	//System.exit(1);
 		}
 		
 		$arguments.add(new TP2.SymbolTable.VariableSymbol(new TP2.ASD.Types.Int(), $IDENT.text, true));
@@ -340,7 +340,7 @@ basicForm[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns
             {
             	Logger.error(String.format("[Affectation] (%s) needs to be called as an array", $IDENT.text));
         		Logger.error("Unable to generate the AST");
-        		System.exit(1);
+        		//System.exit(1);
             }
 		}
 		
@@ -360,7 +360,7 @@ arrayForm[TP2.SymbolTable.SymbolTable symbolTable, boolean functionCall] returns
             {
             	Logger.error(String.format("[Affectation] (%s) needs to be a normal variable", $IDENT.text));
         		Logger.error("Unable to generate the AST");
-        		System.exit(1);
+        		//System.exit(1);
             }
 		}*/
 		
@@ -383,7 +383,7 @@ basicFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable sym
 		{
 			Logger.error(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
         	Logger.error("Unable to generate the AST");
-        	System.exit(1);
+        	//System.exit(1);
 		}
 
 		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Basic($IDENT.text, $symbolTableBlock);
@@ -396,7 +396,7 @@ arrayFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable sym
 		{
 			Logger.error(String.format("ERROR: [Variable declaration] (%s) already declared", $IDENT.text));
         	Logger.error("Unable to generate the AST");
-        	System.exit(1);
+        	//System.exit(1);
 		}
 
 		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Array($IDENT.text, $INTEGER.int, $symbolTableBlock);
