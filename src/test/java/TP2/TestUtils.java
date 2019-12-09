@@ -239,27 +239,21 @@ public class TestUtils {
     }
 
     public static boolean testFile(String path) throws IOException, EmptyProgram, TypeException {
-        // Instantiate Lexer
-        VSLLexer lexer = new VSLLexer(CharStreams.fromPath(Paths.get(path)));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-        // Instantiate Parser
-        VSLParser parser = new VSLParser(tokens);
+        VSLParser parser = new VSLParser(new CommonTokenStream(new VSLLexer(CharStreams.fromPath(Paths.get(path)))));
 
         // Parse
         Program ast = parser.program().out;
 
-        if (ast == null)
-        {
+        if (ast == null) {
             return false;
         }
-        
+
         Logger.debug(ast.pp());
 
         String ir = ast.toIR().toString();
         Logger.debug(ir);
         String llvmFilePath = "build/llvm/test/" + Paths.get(path).getFileName().toString().substring(0,
-                                         Paths.get(path).getFileName().toString().length() - 3) + "ll";
+                                                                                                      Paths.get(path).getFileName().toString().length() - 3) + "ll";
         writeFile(llvmFilePath, ir);
 
         return true;
