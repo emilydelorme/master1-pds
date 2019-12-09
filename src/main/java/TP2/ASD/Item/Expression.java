@@ -5,6 +5,7 @@ import TP2.ASD.ItemInterface;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.Ret.TypeRet;
 import TP2.exceptions.TypeException;
+import org.tinylog.Logger;
 
 public class Expression implements ItemInterface
 {
@@ -41,7 +42,7 @@ public class Expression implements ItemInterface
             result.setResult(expressionRet.getResult());
             result.getIr().appendAll(expressionRet.getIr());
         } catch (TypeException e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return result;

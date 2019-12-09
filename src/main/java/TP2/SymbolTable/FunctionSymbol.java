@@ -43,38 +43,21 @@ public class FunctionSymbol extends Symbol
         return isDefined;
     }
      */
-    
+
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(Object o)
     {
-        if (this == obj)
-        {
-            return true;
-        }
+        if (this == o) return true;
+        if (!(o instanceof FunctionSymbol)) return false;
+        if (!super.equals(o)) return false;
+        FunctionSymbol that = (FunctionSymbol) o;
+        return Objects.equals(getReturnType(), that.getReturnType()) &&
+                Objects.equals(getArguments(), that.getArguments());
+    }
 
-        if (obj == null)
-        {
-            return false;
-        }
-        
-        if (!super.equals(obj))
-        {
-            return false;
-        }
-
-        if (!(obj instanceof FunctionSymbol))
-        {
-            return false;
-        }
-        
-        final FunctionSymbol other = (FunctionSymbol) obj;
-
-
-        if (!Objects.equals(this.returnType, other.returnType))
-        {
-            return false;
-        }
-
-        return Objects.equals(this.arguments, other.arguments);
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(super.hashCode(), getReturnType(), getArguments());
     }
 }
