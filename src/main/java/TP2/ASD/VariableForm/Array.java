@@ -13,6 +13,7 @@ import TP2.exceptions.TypeException;
 public class Array implements VariableFormInterface
 {
     private String ident;
+    private String llvmIdent;
     private ExpressionInterface expression;
     private SymbolTable symbolTable;
 
@@ -28,7 +29,12 @@ public class Array implements VariableFormInterface
     {
         return this.ident;
     }
-    
+
+    @Override
+    public String getLlvmIdent() {
+        return this.llvmIdent;
+    }
+
     @Override
     public void checkError()
     {
@@ -56,8 +62,12 @@ public class Array implements VariableFormInterface
         checkError();
         GenericRet result = new GenericRet();
 
+        result.getIr().appendAll(expression.toIR().getIr());
+
         String tmpIdent = Utils.newtmp();
-        result.getIr().appendCode(new LoadVar(tmpIdent, this.ident));
+        this.llvmIdent = ((VariableSymbol) symbolTable.lookup(this.ident)).getLlvmIdent();
+
+        result.getIr().appendCode(new LoadVar(tmpIdent, this.llvmIdent));
         result.setResult(tmpIdent);
         return result;
     }

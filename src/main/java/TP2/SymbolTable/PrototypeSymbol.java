@@ -57,4 +57,13 @@ public class PrototypeSymbol extends Symbol
     {
         return Objects.hash(super.hashCode(), getReturnType(), getArguments(), isDefined());
     }
+
+    @Override
+    public String toString() {
+        return "PrototypeSymbol{\n" +
+               "returnType=" + returnType +
+               ", arguments=" + arguments +
+               ", defined=" + defined +
+               "}\n";
+    }
 }

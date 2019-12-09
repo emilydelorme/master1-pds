@@ -2,10 +2,10 @@ package TP2.ASD.Statement;
 
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.StatementInterface;
+import TP2.ASD.VariableForm.Basic;
 import TP2.ASD.VariableFormInterface;
 import TP2.Llvm.Instructions.io.ReadCall;
 import TP2.Llvm.Instructions.io.ReadHeader;
-import TP2.SymbolTable.SymbolTable;
 import TP2.TypeLabel;
 import TP2.Utils;
 import TP2.exceptions.TypeException;
@@ -60,8 +60,10 @@ public class Read implements StatementInterface
         for(VariableFormInterface variable : variables) {
             String readName = Utils.newLabel(TypeLabel.FMT);
 
+            result.getIr().appendAll(variable.toIR().getIr());
+
             result.getIr().appendHeader(new ReadHeader(readName))
-                  .appendCode(new ReadCall(readName, variable.getIdent()));
+                  .appendCode(new ReadCall(readName, variable.getLlvmIdent()));
         }
 
         return result;

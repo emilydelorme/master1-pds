@@ -20,7 +20,7 @@ public class PrintCall implements Instruction
 
     public String toString() {
         return variables.stream()
-                .map(var -> ", i32 %" + var)
+                .map(var -> ", i32 " + var)
                 .collect(Collectors.joining("", LlvmUtils.IDENT + "call i32 (i8* , ...) @printf(i8* getelementptr inbounds ([" + textSize + " x i8], ["
                                                 + textSize + " x i8]* @." + printIdent + " , i64 0 , i64 0)", ")\n"));
     }

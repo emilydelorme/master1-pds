@@ -45,4 +45,11 @@ public class GenericRet
         this.result = result;
     }
 
+    @Override
+    public String toString() {
+        return "GenericRet{" +
+               "ir=" + ir +
+               ", result='" + result + '\'' +
+               '}';
+    }
 }

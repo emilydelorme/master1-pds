@@ -24,7 +24,8 @@ class ExpressionHelper
         // We check if the types mismatches
         if (!leftRet.getType().equals(rightRet.getType()))
         {
-            throw new TypeException("type mismatch: have " + leftRet.getType() + " and " + rightRet.getType());
+            throw new TypeException("type mismatch: have " + leftRet.getType() + " and " + rightRet.getType()+"\n"
+                                        + leftRet + "\n--------------------------------------------\n" + rightRet);
         }
         TypeRet result = new TypeRet(leftRet.getType());
 

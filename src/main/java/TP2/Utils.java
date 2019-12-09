@@ -1,16 +1,19 @@
 package TP2;
 
+import TP2.ASD.Statement.StatementUtils;
+
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Utils
-{
+public class Utils {
     private static int tmp = 0;
     private static int lab = 0;
     private static Map<TypeLabel, Integer> typeLabelToInt = initLabelToInt();
+    private static Map<String, Integer> tmpFunctionLevel;
 
     private static final Pattern re = Pattern.compile("\\\\n");
 
@@ -18,6 +21,8 @@ public class Utils
     private Utils() {}
 
     private static Map<TypeLabel, Integer> initLabelToInt() {
+        tmpFunctionLevel = new HashMap<>();
+
         Map<TypeLabel, Integer> map = new EnumMap<>(TypeLabel.class);
         map.put(TypeLabel.WHILE, 0);
         map.put(TypeLabel.DO, 0);
@@ -29,8 +34,7 @@ public class Utils
         return map;
     }
 
-    public static String indent(int level)
-    {
+    public static String indent(int level) {
         StringBuilder r = new StringBuilder();
         while (level-- > 0)
             r.append("  ");
@@ -38,40 +42,46 @@ public class Utils
     }
 
     // generate a new unique local identifier (starting with %)
-    public static String newtmp()
+    /*public static String newtmp()
     {
         tmp++;
         return "tmp" + tmp;
+    }*/
+
+    public static String newtmp() {
+        if (!tmpFunctionLevel.containsKey(StatementUtils.getCurrentFunction())) {
+            tmpFunctionLevel.put(StatementUtils.getCurrentFunction(), 0);
+        }
+        tmpFunctionLevel.put(StatementUtils.getCurrentFunction(),
+                             tmpFunctionLevel.get(StatementUtils.getCurrentFunction()) + 1);
+        return "%tmp" + tmpFunctionLevel.get(StatementUtils.getCurrentFunction()) + "_" + StatementUtils.getCurrentFunction();
     }
 
     // generate a new unique label starting with str
-    public static String newlab(String str)
-    {
+    public static String newlab(String str) {
         lab++;
         return str + lab;
     }
 
     public static String newLabel(TypeLabel typeLabel) {
         typeLabelToInt.compute(typeLabel, (key, val) -> {
-            if(Objects.isNull(val)) {
+            if (Objects.isNull(val)) {
                 return 0;
             }
             return ++val;
-            });
+        });
         return typeLabel.toString().toLowerCase() + (typeLabelToInt.get(typeLabel) - 1);
     }
 
     // transform escaped newlines ('\' 'n') into newline form suitable for LLVM
     // and append the NUL character (end of string)
     // return a pair: the new String, and its size (according to LLVM)
-    public static LLVMStringConstant stringTransform(String str)
-    {
+    public static LLVMStringConstant stringTransform(String str) {
         Matcher m = re.matcher(str);
         StringBuffer res = new StringBuffer();
         int count = 0;
 
-        while (m.find())
-        {
+        while (m.find()) {
             m.appendReplacement(res, "\\\\0A");
             count++;
         }
@@ -84,24 +94,20 @@ public class Utils
     }
 
     // Return type of stringTransform
-    public static class LLVMStringConstant
-    {
+    public static class LLVMStringConstant {
         private final String str;
         private final int length;
 
-        LLVMStringConstant(String str, int length)
-        {
+        LLVMStringConstant(String str, int length) {
             this.str = str;
             this.length = length;
         }
 
-        public String getStr()
-        {
+        public String getStr() {
             return str;
         }
 
-        public int getLength()
-        {
+        public int getLength() {
             return length;
         }
     }

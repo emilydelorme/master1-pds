@@ -38,4 +38,9 @@ public class Void implements TypeInterface
     {
         return new LlvmVoid();
     }
+
+    @Override
+    public String toString() {
+        return "void";
+    }
 }

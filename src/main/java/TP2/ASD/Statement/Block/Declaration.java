@@ -4,7 +4,6 @@ import TP2.ASD.ErrorHandlerInterface;
 import TP2.ASD.Ret.GenericRet;
 import TP2.ASD.TypeInterface;
 import TP2.ASD.VariableFormDeclarationInterface;
-import TP2.exceptions.TypeException;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -31,11 +30,11 @@ public class Declaration implements ErrorHandlerInterface
         StringBuilder str = new StringBuilder();
 
         str.append(this.type.pp()).append(" ");
-        int identsSize = this.variablesForm.size();
+        int identSize = this.variablesForm.size();
 
-        IntStream.range(0, identsSize).forEach(i -> {
+        IntStream.range(0, identSize).forEach(i -> {
             str.append(this.variablesForm.get(i).pp());
-            if (i < identsSize - 1) {
+            if (i < identSize - 1) {
                 str.append(", ");
             }
         });
@@ -44,12 +43,12 @@ public class Declaration implements ErrorHandlerInterface
         return str.toString();
     }
 
-    public GenericRet toIR() throws TypeException
+    public GenericRet toIR()
     {
         GenericRet result = new GenericRet();
 
         variablesForm.stream()
-                .map(var -> var.toIR())
+                .map(VariableFormDeclarationInterface::toIR)
                 .forEach(genericRet -> result.getIr().appendAll(genericRet.getIr()));
         return result;
     }

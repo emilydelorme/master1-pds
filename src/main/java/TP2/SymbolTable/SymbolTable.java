@@ -4,75 +4,59 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class SymbolTable
-{
+public class SymbolTable {
     private Map<String, Symbol> table;
     private SymbolTable parent;
 
-    public SymbolTable()
-    {
+    public SymbolTable() {
         this.table = new HashMap<>();
         this.parent = null;
     }
 
-    public void setParent(SymbolTable parent)
-    {
+    public void setParent(SymbolTable parent) {
         this.parent = parent;
     }
 
-    public boolean add(Symbol symbol)
-    {
-        if (symbol == null)
-        {
+    public boolean add(Symbol symbol) {
+        if (symbol == null) {
             return false;
         }
 
         Symbol tmpSymbol = this.table.get(symbol.getIdent());
 
-        if (tmpSymbol instanceof PrototypeSymbol && symbol instanceof FunctionSymbol)
-        {
-            PrototypeSymbol prototypeSymbol = (PrototypeSymbol)tmpSymbol;
-            
+        if (tmpSymbol instanceof PrototypeSymbol && symbol instanceof FunctionSymbol) {
+            PrototypeSymbol prototypeSymbol = (PrototypeSymbol) tmpSymbol;
+
             prototypeSymbol.setDefined(true);
-        }
-        else if (tmpSymbol != null)
-        {
+        } else if (tmpSymbol != null) {
             return false;
-        }
-        else
-        {
+        } else {
             this.table.put(symbol.getIdent(), symbol);
         }
 
         return true;
     }
 
-    public boolean remove(String ident)
-    {
-        if (ident == null)
-        {
+    public boolean remove(String ident) {
+        if (ident == null) {
             return false;
         }
 
         return this.table.remove(ident) != null;
     }
-    
-    public Symbol[] getValuesToArray()
-    {
+
+    public Symbol[] getValuesToArray() {
         return this.table.values().toArray(new Symbol[0]);
     }
 
-    public Symbol lookup(String ident)
-    {
-        if (ident == null)
-        {
+    public Symbol lookup(String ident) {
+        if (ident == null) {
             return null;
         }
 
         Symbol result = this.table.get(ident);
 
-        if ((result == null) && (this.parent != null))
-        {
+        if ((result == null) && (this.parent != null)) {
             return this.parent.lookup(ident);
         }
 
@@ -88,18 +72,24 @@ public class SymbolTable
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SymbolTable)) return false;
         SymbolTable that = (SymbolTable) o;
         return Objects.equals(table, that.table) &&
-                Objects.equals(parent, that.parent);
+               Objects.equals(parent, that.parent);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(table, parent);
+    }
+
+    @Override
+    public String toString() {
+        return "SymbolTable {\n" +
+               "table=" + table +
+               ", parent=" + parent +
+               "}\n";
     }
 }

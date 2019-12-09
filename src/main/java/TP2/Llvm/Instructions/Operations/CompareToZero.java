@@ -13,7 +13,7 @@ public class CompareToZero implements Instruction {
     }
 
     public String toString() {
-        return LlvmUtils.IDENT + "%" + ident + " = icmp ne i32 %" + valueToCompare + ", 0\n";
+        return LlvmUtils.IDENT + ident + " = icmp ne i32 " + valueToCompare + ", 0\n";
     }
 }
 

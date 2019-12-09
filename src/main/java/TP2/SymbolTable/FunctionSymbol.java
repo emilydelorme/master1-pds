@@ -60,4 +60,12 @@ public class FunctionSymbol extends Symbol
     {
         return Objects.hash(super.hashCode(), getReturnType(), getArguments());
     }
+
+    @Override
+    public String toString() {
+        return "FunctionSymbol{\n" +
+               "returnType=" + returnType +
+               ", arguments=" + arguments +
+               "}\n";
+    }
 }

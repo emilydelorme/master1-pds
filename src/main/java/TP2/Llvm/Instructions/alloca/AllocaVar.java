@@ -16,6 +16,6 @@ public class AllocaVar implements Instruction {
 
     @Override
     public String toString() {
-        return LlvmUtils.IDENT + "%" + value + " = alloca " + type + "\n";
+        return LlvmUtils.IDENT + value + " = alloca " + type + "\n";
     }
 }
