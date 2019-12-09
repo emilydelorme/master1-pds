@@ -3,6 +3,7 @@ package TP2.ASD.Unit;
 import TP2.ASD.Parameter.Array;
 import TP2.ASD.ParameterInterface;
 import TP2.ASD.Ret.GenericRet;
+import TP2.ASD.Statement.StatementUtils;
 import TP2.ASD.StatementInterface;
 import TP2.ASD.TypeInterface;
 import TP2.ASD.UnitInterface;
@@ -13,6 +14,7 @@ import TP2.Llvm.Instructions.functions.DefineFunction;
 import TP2.Llvm.Types.LlvmInt;
 import TP2.SymbolTable.FunctionSymbol;
 import TP2.SymbolTable.PrototypeSymbol;
+import TP2.SymbolTable.VariableSymbol;
 import TP2.SymbolTable.Symbol;
 import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.TypeException;
@@ -139,14 +141,20 @@ public class Function implements UnitInterface {
     public GenericRet toIR() throws TypeException {
         checkError();
 
+        StatementUtils.setCurrentFunction(this.ident);
+
         GenericRet result = new GenericRet();
 
         result.getIr().appendCode(new DefineFunction(this.type.toLlvmType(), ident,
                                                      arguments.stream().map(ParameterInterface::getIdent).collect(Collectors.toList())));
 
         for (ParameterInterface parameter : arguments) {
-            result.getIr().appendCode(new AllocaVar(new LlvmInt(), "%" + parameter.getIdent() + "var"))
-                .appendCode(new Store(new LlvmInt(), parameter.getIdent() + "var", parameter.getIdent()));
+
+            String parameterNewIdent = parameter.getIdent() + "_" + ident + "_" + StatementUtils.getCurrentBlockLevel();
+            ((VariableSymbol) symbolTable.lookup(parameter.getIdent())).setLlvmIdent(parameterNewIdent);
+
+            result.getIr().appendCode(new AllocaVar(new LlvmInt(), parameterNewIdent))
+                .appendCode(new Store(new LlvmInt(), parameter.getIdent(), parameterNewIdent));
         }
 
         result.getIr().appendAll(statement.toIR().getIr());

@@ -377,7 +377,7 @@ basicFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable sym
         	System.exit(1);
 		}
 
-		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Basic($IDENT.text);
+		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Basic($IDENT.text, $symbolTableBlock);
 	}
 	;
 
@@ -390,7 +390,7 @@ arrayFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable sym
         	System.exit(1);
 		}
 
-		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Array($IDENT.text, $INTEGER.int);
+		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Array($IDENT.text, $INTEGER.int, $symbolTableBlock);
 	}
 	;
 
