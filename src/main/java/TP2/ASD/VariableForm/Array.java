@@ -35,20 +35,7 @@ public class Array implements VariableFormInterface
         
         if (!(symbol instanceof VariableSymbol))
         {
-            exitWithMessage(String.format("[Variable array] (%s) unknown variable", this.ident));
-        }
-        
-        if (this.expression instanceof IntegerExpression)
-        {
-            IntegerExpression integerExpression = (IntegerExpression)this.expression;
-            VariableSymbol variableSymbol = (VariableSymbol)symbol;
-            
-            int integerValue = integerExpression.getValue();
-            
-            if (integerValue > variableSymbol.getSize() - 1)
-            {
-                exitWithMessage(String.format("[Variable array] (%s) index out of bounds %d", this.ident, integerValue));
-            }
+            exitWithMessage(String.format("[Variable] (%s) unknown variable", this.ident));
         }
 
         this.expression.checkError();

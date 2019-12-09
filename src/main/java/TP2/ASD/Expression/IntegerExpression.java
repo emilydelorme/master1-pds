@@ -20,12 +20,7 @@ public class IntegerExpression implements ExpressionInterface
     {
         // No error check
     }
-
-    public int getValue()
-    {
-        return value;
-    }
-
+    
     public String pp()
     {
         checkError();
