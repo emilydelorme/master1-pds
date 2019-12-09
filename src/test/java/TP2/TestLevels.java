@@ -39,4 +39,11 @@ public class TestLevels
         Assertions.assertTrue(TestUtils.testFolder("tests/testlevel4"));
     }
 
+    @Test
+    public void testsujet() throws EmptyProgram, TypeException, IOException
+    {
+        Logger.info("Compling tests/sujet/*");
+        Assertions.assertTrue(TestUtils.testFolder("tests/sujet"));
+    }
+
 }

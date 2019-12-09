@@ -2,7 +2,7 @@ PROTO INT fact(k)
 FUNC VOID main()
 {
     INT n, i, t[11]
-    PRINT "Input n between 0 and 11:\ n"
+    PRINT "Input n between 0 and 11:\n"
     READ n
     i := 0
     WHILE n-i
