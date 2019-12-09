@@ -22,7 +22,7 @@ program returns [TP2.ASD.Program out]
 	List<TP2.ASD.UnitInterface> units = new ArrayList<>();
 	TP2.SymbolTable.SymbolTable symbolTable = new TP2.SymbolTable.SymbolTable();
 }
-    : (u=unit[symbolTable] { units.add($u.out); } )* EOF { $out = TP2.ASD.Program.create(units); }
+    : (u=unit[symbolTable] { units.add($u.out); } )* EOF { $out = TP2.ASD.Program.create(units, symbolTable); }
     ;
 
 // =====================================================================
@@ -377,7 +377,7 @@ basicFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable sym
         	System.exit(1);
 		}
 
-		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Basic($IDENT.text);
+		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Basic($IDENT.text, $symbolTableBlock);
 	}
 	;
 
@@ -390,7 +390,7 @@ arrayFormDeclaration[TP2.ASD.TypeInterface type, TP2.SymbolTable.SymbolTable sym
         	System.exit(1);
 		}
 
-		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Array($IDENT.text, $INTEGER.int);
+		$out = new TP2.ASD.Statement.Block.VariableFormDeclaration.Array($IDENT.text, $INTEGER.int, $symbolTableBlock);
 	}
 	;
 

@@ -203,39 +203,52 @@
  *
  */
 
-package TP2.ASD.Expression;
+package TP2;
 
-import TP2.ASD.ExpressionInterface;
-import TP2.ASD.Ret.TypeRet;
-import TP2.Llvm.Instructions.Operations.Operation;
+import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.tinylog.Logger;
 
-// Concrete class for Expression: mul case
-public class MulExpression implements ExpressionInterface {
-    private ExpressionInterface left;
-    private ExpressionInterface right;
+import java.io.IOException;
 
-    public MulExpression(ExpressionInterface left, ExpressionInterface right) {
-        this.left = left;
-        this.right = right;
+public class TestLevels
+{
+
+    @Test
+    public void testLevel1() throws EmptyProgram, TypeException, IOException
+    {
+        Logger.info("Compling tests/testlevel1/*");
+        Assertions.assertTrue(TestUtils.testFolder("tests/testlevel1"));
     }
 
-    @Override
-    public void checkError() {
-        this.left.checkError();
-        this.right.checkError();
+    @Test
+    public void testLevel2() throws EmptyProgram, TypeException, IOException
+    {
+        Logger.info("Compling tests/testlevel2/*");
+        Assertions.assertTrue(TestUtils.testFolder("tests/testlevel2"));
     }
 
-    public String pp() {
-        checkError();
-
-        return left.pp() + " * " + right.pp();
+    @Test
+    public void testLevel3() throws EmptyProgram, TypeException, IOException
+    {
+        Logger.info("Compling tests/testlevel3/*");
+        Assertions.assertTrue(TestUtils.testFolder("tests/testlevel3"));
     }
 
-    // IR generation (IR = Représentation intermédiaire)
-    public TypeRet toIR() throws TypeException {
-        checkError();
-
-        return ExpressionHelper.retExpression(left.toIR(), right.toIR(), Operation.MUL);
+    @Test
+    public void testLevel4() throws EmptyProgram, TypeException, IOException
+    {
+        Logger.info("Compling tests/testlevel4/*");
+        Assertions.assertTrue(TestUtils.testFolder("tests/testlevel4"));
     }
+
+    @Test
+    public void testsujet() throws EmptyProgram, TypeException, IOException
+    {
+        Logger.info("Compling tests/sujet/*");
+        Assertions.assertTrue(TestUtils.testFolder("tests/sujet"));
+    }
+
 }

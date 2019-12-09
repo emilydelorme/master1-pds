@@ -1,14 +1,9 @@
 FUNC INT main()
 {
-	INT a
+	INT a[2]
 
-	a := 5
-
-	PRINT "a = ", a
-
-	READ a
-
-	PRINT "Nouveau a = ", a
+	a[0] := 66
+	a[1] := 99
 
 	RETURN 0
 }

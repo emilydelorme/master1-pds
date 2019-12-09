@@ -1,4 +1,4 @@
-FUNC VOID main(f) {
+FUNC VOID main() {
 	INT f
 	f:=100
 	PRINT f 
