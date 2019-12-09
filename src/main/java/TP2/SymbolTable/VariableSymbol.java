@@ -211,14 +211,10 @@ import java.util.Objects;
 
 public class VariableSymbol extends Symbol {
     private TypeInterface type;
-    //private byte state;
     private boolean isArray;
     private int size;
     private String llvmIdent;
 
-    //public static final byte STATE_DECLARATION =    1;
-    //public static final byte STATE_PARAMETER =      2;
-    //public static final byte STATE_USAGE =          3;
 
     public VariableSymbol(TypeInterface type, String ident, boolean isArray) {
         super(ident);

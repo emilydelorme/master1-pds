@@ -254,29 +254,23 @@ public class VariableExpression implements ExpressionInterface, ErrorHandlerInte
         checkError();
 
         TypeRet result = new TypeRet(new Int());
-        /*
-        String tmpIdent = Utils.newtmp();
-        result.getIr().appendCode(new LoadVar(tmpIdent, ((VariableSymbol) symbolTable.lookup(variableForm.getIdent())
-        ).getLlvmIdent()));
-        result.setResult(tmpIdent);
-        */
+
         try {
             final GenericRet expressionRet = expression.toIR();
 
 
-            String tmpIdent = Utils.newtmp();
+            String tmpIdent = Utils.newTmp();
             if (expression instanceof Basic) {
                 result.getIr().appendCode(new LoadVar(tmpIdent,
                                                       ((VariableSymbol) symbolTable.lookup(expression.getIdent())).getLlvmIdent()));
                 result.setResult(tmpIdent);
-            }
-            else {
+            } else {
                 result.getIr().appendAll(expressionRet.getIr())
                       .appendCode(new LoadTab(tmpIdent,
                                               ((VariableSymbol) symbolTable.lookup(expression.getIdent())).getLlvmIdent(),
                                               expressionRet.getResult(),
                                               ((VariableSymbol) symbolTable.lookup(expression.getIdent())).getSize()));
-                String resultVal = Utils.newtmp();
+                String resultVal = Utils.newTmp();
                 result.getIr().appendCode(new LoadVar(resultVal, tmpIdent));
                 result.setResult(resultVal);
             }

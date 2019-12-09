@@ -224,53 +224,54 @@ public class Main {
 
         try {
             // Set input
-            CharStream input;
+            final CharStream input;
 
             if (args.length == 0) {
                 // From standard input
                 input = CharStreams.fromStream(System.in);
-            }
-            else {
+            } else {
                 // From file set in first argument
                 input = CharStreams.fromPath(Paths.get(args[0]));
             }
 
             // Instantiate Lexer
-            VSLLexer lexer = new VSLLexer(input);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            final VSLLexer lexer = new VSLLexer(input);
+            final CommonTokenStream tokens = new CommonTokenStream(lexer);
 
             // Instantiate Parser
-            VSLParser parser = new VSLParser(tokens);
+            final VSLParser parser = new VSLParser(tokens);
 
             // Parse
-            Program ast = parser.program().out;
+            final Program ast = parser.program().out;
+            compileProgram(args, ast);
 
-            // Pretty-print the program (to debug parsing, if you implemented it!)
-
-            Logger.info("========================================"
-                        + "\n              PRETTY CODE"
-                        + "\n========================================\n"
-                        + ast.pp());
-
-            // Compute LLVM IR from the ast
-            try {
-                InstructionHandler ir = ast.toIR();
-
-                // Save LLVM IR in a file
-                if (args.length >= 2) {
-                    Files.createDirectories(Paths.get("build/llvm/"));
-                    writeToFile("build/llvm/" + args[1], ir.toString());
-                }
-
-                // Output LLVM IR
-                Logger.info("========================================"
-                            + "\n               LLVM CODE"
-                            + "\n========================================\n"
-                            + ir);
-            } catch (TypeException | EmptyProgram e) {
-                Logger.error(e.getMessage());
-            }
         } catch (IOException e) {
+            Logger.error(e.getMessage());
+        }
+    }
+
+    private static void compileProgram(String[] args, Program ast) throws IOException {
+        // Compute LLVM IR from the ast
+        try {
+            // Pretty-print the program (to debug parsing, if you implemented it!)
+            Logger.debug("========================================"
+                         + "\n              PRETTY CODE"
+                         + "\n========================================\n"
+                         + ast.pp());
+            final InstructionHandler ir = ast.toIR();
+
+            // Save LLVM IR in a file
+            if (args.length >= 2) {
+                Files.createDirectories(Paths.get("build/llvm/"));
+                writeToFile("build/llvm/" + args[1], ir.toString());
+            }
+
+            // Output LLVM IR
+            Logger.debug("========================================"
+                        + "\n               LLVM CODE"
+                        + "\n========================================\n"
+                        + ir);
+        } catch (TypeException | EmptyProgram e) {
             Logger.error(e.getMessage());
         }
     }

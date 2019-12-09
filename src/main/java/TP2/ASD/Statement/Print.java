@@ -280,8 +280,7 @@ public class Print implements StatementInterface {
             GenericRet ret = item.toIR();
             if (item instanceof Expression) {
                 header.append("%d");
-            }
-            else {
+            } else {
                 header.append(ret.getResult());
             }
         }

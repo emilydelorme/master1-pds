@@ -216,7 +216,6 @@ import java.util.regex.Pattern;
 
 public class Utils {
     private static final Pattern re = Pattern.compile("\\\\n");
-    private static int tmp = 0;
     private static int lab = 0;
     private static Map<String, Integer> tmpFunctionLevel;
     private static Map<TypeLabel, Integer> typeLabelToInt = initLabelToInt();
@@ -245,14 +244,7 @@ public class Utils {
         return r.toString();
     }
 
-    // generate a new unique local identifier (starting with %)
-    /*public static String newtmp()
-    {
-        tmp++;
-        return "tmp" + tmp;
-    }*/
-
-    public static String newtmp() {
+    public static String newTmp() {
         if (!tmpFunctionLevel.containsKey(StatementUtils.getCurrentFunction())) {
             tmpFunctionLevel.put(StatementUtils.getCurrentFunction(), 0);
         }

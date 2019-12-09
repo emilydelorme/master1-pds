@@ -212,10 +212,10 @@ import TP2.Llvm.Types.LlvmInt;
 import java.util.Objects;
 
 public class Int implements TypeInterface {
-    private static final String int_t = "INT";
+    private static final String intType = "INT";
 
     public String getType() {
-        return int_t;
+        return intType;
     }
 
     public String pp() {

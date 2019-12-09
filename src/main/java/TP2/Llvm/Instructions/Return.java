@@ -228,12 +228,10 @@ public class Return implements Instruction {
         if (value == null) {
             if (type instanceof LlvmInt) {
                 return LlvmUtils.IDENT + "ret i32 0\n";
-            }
-            else {
+            } else {
                 return LlvmUtils.IDENT + "ret void\n";
             }
-        }
-        else {
+        } else {
             return LlvmUtils.IDENT + "ret " + type + " " + value + "\n";
         }
     }

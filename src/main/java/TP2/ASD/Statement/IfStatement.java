@@ -233,7 +233,6 @@ public class IfStatement implements StatementInterface {
     public String pp() {
         checkError();
 
-        //TODO fix indent
         return "IF " + condition.pp() +
                "\n" +
                Utils.indent(Block.getIdentLevel()) +

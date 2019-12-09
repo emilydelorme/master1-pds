@@ -212,10 +212,10 @@ import TP2.Llvm.Types.LlvmVoid;
 import java.util.Objects;
 
 public class Void implements TypeInterface {
-    private static final String void_t = "VOID";
+    private static final String voidType = "VOID";
 
     public String getType() {
-        return void_t;
+        return voidType;
     }
 
     @Override
@@ -230,7 +230,7 @@ public class Void implements TypeInterface {
 
     @Override
     public String pp() {
-        return void_t;
+        return voidType;
     }
 
     @Override

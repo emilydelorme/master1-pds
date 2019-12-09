@@ -244,78 +244,70 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
         }
 
         if (symbol instanceof PrototypeSymbol) {
-            PrototypeSymbol prototypeSymbol = (PrototypeSymbol) symbol;
-
-            if (!prototypeSymbol.isDefined()) {
-                exitWithMessage(String.format("[Function call] (%s) function not defined", this.functionIdent));
-            }
-
-            if (prototypeSymbol.getArguments().size() != this.expressions.size()) {
-                exitWithMessage(String.format("[Function call] (%s) mismatch parameters number", this.functionIdent));
-            }
-
-            int argumentsSize = prototypeSymbol.getArguments().size();
-
-            for (int i = 0; i < argumentsSize; ++i) {
-                VariableSymbol prototypeVariableSymbol = prototypeSymbol.getArguments().get(i);
-                ExpressionInterface currentCallParameter = this.expressions.get(i);
-
-                if (currentCallParameter instanceof VariableExpression) {
-                    VariableSymbol functionCallParameterVariableSymbol =
-                            (VariableSymbol) this.symbolTable.lookup(((VariableExpression) this.expressions.get(i)).getExpression().getIdent());
-
-                    if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray()) {
-                        exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array",
-                                                      this.functionIdent,
-                                                      functionCallParameterVariableSymbol.getIdent()));
-                    }
-/*
-                    if (!prototypeVariableSymbol.isArray() && functionCallParameterVariableSymbol.isArray())
-                    {
-                        exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be a normal
-                        variable", this.funcIdent, functionCallParameterVariableSymbol.getIdent()));
-                    }*/
-                }
-                else if (!(currentCallParameter instanceof VariableExpression) && prototypeVariableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array",
-                                                  this.functionIdent, currentCallParameter.pp()));
-                }
-            }
+            checkProto((PrototypeSymbol) symbol);
         }
 
         if (symbol instanceof FunctionSymbol) {
-            FunctionSymbol functionSymbol = (FunctionSymbol) symbol;
+            checkFunction((FunctionSymbol) symbol);
+        }
+    }
 
-            if (functionSymbol.getArguments().size() != this.expressions.size()) {
-                exitWithMessage(String.format("[Function call] (%s) mismatch parameters number", this.functionIdent));
-            }
+    private void checkFunction(FunctionSymbol functionSymbol) {
+        if (functionSymbol.getArguments().size() != this.expressions.size()) {
+            exitWithMessage(String.format("[Function call] (%s) mismatch parameters number", this.functionIdent));
+        }
 
-            int argumentsSize = functionSymbol.getArguments().size();
+        for (int i = 0; i < functionSymbol.getArguments().size(); ++i) {
+            VariableSymbol prototypeVariableSymbol = functionSymbol.getArguments().get(i);
+            ExpressionInterface currentCallParameter = this.expressions.get(i);
 
-            for (int i = 0; i < argumentsSize; ++i) {
-                VariableSymbol prototypeVariableSymbol = functionSymbol.getArguments().get(i);
-                ExpressionInterface currentCallParameter = this.expressions.get(i);
+            if (currentCallParameter instanceof VariableExpression) {
+                VariableSymbol functionCallParameterVariableSymbol =
+                        (VariableSymbol) this.symbolTable.lookup(((VariableExpression) this.expressions.get(i)).getExpression().getIdent());
 
-                if (currentCallParameter instanceof VariableExpression) {
-                    VariableSymbol functionCallParameterVariableSymbol =
-                            (VariableSymbol) this.symbolTable.lookup(((VariableExpression) this.expressions.get(i)).getExpression().getIdent());
-
-                    if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray()) {
-                        exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array",
-                                                      this.functionIdent,
-                                                      functionCallParameterVariableSymbol.getIdent()));
-                    }
-
-                    if (!prototypeVariableSymbol.isArray() && functionCallParameterVariableSymbol.isArray()) {
-                        exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be a normal " +
-                                                      "variable", this.functionIdent,
-                                                      functionCallParameterVariableSymbol.getIdent()));
-                    }
-                }
-                else if (!(currentCallParameter instanceof VariableExpression) && prototypeVariableSymbol.isArray()) {
+                if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray()) {
                     exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array",
-                                                  this.functionIdent, currentCallParameter.pp()));
+                                                  this.functionIdent,
+                                                  functionCallParameterVariableSymbol.getIdent()));
                 }
+
+                if (!prototypeVariableSymbol.isArray() && functionCallParameterVariableSymbol.isArray()) {
+                    exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be a normal " +
+                                                  "variable", this.functionIdent,
+                                                  functionCallParameterVariableSymbol.getIdent()));
+                }
+            } else if (prototypeVariableSymbol.isArray()) {
+                exitWithMessage(String.format("[Function call] (%s) parameter (%s) needs to be an array",
+                                              this.functionIdent, currentCallParameter.pp()));
+            }
+        }
+    }
+
+    private void checkProto(PrototypeSymbol prototypeSymbol) {
+        if (!prototypeSymbol.isDefined()) {
+            exitWithMessage(String.format("[Function call] (%s) function not defined", this.functionIdent));
+        }
+
+        if (prototypeSymbol.getArguments().size() != this.expressions.size()) {
+            exitWithMessage(String.format("[Function call] (%s) mismatch parameters number", this.functionIdent));
+        }
+
+        for (int i = 0; i < prototypeSymbol.getArguments().size(); ++i) {
+            VariableSymbol prototypeVariableSymbol = prototypeSymbol.getArguments().get(i);
+            ExpressionInterface currentCallParameter = this.expressions.get(i);
+
+            if (currentCallParameter instanceof VariableExpression) {
+                VariableSymbol functionCallParameterVariableSymbol =
+                        (VariableSymbol) this.symbolTable.lookup(((VariableExpression) this.expressions.get(i)).getExpression().getIdent());
+
+                if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray()) {
+                    exitWithMessage(String.format(StatementUtils.FUNCTIONCALL_PARAMS_NEED_TO_BE_ARRAY,
+                                                  this.functionIdent,
+                                                  functionCallParameterVariableSymbol.getIdent()));
+                }
+            } else if (prototypeVariableSymbol.isArray()) {
+                exitWithMessage(String.format(StatementUtils.FUNCTIONCALL_PARAMS_NEED_TO_BE_ARRAY,
+                                              this.functionIdent, currentCallParameter.pp()));
             }
         }
     }
@@ -372,8 +364,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
     private void setType(TypeRet result) {
         if (symbolTable.lookup(this.functionIdent) instanceof FunctionSymbol) {
             result.setType(((FunctionSymbol) symbolTable.lookup(this.functionIdent)).getReturnType());
-        }
-        else {
+        } else {
             result.setType(((PrototypeSymbol) symbolTable.lookup(this.functionIdent)).getReturnType());
         }
     }
@@ -386,12 +377,11 @@ public class FunctionCall implements StatementInterface, ExpressionInterface {
      */
     private void addCallFunction(TypeRet result, List<String> variables) {
         if (result.getType().toLlvmType() instanceof LlvmInt) {
-            String saveIdent = Utils.newtmp();
+            String saveIdent = Utils.newTmp();
             result.setResult(saveIdent);
             result.getIr().appendCode(new CallFunction(result.getType().toLlvmType(), functionIdent, variables,
                                                        saveIdent));
-        }
-        else {
+        } else {
             result.getIr().appendCode(new CallFunction(result.getType().toLlvmType(), functionIdent, variables));
         }
     }

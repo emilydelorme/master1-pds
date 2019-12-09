@@ -233,11 +233,9 @@ public class SymbolTable {
             PrototypeSymbol prototypeSymbol = (PrototypeSymbol) tmpSymbol;
 
             prototypeSymbol.setDefined(true);
-        }
-        else if (tmpSymbol != null) {
+        } else if (tmpSymbol != null) {
             return false;
-        }
-        else {
+        } else {
             this.table.put(symbol.getIdent(), symbol);
         }
 

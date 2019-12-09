@@ -222,10 +222,11 @@ public class Declaration implements ErrorHandlerInterface {
         this.variablesForm = idents;
     }
 
+    /**
+     * checkError done in grammar
+     */
     @Override
-    public void checkError() {
-
-    }
+    public void checkError() {}
 
     public String pp() {
         StringBuilder str = new StringBuilder();

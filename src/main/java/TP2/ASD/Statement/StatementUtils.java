@@ -219,6 +219,8 @@ public class StatementUtils {
     private static int currentBlockLevel = 0;
     private static String currentFunction = "";
 
+    public static final String FUNCTIONCALL_PARAMS_NEED_TO_BE_ARRAY ="[Function call] (%s) parameter (%s) needs to be an array";
+
     private StatementUtils() {
     }
 
@@ -254,7 +256,7 @@ public class StatementUtils {
         }
 
         final GenericRet conditionRet = condition.toIR();
-        String cond = Utils.newtmp();
+        String cond = Utils.newTmp();
 
 
         result.getIr().appendAll(conditionRet.getIr())

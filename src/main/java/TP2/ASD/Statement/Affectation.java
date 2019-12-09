@@ -234,55 +234,12 @@ public class Affectation implements StatementInterface {
         this.leftVar.checkError();
         this.expression.checkError();
 
-        if (!(this.leftVar instanceof Array)) {
-            Symbol symbol = this.symbolTable.lookup(this.leftVar.getIdent());
+        checkCallArray();
+        checkVariable();
+        checkFunctionCall();
+    }
 
-            if (symbol instanceof VariableSymbol) {
-                VariableSymbol variableSymbol = (VariableSymbol) symbol;
-
-                if (variableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Affectation] (%s) needs to be called as an array",
-                                                  variableSymbol.getIdent()));
-                }
-            }
-        }
-
-        if (this.leftVar instanceof Array) {
-            Symbol symbol = this.symbolTable.lookup(this.leftVar.getIdent());
-
-            if (symbol instanceof VariableSymbol) {
-                VariableSymbol variableSymbol = (VariableSymbol) symbol;
-
-                if (!variableSymbol.isArray()) {
-                    exitWithMessage(String.format("[Affectation] (%s) needs to be a normal variable",
-                                                  variableSymbol.getIdent()));
-                }
-            }
-        }
-
-        /*
-        if (this.variableForme instanceof Basic)
-        {
-            if (this.expression instanceof VariableExpression)
-            {
-                VariableExpression variableExpression = (VariableExpression)this.expression;
-                
-                Symbol symbol = this.symbolTable.lookup(variableExpression.getVariableForm().getIdent());
-                
-                if (symbol instanceof VariableSymbol)
-                {
-                    VariableSymbol variableSymbol = (VariableSymbol)symbol;
-                    
-                    if (variableSymbol.isArray())
-                    {
-                        exitWithMessage(String.format("[Affectation] (%s) needs to be a normal variable",
-                        variableSymbol.getIdent()));
-                    }
-                }
-            }
-        }
-        */
-
+    private void checkFunctionCall() {
         if (this.expression instanceof FunctionCall) {
             FunctionCall functionCall = (FunctionCall) this.expression;
 
@@ -309,6 +266,36 @@ public class Affectation implements StatementInterface {
         }
     }
 
+    private void checkVariable() {
+        if (this.leftVar instanceof Array) {
+            Symbol symbol = this.symbolTable.lookup(this.leftVar.getIdent());
+
+            if (symbol instanceof VariableSymbol) {
+                VariableSymbol variableSymbol = (VariableSymbol) symbol;
+
+                if (!variableSymbol.isArray()) {
+                    exitWithMessage(String.format("[Affectation] (%s) needs to be a normal variable",
+                                                  variableSymbol.getIdent()));
+                }
+            }
+        }
+    }
+
+    private void checkCallArray() {
+        if (!(this.leftVar instanceof Array)) {
+            Symbol symbol = this.symbolTable.lookup(this.leftVar.getIdent());
+
+            if (symbol instanceof VariableSymbol) {
+                VariableSymbol variableSymbol = (VariableSymbol) symbol;
+
+                if (variableSymbol.isArray()) {
+                    exitWithMessage(String.format("[Affectation] (%s) needs to be called as an array",
+                                                  variableSymbol.getIdent()));
+                }
+            }
+        }
+    }
+
     @Override
     public String pp() {
         checkError();
@@ -330,7 +317,7 @@ public class Affectation implements StatementInterface {
         if (leftVar instanceof Array) {
             VariableSymbol variableSymbol = (VariableSymbol) this.symbolTable.lookup(leftVar.getIdent());
 
-            String resultIdent = Utils.newtmp();
+            String resultIdent = Utils.newTmp();
             GenericRet leftRet = leftVar.toIR();
 
             result.getIr().appendAll(leftRet.getIr());
@@ -342,8 +329,7 @@ public class Affectation implements StatementInterface {
                                 variableSymbol.getSize()));
 
             leftVarIdent = resultIdent;
-        }
-        else {
+        } else {
             leftVarIdent = ((VariableSymbol) this.symbolTable.lookup(leftVar.getIdent())).getLlvmIdent(); // Add index
         }
 

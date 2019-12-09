@@ -212,6 +212,7 @@ import TP2.Llvm.InstructionHandler;
 import TP2.SymbolTable.SymbolTable;
 import TP2.exceptions.EmptyProgram;
 import TP2.exceptions.TypeException;
+import org.tinylog.Logger;
 
 import java.util.List;
 import java.util.Objects;
@@ -236,15 +237,13 @@ public class Program {
         }
 
         if (mainFunction == null) {
-            System.err.println(String.format("ERROR: [Program] (%s) function not detected", MAIN_FUNCTION_NAME));
-
+            Logger.error(String.format("ERROR: [Program] (%s) function not detected", MAIN_FUNCTION_NAME));
             System.exit(1);
         }
 
         if (!mainFunction.getArguments().isEmpty()) {
-            System.err.println(String.format("ERROR: [Program] (%s) function shouldn't have any arguments",
+            Logger.error(String.format("ERROR: [Program] (%s) function shouldn't have any arguments",
                                              MAIN_FUNCTION_NAME));
-
             System.exit(1);
         }
 
@@ -266,7 +265,7 @@ public class Program {
     // IR generation
     public InstructionHandler toIR() throws TypeException, EmptyProgram {
         if (this.unitInterface.isEmpty())
-            throw new EmptyProgram("Programme vide");
+            throw new EmptyProgram("Empty Program");
 
         TypeRet retExpr = new TypeRet(this.unitInterface.get(0).toIR(), new Void());
         this.unitInterface.remove(0);
@@ -274,15 +273,10 @@ public class Program {
         for (UnitInterface unit : this.unitInterface) {
             if (unit instanceof Function && Objects.nonNull(retExpr.getIr().getProto(unit.getIdent()))) {
                 retExpr.getIr().replaceProto(unit.getIdent(), unit.toIR().getIr());
-            }
-            else {
+            } else {
                 retExpr.getIr().appendAll(unit.toIR().getIr());
             }
         }
-
-        // add a return instruction
-        //Instruction ret = new Return(retExpr.getType().toLlvmType(), retExpr.getResult());
-        //retExpr.getIr().appendCode(ret);
 
         return retExpr.getIr();
     }

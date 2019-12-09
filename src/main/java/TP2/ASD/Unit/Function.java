@@ -262,65 +262,52 @@ public class Function implements UnitInterface {
     public void checkError() {
         Symbol symbol = this.symbolTable.lookup(this.ident);
 
-        // TOTO: remake this
         if (!this.ident.equals("main")) {
             if (symbol instanceof PrototypeSymbol) {
-                if (!(symbol instanceof PrototypeSymbol)) {
-                    exitWithMessage(String.format("[Function definition] (%s) unknown function definition",
-                                                  this.ident));
-                }
-
                 PrototypeSymbol prototypeSymbol = (PrototypeSymbol) symbol;
 
-                if (!prototypeSymbol.getReturnType().equals(this.type)) {
-                    exitWithMessage(String.format("[Function definition] (%s) mismatch return type with the function " +
-                                                  "prototype", this.ident));
-                }
+                int argsSize = checkGenericFP(prototypeSymbol.getReturnType(), prototypeSymbol.getArguments());
 
-                int argsSize = this.arguments.size();
-
-                if (argsSize != prototypeSymbol.getArguments().size()) {
-                    exitWithMessage(String.format("[Function definition] (%s) mismatch arguments number with the " +
-                                                  "function prototype", this.ident));
-                }
-
-                for (int i = 0; i < argsSize; ++i) {
-                    if (this.arguments.get(i) instanceof Array && !prototypeSymbol.getArguments().get(i).isArray() ||
-                        !(this.arguments.get(i) instanceof Array) && prototypeSymbol.getArguments().get(i).isArray()) {
-                        exitWithMessage(String.format("[Function definition] (%s) (%s) mismatch argument form with " +
-                                                      "the function prototype", this.arguments.get(i).getIdent(),
-                                                      prototypeSymbol.getArguments().get(i).getIdent()));
-                    }
-                }
-            }
-
-            if (symbol instanceof FunctionSymbol) {
+                checkArguments(argsSize, prototypeSymbol.getArguments());
+            } else if (symbol instanceof FunctionSymbol) {
                 FunctionSymbol functionSymbol = (FunctionSymbol) symbol;
 
-                if (!functionSymbol.getReturnType().equals(this.type)) {
-                    exitWithMessage(String.format("[Function definition] (%s) mismatch return type with the function " +
-                                                  "prototype", this.ident));
-                }
+                int argsSize = checkGenericFP(functionSymbol.getReturnType(), functionSymbol.getArguments());
 
-                int argsSize = this.arguments.size();
-
-                if (argsSize != functionSymbol.getArguments().size()) {
-                    exitWithMessage(String.format("[Function definition] (%s) mismatch arguments number with the " +
-                                                  "function prototype", this.ident));
-                }
-
-                for (int i = 0; i < argsSize; ++i) {
-                    if (this.arguments.get(i) instanceof Array && !functionSymbol.getArguments().get(i).isArray() ||
-                        !(this.arguments.get(i) instanceof Array) && functionSymbol.getArguments().get(i).isArray()) {
-                        exitWithMessage(String.format("[Function definition] (%s) (%s) mismatch argument form with " +
-                                                      "the function prototype", this.arguments.get(i).getIdent(),
-                                                      functionSymbol.getArguments().get(i).getIdent()));
-                    }
-                }
+                checkArguments(argsSize, functionSymbol.getArguments());
+            } else {
+                exitWithMessage(String.format("[Function definition] (%s) unknown function definition",
+                                              this.ident));
             }
         }
 
         this.statement.checkError();
+    }
+
+    private int checkGenericFP(TypeInterface returnType, List<VariableSymbol> arguments) {
+        if (!returnType.equals(this.type)) {
+            exitWithMessage(String.format("[Function definition] (%s) mismatch return type with the function " +
+                                          "prototype", this.ident));
+        }
+
+        int argsSize = this.arguments.size();
+
+        if (argsSize != arguments.size()) {
+            exitWithMessage(String.format("[Function definition] (%s) mismatch arguments number with the " +
+                                          "function prototype", this.ident));
+        }
+        return argsSize;
+    }
+
+    private void checkArguments(int argsSize, List<VariableSymbol> arguments) {
+        for (int i = 0; i < argsSize; ++i) {
+            if (this.arguments.get(i) instanceof Array && !arguments.get(i).isArray() ||
+                !(this.arguments.get(i) instanceof Array) && arguments.get(i).isArray()) {
+                exitWithMessage(String.format("[Function definition] (%s) (%s) mismatch argument form with " +
+                                              "the function prototype", this.arguments.get(i).getIdent(),
+                                              arguments.get(i).getIdent()));
+            }
+        }
     }
 
     @Override
@@ -365,14 +352,10 @@ public class Function implements UnitInterface {
 
         result.getIr().appendAll(statement.toIR().getIr());
 
-        if (type.toLlvmType() instanceof LlvmInt) {
-            result.getIr().appendCode(new Return(new LlvmInt()));
-        }
-        else {
-            result.getIr().appendCode(new Return(new LlvmVoid()));
-        }
+        result.getIr().appendCode(new Return(type.toLlvmType() instanceof LlvmInt ? new LlvmInt() : new LlvmVoid()));
 
         result.getIr().appendCode(new CloseFunction());
+
         return result;
     }
 }

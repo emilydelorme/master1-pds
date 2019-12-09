@@ -205,10 +205,11 @@
 
 package TP2.ASD;
 
+import org.tinylog.Logger;
+
 public interface ErrorHandlerInterface {
     default void exitWithMessage(String message) {
-        System.err.println("ERROR: " + message);
-
+        Logger.error(message);
         System.exit(1);
     }
 

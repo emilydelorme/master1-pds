@@ -233,7 +233,7 @@ class ExpressionHelper {
               .appendAll(rightRet.getIr());
 
         // allocate a new identifier for the result
-        String resultIdent = Utils.newtmp();
+        String resultIdent = Utils.newTmp();
         result.setResult(resultIdent);
         // new sub instruction result = left - right
         result.getIr().appendCode(new GenericOperation(operation,
