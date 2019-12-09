@@ -64,7 +64,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
 
                 if (currentCallParameter instanceof VariableExpression)
                 {
-                    VariableSymbol functionCallParameterVariableSymbol = (VariableSymbol)this.symbolTable.lookup(((VariableExpression)this.expressions.get(i)).getVariableForm().getIdent());
+                    VariableSymbol functionCallParameterVariableSymbol = (VariableSymbol)this.symbolTable.lookup(((VariableExpression)this.expressions.get(i)).getExpression().getIdent());
                     
                     if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray())
                     {
@@ -101,7 +101,7 @@ public class FunctionCall implements StatementInterface, ExpressionInterface
 
                 if (currentCallParameter instanceof VariableExpression)
                 {
-                    VariableSymbol functionCallParameterVariableSymbol = (VariableSymbol)this.symbolTable.lookup(((VariableExpression)this.expressions.get(i)).getVariableForm().getIdent());
+                    VariableSymbol functionCallParameterVariableSymbol = (VariableSymbol)this.symbolTable.lookup(((VariableExpression)this.expressions.get(i)).getExpression().getIdent());
 
                     if (prototypeVariableSymbol.isArray() && !functionCallParameterVariableSymbol.isArray())
                     {

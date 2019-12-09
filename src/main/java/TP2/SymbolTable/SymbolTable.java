@@ -83,6 +83,10 @@ public class SymbolTable
         return Objects.isNull(lookup(ident));
     }
 
+    public int size() {
+        return table.size();
+    }
+
     @Override
     public boolean equals(Object o)
     {

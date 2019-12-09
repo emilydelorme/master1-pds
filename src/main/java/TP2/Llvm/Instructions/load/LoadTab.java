@@ -19,6 +19,6 @@ public class LoadTab implements Instruction
 
     public String toString() {
         return LlvmUtils.IDENT + "%" + ident + " = getelementptr [" + tabSize + " x i32], [" + tabSize + " x i32]* %" + tabIdent
-               + ", i64 0, i32 " + tabIndex + "\n";
+               + ", i64 0, i32 %" + tabIndex + "\n";
     }
 }
