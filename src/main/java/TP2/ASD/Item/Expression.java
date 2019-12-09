@@ -9,17 +9,17 @@ import org.tinylog.Logger;
 
 public class Expression implements ItemInterface
 {
-    private ExpressionInterface expression;
+    private ExpressionInterface expessionValue;
 
-    public Expression(ExpressionInterface expression)
+    public Expression(ExpressionInterface expessionValue)
     {
-        this.expression = expression;
+        this.expessionValue = expessionValue;
     }
     
     @Override
     public void checkError()
     {
-        this.expression.checkError();
+        this.expessionValue.checkError();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Expression implements ItemInterface
     {
         checkError();
         
-        return this.expression.pp();
+        return this.expessionValue.pp();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Expression implements ItemInterface
         GenericRet result = new GenericRet();
 
         try {
-            final TypeRet expressionRet = expression.toIR();
+            final TypeRet expressionRet = expessionValue.toIR();
             result.setResult(expressionRet.getResult());
             result.getIr().appendAll(expressionRet.getIr());
         } catch (TypeException e) {

@@ -30,8 +30,9 @@ public class Text implements ItemInterface
     {
         checkError();
 
-        if(value != null)
+        if(value != null) {
             value = value.replaceAll("\n", "\0A");
+        }
 
         return new GenericRet(value != null ? value : "%d");
     }
