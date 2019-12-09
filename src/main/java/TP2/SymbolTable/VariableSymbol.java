@@ -22,6 +22,7 @@ public class VariableSymbol extends Symbol
 
         this.type = type;
         this.isArray = isArray;
+        this.llvmIdent = ident;
     }
     
     public VariableSymbol(TypeInterface type, String ident, boolean isArray, int size)
@@ -31,6 +32,7 @@ public class VariableSymbol extends Symbol
         this.type = type;
         this.isArray = isArray;
         this.size = size;
+        this.llvmIdent = ident;
     }
 
     public TypeInterface getType()
